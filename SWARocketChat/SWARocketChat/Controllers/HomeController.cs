@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SWARocketChat.Models;
+using System.Diagnostics;
 
 namespace SWARocketChat.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
+        [HttpGet("")]
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult About()
+        [HttpGet("Login")]
+        public IActionResult Login()
         {
-            ViewData["Message"] = "Your application description page.";
 
             return View();
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
 
         public IActionResult Error()
         {

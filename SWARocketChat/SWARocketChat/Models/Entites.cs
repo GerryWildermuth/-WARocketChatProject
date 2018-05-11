@@ -46,7 +46,7 @@ namespace SWARocketChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
+        public bool LogedIn { get; set; }
         public ICollection<Message> Messages { get; set; }
         public Guid MessageId { get; set; }
     }
