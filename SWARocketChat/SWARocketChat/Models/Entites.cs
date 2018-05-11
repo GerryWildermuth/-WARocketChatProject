@@ -26,10 +26,26 @@ namespace SWARocketChat.Models
     public class Chatroom
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        [Required]
         public string ChatroomName { get; set; }
+        public string ChatroomDesription { get; set; }
+        public string ChatroomTopic { get; set; }
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
         public ICollection<User> Users { get; set; }
         public Guid UserId { get; set; }
+        public ICollection<Message> Messages { get; set; }
+        public Guid MessageId { get; set; }
     }
+
+    public class Message
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string MessageString { get; set; }
+        public DateTime MessageTime { get; set; }
+    }
+
 
     public class RocketChatContext : DbContext
     {
