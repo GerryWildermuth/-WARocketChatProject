@@ -24,19 +24,18 @@ namespace SWARocketChat.Models
     }
     public class FriendList
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string Username { get; set; }
     }
-    public class MemberList
+
+    public class ChatroomMembers
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-
-        [Required]
-        public string Username { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public ICollection<User> Users { get; set; }
+        public Guid UserId { get; set; }
+        public bool WritingPrivilege { get; set; }
     }
-
     public class Chatroom
     {
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -47,8 +46,7 @@ namespace SWARocketChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        public ICollection<User> Users { get; set; }
-        public Guid UserId { get; set; }
+
         public ICollection<Message> Messages { get; set; }
         public Guid MessageId { get; set; }
     }
@@ -56,7 +54,9 @@ namespace SWARocketChat.Models
     public class Message
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        [Required]
         public string MessageString { get; set; }
+        [Required]
         public DateTime MessageTime { get; set; }
     }
 
@@ -84,10 +84,12 @@ namespace SWARocketChat.Models
                 .HasIndex(x => x.Email).IsUnique();
             modelBuilder.Entity<Chatroom>()
                 .HasIndex(x => x.ChatroomName).IsUnique();
+            modelBuilder.Entity<FriendList>()
+                .HasIndex(x => x.Username).IsUnique();
 
         }
     }
-     
+
     //Add-Migration *MigrationName*
     //Update-Database to apply the new migration to the database
 }
