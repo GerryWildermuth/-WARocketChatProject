@@ -22,6 +22,20 @@ namespace SWARocketChat.Models
         [EmailAddress]
         public string Email { get; set; }
     }
+    public class FriendList
+    {
+        public Guid ID { get; set; } = Guid.NewGuid();
+
+        [Required]
+        public string Username { get; set; }
+    }
+    public class MemberList
+    {
+        public Guid ID { get; set; } = Guid.NewGuid();
+
+        [Required]
+        public string Username { get; set; }
+    }
 
     public class Chatroom
     {
@@ -57,6 +71,7 @@ namespace SWARocketChat.Models
 
         }
     }
+     
     //Add-Migration *MigrationName*
     //Update-Database to apply the new migration to the database
 }
