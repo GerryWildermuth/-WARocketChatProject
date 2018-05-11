@@ -13,6 +13,14 @@ namespace SWARocketChat.Models
         public string Password { get; set; }
 
         public string UserImage { get; set; }
+        [Required]
+        public string Email { get; set; }
+    }
+
+    public class Chatroom
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
 
     }
 
@@ -20,13 +28,15 @@ namespace SWARocketChat.Models
     {
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Chatroom> Chatrooms { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql(@"server=localhost;port=3306;Database=ProjectRocketChat2;user=root;password=admin");
+                optionsBuilder.UseMySql(@"server=localhost;port=3306;Database=ProjectRocketChat;user=root;password=admin");
             }
         }
     }
