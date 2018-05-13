@@ -14,13 +14,43 @@
         <link rel="stylesheet" href="~/css/home.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     </environment>
+    <style>
+        .body {
+            background-color: #2F343D;
+        }
+    </style>
 </head>
 
-<body>
+<body id="body" style="background-color: #2F343D; color: #2F4D7E;">
+    
+<div class="container-fluid">
+    <form id="login" class="content-background-color color-primary-font-color">
+        <div>
+            
+            login möglichkeiten facebook twitter...
+        </div>
 
-    <div class="container-fluid">
-        @RenderBody()
-    </div>
+        <div>
+            <input id="login" name="emailOrUsername" placeholder="Email or username" type="text" /> <br />
+            <input id="password" name="password" placeholder="password" type="Password" />
+            username password
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-danger" role="button">Login</button>
+            submit button
+        </div>
+
+        <div>
+            register a new account 
+        </div>
+
+        <div>
+            forgot password
+        </div>
+    </form>
+    @RenderBody()
+</div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -42,7 +72,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>,
+    </environment>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
