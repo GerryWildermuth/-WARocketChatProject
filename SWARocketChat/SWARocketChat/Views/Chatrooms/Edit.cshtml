@@ -1,0 +1,59 @@
+﻿@model SWARocketChat.Models.Chatroom
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>Chatroom</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ChatroomName" class="control-label"></label>
+                <input asp-for="ChatroomName" class="form-control" />
+                <span asp-validation-for="ChatroomName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChatroomDesription" class="control-label"></label>
+                <input asp-for="ChatroomDesription" class="form-control" />
+                <span asp-validation-for="ChatroomDesription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChatroomTopic" class="control-label"></label>
+                <input asp-for="ChatroomTopic" class="form-control" />
+                <span asp-validation-for="ChatroomTopic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="LogedIn" /> @Html.DisplayNameFor(model => model.LogedIn)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MessageId" class="control-label"></label>
+                <input asp-for="MessageId" class="form-control" />
+                <span asp-validation-for="MessageId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

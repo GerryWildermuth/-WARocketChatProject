@@ -1,0 +1,43 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LoginLayout";
+}
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<img src="~/images/logo.svg" alt="" />
+
+<div class="col-md-12 center" style=" color: #000000; ">
+    <div style="width: 550px; height: 450px; background-color: #fff;border-radius: 6px;">
+
+        <form asp-action="Index" asp-controller="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                login möglichkeiten facebook twitter...
+            </div>
+            <div class="form-group" style="width: 100%">
+                <label asp-for="Username" class="control-label">Username</label>
+                <input asp-for="Username" class="form-control" placeholder="Email or username" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" class="form-control" placeholder="password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Login" class="btn btn-primary" />
+            <div>
+                Register a new account
+            </div>
+            <div>
+                Forgot password
+            </div>
+        </form>
+    </div>
+</div>

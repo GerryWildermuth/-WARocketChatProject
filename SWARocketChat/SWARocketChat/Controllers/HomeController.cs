@@ -12,14 +12,6 @@ namespace SWARocketChat.Controllers
         {
             return View();
         }
-        [HttpGet("Login")]
-        public IActionResult Login()
-        {
-
-            return View();
-        }
-
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

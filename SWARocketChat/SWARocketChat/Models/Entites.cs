@@ -21,12 +21,16 @@ namespace SWARocketChat.Models
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
+
+        public byte Status { get; set; }
     }
     public class FriendList
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string Username { get; set; }
+
+        public User User { get; set; }
     }
 
     public class ChatroomMembers
@@ -35,6 +39,7 @@ namespace SWARocketChat.Models
         public ICollection<User> Users { get; set; }
         public Guid UserId { get; set; }
         public bool WritingPrivilege { get; set; }
+        //Priviliges to kick People(Owner Leader)
     }
     public class Chatroom
     {
@@ -46,7 +51,8 @@ namespace SWARocketChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        public bool LogedIn { get; set; }
+        public bool Visibility { get; set; }
+        public ChatroomMembers ChatroomMembers { get; set; }
         public ICollection<Message> Messages { get; set; }
         public Guid MessageId { get; set; }
     }
@@ -58,6 +64,8 @@ namespace SWARocketChat.Models
         public string MessageString { get; set; }
         [Required]
         public DateTime MessageTime { get; set; }
+
+        public User User { get; set; }
     }
 
 
