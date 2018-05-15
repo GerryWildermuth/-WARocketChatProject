@@ -6,15 +6,32 @@
 }
 <style>
     .center {
-        display: flex;
+        /*display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: 25%;
+        margin-bottom: 25%;*/
+        position: absolute;
+        width: 600px;
+        height: 500px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
-</style>
-<img src="~/images/logo.svg" alt="" />
+    #test {
+        
+    }
 
-<div class="col-md-12 center" style=" color: #000000; ">
-    <div style="width: 550px; height: 450px; background-color: #fff;border-radius: 6px;">
+</style>
+<img id="test" src="~/images/logo.svg" alt="rocket.chat Logo" />
+
+<div class="col-md-12 center" style="color: #000000;">
+    
+    <div style="padding: 20px; width: 550px; height: 450px; background-color: #fff; border-radius: 6px;">
 
         <form asp-action="Index" asp-controller="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -22,16 +39,19 @@
                 login möglichkeiten facebook twitter...
             </div>
             <div class="form-group" style="width: 100%">
-                <label asp-for="Username" class="control-label">Username</label>
+                
                 <input asp-for="Username" class="form-control" placeholder="Email or username" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label">Password</label>
+                
                 <input asp-for="Password" class="form-control" placeholder="password" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <input type="submit" value="Login" class="btn btn-primary" />
+            <div class="col-md-4 center-block">
+                <input type="submit" value="Login" class="btn btn-primary center-block" />
+            </div>
+            
             <div>
                 Register a new account
             </div>
