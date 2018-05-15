@@ -1,4 +1,4 @@
-﻿@model SWARocketChat.Models.Chatroom
+﻿@model Chatroom
 
 @{
     ViewData["Title"] = "Create";
@@ -14,39 +14,28 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ChatroomName" class="control-label"></label>
+                <label asp-for="ChatroomName" class="col-form-label"></label>
                 <input asp-for="ChatroomName" class="form-control" />
                 <span asp-validation-for="ChatroomName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ChatroomDesription" class="control-label"></label>
+                <label asp-for="ChatroomDesription" class="col-form-label"></label>
                 <input asp-for="ChatroomDesription" class="form-control" />
                 <span asp-validation-for="ChatroomDesription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ChatroomTopic" class="control-label"></label>
+                <label asp-for="ChatroomTopic" class="col-form-label"></label>
                 <input asp-for="ChatroomTopic" class="form-control" />
                 <span asp-validation-for="ChatroomTopic" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+                <label asp-for="Password" class="col-form-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="LogedIn" /> @Html.DisplayNameFor(model => model.LogedIn)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="MessageId" class="control-label"></label>
-                <input asp-for="MessageId" class="form-control" />
-                <span asp-validation-for="MessageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-secondary" />
             </div>
         </form>
     </div>
