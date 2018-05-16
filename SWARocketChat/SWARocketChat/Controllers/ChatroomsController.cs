@@ -7,45 +7,24 @@ using System.Threading.Tasks;
 
 namespace SWARocketChat.Controllers
 {
+    [Route("Chatrooms")]
     public class ChatroomsController : BaseController
     {
-
-        // GET: Chatrooms
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await DbContext.Chatrooms.ToListAsync());
         }
 
-        // GET: Chatrooms/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chatroom = await DbContext.Chatrooms
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (chatroom == null)
-            {
-                return NotFound();
-            }
-
-            return View(chatroom);
-        }
-
-        // GET: Chatrooms/Create
+        [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View();
+            return View(new Chatroom());
         }
 
-        // POST: Chatrooms/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
+        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password")] Chatroom chatroom)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +36,7 @@ namespace SWARocketChat.Controllers
             return View(chatroom);
         }
 
-        // GET: Chatrooms/Edit/5
+        [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -76,7 +55,7 @@ namespace SWARocketChat.Controllers
         // POST: Chatrooms/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edite")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
         {
@@ -108,7 +87,7 @@ namespace SWARocketChat.Controllers
             return View(chatroom);
         }
 
-        // GET: Chatrooms/Delete/5
+        [HttpGet("Delete")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -126,8 +105,7 @@ namespace SWARocketChat.Controllers
             return View(chatroom);
         }
 
-        // POST: Chatrooms/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
