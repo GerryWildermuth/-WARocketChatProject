@@ -1,58 +1,67 @@
-﻿@model SWARocketChat.Models.Chatroom
+﻿@model Chatroom
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<meta http-equiv="Page-Enter" content="revealTrans(Duration=1,Transition=12)">
 
-<h2>Create</h2>
+<meta http-equiv="Page-Exit" content="progid:DXImageTransform.Microsoft.Wheel(duration=1, spokes=20)">
+<style>
+    .centerhorizontally {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<div style="">
 
-<h4>Chatroom</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ChatroomName" class="control-label"></label>
-                <input asp-for="ChatroomName" class="form-control" />
-                <span asp-validation-for="ChatroomName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChatroomDesription" class="control-label"></label>
-                <input asp-for="ChatroomDesription" class="form-control" />
-                <span asp-validation-for="ChatroomDesription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChatroomTopic" class="control-label"></label>
-                <input asp-for="ChatroomTopic" class="form-control" />
-                <span asp-validation-for="ChatroomTopic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="LogedIn" /> @Html.DisplayNameFor(model => model.LogedIn)
-                    </label>
+    <div class="row" style="margin: 0 auto; display: block; width: 558px;">
+        <br />
+        <h4>Create Chatroom</h4>
+        <p>In rooms you communicate with your team</p>
+        <br />
+        <div class="" style="display: flex; align-items: center">
+
+            <form asp-action="Create" style="width: 100%">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+
+                    <input asp-for="Private" type="checkbox" class="form-check-input" name="type" value="p" checked="">
+                    <label asp-for="Private" class="form-check-label" tabindex="-1"> Private room</label>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="MessageId" class="control-label"></label>
-                <input asp-for="MessageId" class="form-control" />
-                <span asp-validation-for="MessageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="ChatroomName" class="col-form-label">Roomname</label>
+                    <input asp-for="ChatroomName" class="form-control" placeholder="Please insert a name for your room" />
+                    <span asp-validation-for="ChatroomName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ChatroomDesription" class="col-form-label">Desription</label>
+                    <input asp-for="ChatroomDesription" class="form-control" placeholder="Please insert your room desription" />
+                    <span asp-validation-for="ChatroomDesription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ChatroomTopic" class="col-form-label">Topic</label>
+                    <input asp-for="ChatroomTopic" class="form-control" placeholder="The room topic" />
+                    <span asp-validation-for="ChatroomTopic" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="col-form-label"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
+                    <input asp-for="ChatroomMembers" class="form-control" placeholder="Please insert usernames" />
+                    <span asp-validation-for="ChatroomMembers" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-secondary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

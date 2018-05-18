@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SWARocketChat.Models.Chatroom>
+﻿@model IEnumerable<Chatroom>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,54 +13,49 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChatroomName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChatroomDesription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ChatroomTopic)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Password)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LogedIn)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MessageId)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChatroomName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChatroomDesription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChatroomTopic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MessageId)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChatroomName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChatroomDesription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChatroomTopic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogedIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MessageId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChatroomName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChatroomDesription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChatroomTopic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MessageId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
