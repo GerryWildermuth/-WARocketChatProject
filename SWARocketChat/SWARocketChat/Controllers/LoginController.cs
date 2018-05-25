@@ -26,39 +26,24 @@ namespace SWARocketChat.Controllers
                     DbContext.Users.Any(r => r.Password == user.Password))
                     return RedirectToAction("Index", "Home");
             }
-            ModelState.AddModelError("", "Username or Password not correct");
+            //ModelState.AddModelError("", "Username or Password not correct");
             return View(user);
         }
-        // GET: Login/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        [HttpGet("ForgotPassword")]
+        public IActionResult ForgotPassword()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await DbContext.Users
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
+            return View();
         }
-
-        // GET: Login/Create
-        public IActionResult Create()
+        
+        [HttpGet("Register")]
+        public IActionResult Register()
         {
             return View();
         }
 
-        // POST: Login/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create")]
+        [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password,UserImage,Email")] User user)
+        public async Task<IActionResult> Register([Bind("Id,Username,Password,UserImage,Email")] User user)
         {
             if (ModelState.IsValid)
             {
