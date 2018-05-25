@@ -1,7 +1,6 @@
 ﻿@model User
-
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
     Layout = "_LoginLayout";
 }
 <style>
@@ -22,17 +21,16 @@
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
+
     .center-block {
         text-align: center;
     }
-   
-
 </style>
 
 
 <div class="col-md-12 center" style="color: #000000;">
     @* wegen image ist forms nicht ganz centered (ist minimal aber später danach schauen) *@
-    <img style="margin-left: 20px; padding: 30px;"id="test" src="~/images/logo.svg" alt="rocket.chat Logo"/> 
+    <img style="margin-left: 20px; padding: 30px;" id="test" src="~/images/logo.svg" alt="rocket.chat Logo" />
     <div style="padding: 20px; width: 550px; height: 450px; background-color: #fff; border-radius: 6px;">
 
         <form asp-action="Index" asp-controller="Login">
@@ -50,23 +48,25 @@
             </div>
             <div class="form-group" style="width: 100%">
 
-                <input asp-for="Username" class="form-control" placeholder="Email or username"/>
+                <input asp-for="Username" class="form-control" placeholder="Email or username" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
 
-                <input asp-for="Password" class="form-control" placeholder="password" type="password"/>
+                <input asp-for="Password" class="form-control" placeholder="password" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="center-block">
-                <input type="submit" value="Login" class="btn btn-primary center-block"/>
+                <input type="submit" value="Login" class="btn btn-primary center-block" />
             </div>
             <div class="center-block">
-                <a href="login">Register a new account</a>
+                <a href="">Register a new account</a>
             </div>
             <div class="center-block">
-                <a >Forgot your password</a>
+                <a>Forgot your password</a>
             </div>
         </form>
     </div>
 </div>
+
+
