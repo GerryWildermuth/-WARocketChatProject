@@ -13,7 +13,7 @@
         position: absolute;
         width: 600px;
         height: 500px;
-        top: 50%;
+        top: 45%;
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
         -moz-transform: translate(-50%, -50%);
@@ -29,7 +29,6 @@
 
 
 <div class="col-md-12 center" style="color: #000000;">
-    @* wegen image ist forms nicht ganz centered (ist minimal aber später danach schauen) *@
     <img style="margin-left: 20px; padding: 30px;" id="test" src="~/images/logo.svg" alt="rocket.chat Logo" />
     <div style="padding: 20px; width: 550px; height: 450px; background-color: #fff; border-radius: 6px;">
 
@@ -46,24 +45,27 @@
                     <a style="width: 65px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
                 </nav>
             </div>
-            <div class="form-group" style="width: 100%">
-
-                <input asp-for="Username" class="form-control" placeholder="Email or username" />
+            <div class="form-group">
+                <input asp-for="Username" class="form-control" placeholder="Name" type="text" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
-
-                <input asp-for="Password" class="form-control" placeholder="password" type="password" />
+                <input asp-for="Email" class="form-control" placeholder="Email" type="text" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="center-block">
-                <input type="submit" value="Login" class="btn btn-primary center-block" />
+                <input type="submit" value="Register a new account" class="btn btn-primary center-block" />
             </div>
             <div class="center-block">
-                <a href="">Register a new account</a>
-            </div>
-            <div class="center-block">
-                <a>Forgot your password</a>
+                <a asp-action="Login" asp-controller="Login">Back to login</a>
             </div>
         </form>
     </div>
