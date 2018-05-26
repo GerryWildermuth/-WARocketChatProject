@@ -4,6 +4,7 @@ using SWARocketChat.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SWARocketChat.Controllers
 {
@@ -35,7 +36,17 @@ namespace SWARocketChat.Controllers
             }
             return View(chatroom);
         }
-
+        [HttpPost("AutoComplete")]
+        public JsonResult AutoComplete(string prefix)
+        {
+            //Note : you can bind same list from database  
+            var sa = new JsonSerializerSettings();
+            //Searching records from list using LINQ query  
+            var userlist = (from n in DbContext.Users
+                            where n.Username.StartsWith(prefix)
+                select new { n.Username });
+            return Json(userlist, sa);
+        }
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)
         {

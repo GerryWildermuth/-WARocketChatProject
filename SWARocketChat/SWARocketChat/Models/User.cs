@@ -24,7 +24,6 @@ namespace SWARocketChat.Models
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
-
         public byte Status { get; set; }
     }
 }

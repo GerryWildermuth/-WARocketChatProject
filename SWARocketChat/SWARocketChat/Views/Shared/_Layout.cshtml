@@ -8,12 +8,20 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/css/home.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-4.1.0/css/bootstrap.css" />
+        <link href="~/js/jquery-ui.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/home.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     </environment>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <link href="~/js/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/js/jquery-ui.theme.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -51,7 +59,7 @@
                 </div>
             </nav>
 
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10" style="padding-left: 0;padding-right: 0">
+            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 main" style="padding-left: 40px;padding-right: 40px">
                 @RenderBody()
 
                 <footer></footer>
@@ -59,7 +67,7 @@
         </div>
     </div>
 
-    <environment include="Development">
+    @*<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/popper.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
@@ -79,7 +87,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+    </environment>*@
 
     @RenderSection("Scripts", required: false)
 </body>
