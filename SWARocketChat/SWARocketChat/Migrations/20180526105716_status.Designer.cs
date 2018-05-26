@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Migrations
 {
     [DbContext(typeof(RocketChatContext))]
-    partial class RocketChatContextModelSnapshot : ModelSnapshot
+    [Migration("20180526105716_status")]
+    partial class status
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,8 +121,6 @@ namespace SWARocketChat.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<string>("Password2");
 
                     b.Property<byte>("Status");
 

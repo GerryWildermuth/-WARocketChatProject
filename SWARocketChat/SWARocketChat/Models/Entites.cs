@@ -16,6 +16,10 @@ namespace SWARocketChat.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [DataType(DataType.Password)]
+        [Display(Name = "Password2")]
+        public string Password2 { get; set; }
+
         public string UserImage { get; set; }
         [Required]
         [Display(Name = "Email")]
@@ -81,7 +85,7 @@ namespace SWARocketChat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql(@"server=localhost;port=3306;Database=ProjectRocketChat;user=root;password=admin");
+                optionsBuilder.UseMySql(@"server=localhost;port=3306;Database=ProjectRocketChat;user=root;password=root");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
