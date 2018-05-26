@@ -43,14 +43,31 @@ namespace SWARocketChat.Controllers
 
         [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("Id,Username,Password,UserImage,Email")] User user)
+        public async Task<IActionResult> Register([Bind("Id,Username,Password,Password2,Email")] User user)
         {
             if (ModelState.IsValid)
             {
-                user.Id = Guid.NewGuid();
-                DbContext.Add(user);
-                await DbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (DbContext.Users.Any(r => r.Username == user.Username))
+                {
+                    ModelState.AddModelError("", "Username already exist");
+                    //return RedirectToAction(nameof(Register));
+                }
+                if (DbContext.Users.Any(r => r.Email == user.Email))
+                {
+                    ModelState.AddModelError("", "Email already exist");
+                }
+
+                if (user.Password!=user.Password2)
+                {
+                    ModelState.AddModelError("", "Password dont match");
+                }
+                else
+                {
+                    DbContext.Add(user);
+                    await DbContext.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             return View(user);
         }
