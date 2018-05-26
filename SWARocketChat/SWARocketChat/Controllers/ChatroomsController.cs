@@ -13,7 +13,7 @@ namespace SWARocketChat.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await DbContext.Chatrooms.ToListAsync());
+            return View(await DbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
         }
 
         [HttpGet("Create")]
@@ -24,7 +24,7 @@ namespace SWARocketChat.Controllers
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password")] Chatroom chatroom)
+        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,ChatroomMembers")] Chatroom chatroom)
         {
             if (ModelState.IsValid)
             {

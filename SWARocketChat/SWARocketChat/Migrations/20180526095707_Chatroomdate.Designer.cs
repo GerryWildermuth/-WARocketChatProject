@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Migrations
 {
     [DbContext(typeof(RocketChatContext))]
-    partial class RocketChatContextModelSnapshot : ModelSnapshot
+    [Migration("20180526095707_Chatroomdate")]
+    partial class Chatroomdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
