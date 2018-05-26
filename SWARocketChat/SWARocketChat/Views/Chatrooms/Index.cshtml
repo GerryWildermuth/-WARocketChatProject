@@ -4,20 +4,21 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section header
-{
-    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">Directory
-       
-        <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
-        </span>
-    
-}
+
 <style>
     .main {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 </style>
+@section header
+    {
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        Directory
+
+        <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
+    </span>
+}
 <table class="table">
     <thead>
         <tr style="font-size: 15px;color: #9ea2a8">
@@ -37,21 +38,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td style="width: 60%">
-                # @item.ChatroomName
-            </td>
+            <tr>
+                <td style="width: 60%">
+                    # @item.ChatroomName
+                </td>
 
-            @*<td>
-            @item.ChatroomMembers.Users.Count
-        </td>*@
-            <td>
-                @item.CreationDate.ToString("dd.MM.yyyy")
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+                @*<td>
+                        @item.ChatroomMembers.Users.Count
+                    </td>*@
+                <td>
+                    @item.CreationDate.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

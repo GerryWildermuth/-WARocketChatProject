@@ -73,6 +73,12 @@
             border-radius: 50%;
         }
 </style>
+@section header
+    {
+    <div class="form-control form-control-dark w-100" style="padding: 20px 0">
+     
+    </div>
+}
 <div>
 
     <div class="row" style="margin: 0 auto; display: block; width: 558px;">
@@ -129,17 +135,17 @@
 </div>
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#ChatroomMembers").autocomplete({
-            source: function(request, response) {
+            source: function (request, response) {
                 $.ajax({
                     url: "/Chatrooms/AutoComplete",
                     type: "POST",
                     dataType: "json",
                     data: { Prefix: request.term },
-                    success: function(data) {
+                    success: function (data) {
                         response($.map(data,
-                            function(item) {
+                            function (item) {
                                 return { label: item.username, value: item.username };
                             }));
                     }

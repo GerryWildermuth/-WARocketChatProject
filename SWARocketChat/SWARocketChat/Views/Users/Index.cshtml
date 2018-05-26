@@ -1,9 +1,15 @@
-﻿@model IEnumerable<SWARocketChat.Models.User>
+﻿@model IEnumerable<User>
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section header
+{
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        Account
+    </span>
+}
 <h2>Index</h2>
 
 <p>

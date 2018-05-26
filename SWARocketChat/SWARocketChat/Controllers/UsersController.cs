@@ -7,19 +7,13 @@ using SWARocketChat.Models;
 
 namespace SWARocketChat.Controllers
 {
-    public class UsersController : Controller
+    [Route("Users")]
+    public class UsersController : BaseController
     {
-        private readonly RocketChatContext _context;
-
-        public UsersController(RocketChatContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Users
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await DbContext.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -30,7 +24,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var user = await DbContext.Users
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -56,8 +50,8 @@ namespace SWARocketChat.Controllers
             if (ModelState.IsValid)
             {
                 user.Id = Guid.NewGuid();
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                DbContext.Add(user);
+                await DbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -71,7 +65,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await DbContext.Users.SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -95,8 +89,8 @@ namespace SWARocketChat.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    DbContext.Update(user);
+                    await DbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,7 +116,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var user = await DbContext.Users
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -137,15 +131,15 @@ namespace SWARocketChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            var user = await DbContext.Users.SingleOrDefaultAsync(m => m.Id == id);
+            DbContext.Users.Remove(user);
+            await DbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(Guid id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return DbContext.Users.Any(e => e.Id == id);
         }
     }
 }
