@@ -25,41 +25,49 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
-            Company name
-        </a>
+    
         @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
         @if (IsSectionDefined("header")) {
             @RenderSection("header")
         }
         @if (!IsSectionDefined("header")) {
+            <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+                <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
+                    Company name
+                </a>
             <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>
+            </nav>
           }
-    </nav>
+   
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <span data-feather="home"></span>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file"></span>
-                                Orders
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            @if (IsSectionDefined("LeftNav")) {
+                @RenderSection("LeftNav")
+            }
+            @if (!IsSectionDefined("LeftNav")) {
+                <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <span data-feather="home"></span>
+                                    Dashboard <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file"></span>
+                                    Orders
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            }
+            
 
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 main" style="padding-left: 40px;padding-right: 40px">
+            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 main" style="padding-left: 40px; padding-right: 40px">
                 @RenderBody()
 
                 <footer></footer>

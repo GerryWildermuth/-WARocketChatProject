@@ -6,9 +6,36 @@
 }
 @section header
 {
-    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-        Profil
-    </span>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
+            Company name
+        </a>
+        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Account
+        </span>
+    </nav>
+    
+}
+@section LeftNav
+{
+    <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <span data-feather="home"></span>
+                        Dashboard <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file"></span>
+                        Orders
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 }
 @*<h2>Index</h2>
 
