@@ -36,14 +36,12 @@ namespace SWARocketChat.Controllers
             }
             return View(chatroom);
         }
-        [HttpPost("AutoComplete")]
-        public JsonResult AutoComplete(string prefix)
+        [HttpGet("AutoComplete")]
+        public JsonResult AutoComplete(string term)
         {
-            //Note : you can bind same list from database  
             var sa = new JsonSerializerSettings();
-            //Searching records from list using LINQ query  
             var userlist = (from n in DbContext.Users
-                            where n.Username.StartsWith(prefix)
+                            where n.Username.StartsWith(term)
                 select new { n.Username });
             return Json(userlist, sa);
         }

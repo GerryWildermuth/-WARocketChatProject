@@ -10,6 +10,8 @@
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
+
+    .gotoroom { }
 </style>
 @section header
 {
@@ -27,37 +29,47 @@
 <table class="table">
     <thead>
         <tr style="font-size: 15px;color: #9ea2a8">
-            <th>
+            <th style="width: 60%">
                 Name
             </th>
-            <th>
+            @*<th style="width: 10%">
                 Members
-            </th>
-            <th>
+            </th>*@
+            <th style="width: 10%">
                 Creating date
             </th>
 
-            <th></th>
+            <th style="width: 10%"></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td style="width: 60%">
-                    # @item.ChatroomName
-                </td>
+            
+            <tr class="gotoroom">
+                    <td style="width: 60%">
+                        # @item.ChatroomName
+                    </td>
 
-                @*<td>
-                        @item.ChatroomMembers.Users.Count
-                    </td>*@
-                <td>
-                    @item.CreationDate.ToString("dd.MM.yyyy")
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                    @*<td style="width: 10%">
+            @item.ChatroomMembers.Users.Count
+        </td>*@
+                    <td style="width: 10%">
+                        @item.CreationDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td style="width: 10%">
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    $(function() {
+        var gotoroom = document.getElementsByClassName("gotoroom");
+        gotoroom.click(function() {
+            window.location.replace("");
+        });
+    })
+</script>

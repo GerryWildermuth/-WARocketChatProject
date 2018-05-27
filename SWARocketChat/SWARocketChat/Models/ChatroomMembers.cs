@@ -10,5 +10,6 @@ namespace SWARocketChat.Models
         public Guid UserId { get; set; }
         public bool WritingPrivilege { get; set; }
         //Priviliges to kick People(Owner Leader)
+        public Chatroom Chatroom { get; set; }
     }
 }

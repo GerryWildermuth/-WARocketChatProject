@@ -13,13 +13,11 @@ namespace SWARocketChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password2 { get; set; }
 
         public string UserImage { get; set; }
-        [Required]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
