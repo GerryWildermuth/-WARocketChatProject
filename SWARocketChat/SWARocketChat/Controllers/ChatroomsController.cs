@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -39,11 +40,10 @@ namespace SWARocketChat.Controllers
         [HttpGet("AutoComplete")]
         public JsonResult AutoComplete(string term)
         {
-            var sa = new JsonSerializerSettings();
-            var userlist = (from n in DbContext.Users
-                            where n.Username.StartsWith(term)
-                select new { n.Username });
-            return Json(userlist, sa);
+          var userlist = from n in DbContext.Users where n.Username.StartsWith(term)
+                         select new { n.Username };
+            var liste = userlist.Select(x => x.Username).ToList();
+            return Json(liste);
         }
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)

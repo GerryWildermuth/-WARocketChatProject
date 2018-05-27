@@ -122,11 +122,9 @@
                     <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group" style="margin: 0 0 40px 0">
-                    <EditorFor></EditorFor>
-                    ChatroomMembers: @Html.EditorFor(m => m.ChatroomMembers)
-                    <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
-                    <input asp-for="ChatroomMembers" for="ChatroomMembers" id="ChatroomMembers" name="ChatroomMembers" class="form-control" placeholder="Please insert usernames" />
+                <div class="form-group ui-widget" style="margin: 0 0 40px 0">
+                    <label asp-for="ChatroomMembers" for="autocomp" class="col-form-label">Invite Users</label>
+                    <input asp-for="ChatroomMembers" type="text" id="autocomp" name="autocomp" class="form-control" placeholder="Please insert usernames" />
                     @*<span asp-validation-for="ChatroomMembers" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
@@ -143,12 +141,16 @@
 <script type="text/javascript">
 
     $(function () {
-        $('#ChatroomMembers').autocomplete({
+        $('#autocomp').autocomplete({
             source: '/Chatrooms/AutoComplete',
+            minLength: 2,
             select: function (event, ui) {
                //Tags for display              
                 this.value = ui.item.value;
                 return false;
+            },
+            open: function(event, ui) {
+                $(".ui-autocomplete").css("z-index", 1000);
             }
         });
         //$("#ChatroomMembers").autocomplete({
