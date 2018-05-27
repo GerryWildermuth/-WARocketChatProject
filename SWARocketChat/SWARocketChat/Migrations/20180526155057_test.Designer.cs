@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Migrations
 {
     [DbContext(typeof(RocketChatContext))]
-    [Migration("20180526140703_init")]
-    partial class init
+    [Migration("20180526155057_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,9 +124,7 @@ namespace SWARocketChat.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<string>("Password2")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("Password2");
 
                     b.Property<byte>("Status");
 

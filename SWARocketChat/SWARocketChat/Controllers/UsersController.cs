@@ -56,6 +56,11 @@ namespace SWARocketChat.Controllers
             }
             return View(user);
         }
+        [HttpGet("Settings")]
+        public IActionResult Settings()
+        {
+            return View();
+        }
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(Guid? id)

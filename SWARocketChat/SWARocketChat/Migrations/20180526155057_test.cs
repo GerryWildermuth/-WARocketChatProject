@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SWARocketChat.Migrations
 {
-    public partial class init : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,7 @@ namespace SWARocketChat.Migrations
                     ChatroomMembersId = table.Column<Guid>(nullable: true),
                     Email = table.Column<string>(nullable: false),
                     Password = table.Column<string>(maxLength: 100, nullable: false),
-                    Password2 = table.Column<string>(maxLength: 100, nullable: false),
+                    Password2 = table.Column<string>(nullable: true),
                     Status = table.Column<byte>(nullable: false),
                     UserImage = table.Column<string>(nullable: true),
                     Username = table.Column<string>(nullable: false)

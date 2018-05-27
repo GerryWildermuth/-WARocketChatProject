@@ -123,9 +123,7 @@ namespace SWARocketChat.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<string>("Password2")
-                        .IsRequired()
-                        .HasMaxLength(100);
+                    b.Property<string>("Password2");
 
                     b.Property<byte>("Status");
 
