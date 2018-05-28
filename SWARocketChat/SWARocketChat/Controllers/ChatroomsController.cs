@@ -2,10 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SWARocketChat.Controllers
 {
@@ -40,6 +38,9 @@ namespace SWARocketChat.Controllers
         [HttpGet("AutoComplete")]
         public JsonResult AutoComplete(string term)
         {
+            var splittedString = term.Split(",");
+            //term = splittedString[splittedString.Length];
+            term = splittedString.LastOrDefault();
           var userlist = from n in DbContext.Users where n.Username.StartsWith(term)
                          select new { n.Username };
             var liste = userlist.Select(x => x.Username).ToList();
