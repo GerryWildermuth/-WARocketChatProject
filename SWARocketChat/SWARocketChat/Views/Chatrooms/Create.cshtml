@@ -12,115 +12,134 @@
         display: flex;
         justify-content: center;
     }
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    /* Hide default HTML checkbox */
-    .switch input {display:none;}
-
-    /* The slider */
-    .slider {
+    /*.switch input {
+        display: none;
+    }*/
+    .cmn-toggle {
         position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
+        margin-left: -9999px;
+        visibility: hidden;
     }
-
-    .slider:before {
+    .cmn-toggle + label {
+        display: block;
+        position: relative;
+        cursor: pointer;
+    }
+    input.cmn-toggle-round-flat + label {
+        padding: 2px;
+        width: 40px;
+        height: 24px;
+        background-color: white;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        border-radius: 15px;
+        -webkit-transition: background 0.4s;
+        -moz-transition: background 0.4s;
+        -o-transition: background 0.4s;
+        transition: background 0.4s;
+    }
+    input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after {
+        display: block;
         position: absolute;
         content: "";
-        height: 26px;
-        width: 26px;
+    }
+    input.cmn-toggle-round-flat + label:before {
+        top: 2px;
+        left: 2px;
+        bottom: 2px;
+        right: 2px;
+        background-color: red;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        border-radius: 15px;
+        -webkit-transition: background 0.4s;
+        -moz-transition: background 0.4s;
+        -o-transition: background 0.4s;
+        transition: background 0.4s;
+    }
+    input.cmn-toggle-round-flat + label:after {
+        top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
+        width: 15px;
+        background-color: #dddddd;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        border-radius: 15px;
+        -webkit-transition: margin 0.4s, background 0.4s;
+        -moz-transition: margin 0.4s, background 0.4s;
+        -o-transition: margin 0.4s, background 0.4s;
+        transition: margin 0.4s, background 0.4s;
     }
+    input.cmn-toggle-round-flat:checked + label:before {
+        background-color: #8ce196;
+    }
+        input.cmn-toggle-round-flat:checked + label:after {
+            margin-left: 17px;
+        }
 
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
 </style>
 <div>
 
     <div class="row" style="margin: 0 auto; display: block; width: 558px;">
         <br />
+        <div>
         <h4>Create Chatroom</h4>
+            <div style="float: right;">
+                <a asp-action="Index" style="color:lightgray">Back</a>
+            </div>
+        </div>
         <p>In rooms you communicate with your team</p>
         <br />
         <div class="" style="display: flex; align-items: center">
 
             <form asp-action="Create" style="width: 100%">
+                
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label class="switch" for="checkbox">
-                        <input asp-for="Private" type="checkbox" class="form-check-input" value="true" id="checkbox">
-                        <label class="slider round"></label>
-                        <label asp-for="Private" class="form-check-label" tabindex="-1"> Private room</label>
-                    </label>
+                    <div style="display: flex">
+                        <input asp-for="Private" type="checkbox" class="cmn-toggle cmn-toggle-round-flat" id="cmn-toggle-4">
+                        <label class="form-check-label" for="cmn-toggle-4"></label>
+                        <span style="margin-left: 1rem">Private Room</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label asp-for="ChatroomName" class="col-form-label">Roomname</label>
-                    <input asp-for="ChatroomName" class="form-control" placeholder="Please insert a name for your room" />
+                    <input asp-for="ChatroomName" class="form-control" placeholder="Please insert a name for your room"/>
                     <span asp-validation-for="ChatroomName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ChatroomDesription" class="col-form-label">Desription</label>
-                    <input asp-for="ChatroomDesription" class="form-control" placeholder="Please insert your room desription" />
+                    <input asp-for="ChatroomDesription" class="form-control" placeholder="Please insert your room desription"/>
                     <span asp-validation-for="ChatroomDesription" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ChatroomTopic" class="col-form-label">Topic</label>
-                    <input asp-for="ChatroomTopic" class="form-control" placeholder="The room topic" />
+                    <input asp-for="ChatroomTopic" class="form-control" placeholder="The room topic"/>
                     <span asp-validation-for="ChatroomTopic" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password" class="col-form-label"></label>
-                    <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room" />
+                    <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
-                    <input asp-for="ChatroomMembers" class="form-control" placeholder="Please insert usernames" />
+                    <input asp-for="ChatroomMembers" class="form-control" placeholder="Please insert usernames"/>
                     <span asp-validation-for="ChatroomMembers" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-secondary" />
+                    <input type="submit" value="Create" class="btn btn-secondary"/>
                 </div>
             </form>
         </div>
     </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+
 </div>
