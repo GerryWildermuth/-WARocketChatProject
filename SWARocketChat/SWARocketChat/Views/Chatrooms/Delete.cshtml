@@ -1,4 +1,4 @@
-﻿@model SWARocketChat.Models.Chatroom
+﻿@model Chatroom
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,7 +11,7 @@
 <div>
     <h4>Chatroom</h4>
     <hr />
-    <dl class="row">
+    <dl class="row" style="display:block">
         <dt>
             @Html.DisplayNameFor(model => model.ChatroomName)
         </dt>
@@ -35,12 +35,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LogedIn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LogedIn)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.MessageId)

@@ -5,56 +5,71 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    .main {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    .gotoroom { }
+</style>
+@section header
+{
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
+            Company name
+        </a>
+        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Directory
+
+            <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
+        </span>
+    </nav>
+}
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ChatroomName)
+        <tr style="font-size: 15px;color: #9ea2a8">
+            <th style="width: 60%">
+                Name
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChatroomDesription)
+            @*<th style="width: 10%">
+                Members
+            </th>*@
+            <th style="width: 10%">
+                Creating date
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChatroomTopic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MessageId)
-            </th>
-            <th></th>
+
+            <th style="width: 10%"></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChatroomName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChatroomDesription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChatroomTopic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MessageId)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+            
+            <tr class="gotoroom">
+                    <td style="width: 60%">
+                        # @item.ChatroomName
+                    </td>
+
+                    @*<td style="width: 10%">
+            @item.ChatroomMembers.Users.Count
+        </td>*@
+                    <td style="width: 10%">
+                        @item.CreationDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td style="width: 10%">
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    $(function() {
+        var gotoroom = document.getElementsByClassName("gotoroom");
+        gotoroom.click(function() {
+            window.location.replace("");
+        });
+    })
+</script>

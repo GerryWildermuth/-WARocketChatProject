@@ -85,6 +85,17 @@
         }
 
 </style>
+@section header
+{
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
+            Company name
+        </a>
+        <div class="form-control form-control-dark w-100" style="padding: 20px 0">
+     
+        </div>
+    </nav>
+}
 <div>
 
     <div class="row" style="margin: 0 auto; display: block; width: 558px;">
@@ -97,7 +108,7 @@
         </div>
         <p>In rooms you communicate with your team</p>
         <br />
-        <div class="" style="display: flex; align-items: center">
+        <div style="display: flex; align-items: center">
 
             <form asp-action="Create" style="width: 100%">
                 
@@ -129,10 +140,10 @@
                     <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
-                    <input asp-for="ChatroomMembers" class="form-control" placeholder="Please insert usernames"/>
-                    <span asp-validation-for="ChatroomMembers" class="text-danger"></span>
+                <div class="form-group ui-widget" style="margin: 0 0 40px 0">
+                    <label asp-for="ChatroomMembers" for="autocomp" class="col-form-label">Invite Users</label>
+                    <input asp-for="ChatroomMembers" type="text" id="autocomp" name="autocomp" class="form-control" placeholder="Please insert usernames" />
+                    @*<span asp-validation-for="ChatroomMembers" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-secondary"/>
@@ -143,3 +154,41 @@
 
 
 </div>
+<script type="text/javascript">
+
+    $(function () {
+        $('#autocomp').autocomplete({
+            source: '/Chatrooms/AutoComplete',
+            minLength: 2,
+            select: function (event, ui) {
+               //Tags for display              
+                this.value = ui.item.value;
+                return false;
+            },
+            open: function(event, ui) {
+                $(".ui-autocomplete").css("z-index", 1000);
+            }
+        });
+        //$("#ChatroomMembers").autocomplete({
+        //    source: function (request, response) {
+                
+        //        //$.ajax({
+        //        //    url: "/Chatrooms/AutoComplete",
+        //        //    type: "POST",
+        //        //    dataType: "json",
+        //        //    data: { Prefix: request.term },
+        //        //    success: function (data) {
+        //        //        response($.map(data,
+        //        //            function (item) {
+        //        //                return { label: item.username, value: item.username };
+        //        //            }));
+        //        //    }
+        //        //});
+        //    },
+        //    messages: {
+        //        noResults: "",
+        //        results: ""
+        //    }
+        //});
+    });
+</script>  

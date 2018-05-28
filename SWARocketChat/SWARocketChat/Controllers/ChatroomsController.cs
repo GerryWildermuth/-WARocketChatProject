@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SWARocketChat.Controllers
 {
@@ -13,7 +15,7 @@ namespace SWARocketChat.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await DbContext.Chatrooms.ToListAsync());
+            return View(await DbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
         }
 
         [HttpGet("Create")]
@@ -24,7 +26,7 @@ namespace SWARocketChat.Controllers
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password")] Chatroom chatroom)
+        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,ChatroomMembers")] Chatroom chatroom)
         {
             if (ModelState.IsValid)
             {
@@ -35,7 +37,14 @@ namespace SWARocketChat.Controllers
             }
             return View(chatroom);
         }
-
+        [HttpGet("AutoComplete")]
+        public JsonResult AutoComplete(string term)
+        {
+          var userlist = from n in DbContext.Users where n.Username.StartsWith(term)
+                         select new { n.Username };
+            var liste = userlist.Select(x => x.Username).ToList();
+            return Json(liste);
+        }
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)
         {

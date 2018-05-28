@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Migrations
 {
     [DbContext(typeof(RocketChatContext))]
-    [Migration("20180514062126_datamModelModified")]
-    partial class datamModelModified
+    [Migration("20180526155057_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,11 +35,13 @@ namespace SWARocketChat.Migrations
 
                     b.Property<string>("ChatroomTopic");
 
-                    b.Property<bool>("LogedIn");
+                    b.Property<DateTime>("CreationDate");
 
                     b.Property<Guid>("MessageId");
 
                     b.Property<string>("Password");
+
+                    b.Property<bool>("Private");
 
                     b.HasKey("Id");
 
@@ -121,6 +123,10 @@ namespace SWARocketChat.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100);
+
+                    b.Property<string>("Password2");
+
+                    b.Property<byte>("Status");
 
                     b.Property<string>("UserImage");
 
