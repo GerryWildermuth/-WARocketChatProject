@@ -2,12 +2,40 @@
 using System;
 using System.Collections.Generic;
 
-namespace SWARocketChat.Migrations
+namespace SWARocketChat.Data.Migrations
 {
-    public partial class test : Migration
+    public partial class additionalModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Address",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "City",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "PostalCode",
+                table: "AspNetUsers");
+
+            migrationBuilder.RenameColumn(
+                name: "State",
+                table: "AspNetUsers",
+                newName: "UserImage");
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "ChatroomMembersId",
+                table: "AspNetUsers",
+                nullable: true);
+
+            migrationBuilder.AddColumn<byte>(
+                name: "Status",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: (byte)0);
+
             migrationBuilder.CreateTable(
                 name: "ChatroomMembers",
                 columns: table => new
@@ -19,6 +47,25 @@ namespace SWARocketChat.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChatroomMembers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FriendList",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendList", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FriendList_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,49 +94,6 @@ namespace SWARocketChat.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    ChatroomMembersId = table.Column<Guid>(nullable: true),
-                    Email = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(maxLength: 100, nullable: false),
-                    Password2 = table.Column<string>(nullable: true),
-                    Status = table.Column<byte>(nullable: false),
-                    UserImage = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_ChatroomMembers_ChatroomMembersId",
-                        column: x => x.ChatroomMembersId,
-                        principalTable: "ChatroomMembers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FriendList",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true),
-                    Username = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FriendList", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FriendList_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Message",
                 columns: table => new
                 {
@@ -97,7 +101,7 @@ namespace SWARocketChat.Migrations
                     ChatroomId = table.Column<Guid>(nullable: true),
                     MessageString = table.Column<string>(nullable: false),
                     MessageTime = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,17 +113,23 @@ namespace SWARocketChat.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Message_Users_UserId",
+                        name: "FK_Message_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ChatroomMembersId",
+                table: "AspNetUsers",
+                column: "ChatroomMembersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Chatrooms_ChatroomMembersId",
                 table: "Chatrooms",
-                column: "ChatroomMembersId");
+                column: "ChatroomMembersId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chatrooms_ChatroomName",
@@ -148,26 +158,21 @@ namespace SWARocketChat.Migrations
                 table: "Message",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ChatroomMembersId",
-                table: "Users",
-                column: "ChatroomMembersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Username",
-                table: "Users",
-                column: "Username",
-                unique: true);
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_ChatroomMembers_ChatroomMembersId",
+                table: "AspNetUsers",
+                column: "ChatroomMembersId",
+                principalTable: "ChatroomMembers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUsers_ChatroomMembers_ChatroomMembersId",
+                table: "AspNetUsers");
+
             migrationBuilder.DropTable(
                 name: "FriendList");
 
@@ -178,10 +183,39 @@ namespace SWARocketChat.Migrations
                 name: "Chatrooms");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "ChatroomMembers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_ChatroomMembersId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "ChatroomMembersId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "Status",
+                table: "AspNetUsers");
+
+            migrationBuilder.RenameColumn(
+                name: "UserImage",
+                table: "AspNetUsers",
+                newName: "State");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Address",
+                table: "AspNetUsers",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "City",
+                table: "AspNetUsers",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "PostalCode",
+                table: "AspNetUsers",
+                nullable: true);
         }
     }
 }

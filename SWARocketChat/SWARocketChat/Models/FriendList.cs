@@ -9,6 +9,6 @@ namespace SWARocketChat.Models
         [Required]
         public string Username { get; set; }
 
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model ApplicationUser
 @{
     ViewData["Title"] = "Security";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +7,7 @@
 
 
 @section header
-{
+    {
     <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
         <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
             Mein Konto
@@ -18,7 +18,7 @@
     </nav>
 }
 @section LeftNav
-{
+    {
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
@@ -51,8 +51,6 @@
         transform: translate(-50%, 0%);
         margin-top: 20px;
     }
-
-        
 </style>
 
 <div class="center">

@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SWARocketChat.Data;
+using SWARocketChat.Models;
+using SWARocketChat.Services;
 
 namespace SWARocketChat
 {
@@ -17,6 +22,15 @@ namespace SWARocketChat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }
@@ -28,6 +42,7 @@ namespace SWARocketChat
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -35,6 +50,8 @@ namespace SWARocketChat
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

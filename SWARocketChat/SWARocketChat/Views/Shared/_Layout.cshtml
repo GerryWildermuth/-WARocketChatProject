@@ -25,27 +25,31 @@
 </head>
 
 <body>
-    
-        @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
-        @if (IsSectionDefined("header")) {
-            @RenderSection("header")
-        }
-        @if (!IsSectionDefined("header")) {
-            <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-                <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
-                    Company name
-                </a>
+
+    @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
+    @if (IsSectionDefined("header"))
+    {
+        @RenderSection("header")
+    }
+    @if (!IsSectionDefined("header"))
+    {
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
+                Company name
+            </a>
             <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>
-            </nav>
-          }
-   
+        </nav>
+    }
+
 
     <div class="container-fluid">
         <div class="row">
-            @if (IsSectionDefined("LeftNav")) {
+            @if (IsSectionDefined("LeftNav"))
+            {
                 @RenderSection("LeftNav")
             }
-            @if (!IsSectionDefined("LeftNav")) {
+            @if (!IsSectionDefined("LeftNav"))
+            {
                 <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
@@ -65,7 +69,7 @@
                     </div>
                 </nav>
             }
-            
+
 
             <main role="main" class="col-md-10 ml-sm-auto col-lg-10 main" style="padding-left: 40px; padding-right: 40px">
                 @RenderBody()
@@ -76,26 +80,26 @@
     </div>
 
     @*<environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/js/popper.min.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>*@
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/js/popper.min.js" asp-append-version="true"></script>
+            <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>*@
 
     @RenderSection("Scripts", required: false)
 </body>

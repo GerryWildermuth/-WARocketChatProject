@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model ApplicationUser
 @{
     ViewData["Title"] = "Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,16 +26,10 @@
                         Settings <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" >
                     <a class="nav-link" asp-action="Index" asp-controller="Users" style="color: black">
                         <span data-feather="file"></span>
                         Profile
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Security" asp-controller="Users" style="color: black">
-                        <span data-feather="file"></span>
-                        Security
                     </a>
                 </li>
             </ul>
@@ -61,7 +55,7 @@
                         <tr>
                             <td>Language</td>
                             <td>
-                                <select style="width: 25em;" id="language">
+                                <select style="width: 25em;" id="language" class="required rc-select__element">
                                     <option value="de" dir="auto">Deutsch</option>
                                     <option value="en" dir="auto">English</option>
                                     <option value="es" dir="auto">Español</option>
@@ -87,7 +81,7 @@
                         <tr>
                             <td>Idle Time Limit</td>
                             <td>
-                                <input type="number"  name="idleTimeLimit" min="0">
+                                <input type="number" class="rc-input__element" name="idleTimeLimit" min="0">
                             </td>
                         </tr>
                         <tr>
@@ -115,15 +109,15 @@
                             <td>Notification Duration</td>
                             <td>
                                 <div>
-                                    <input type="number" name="desktopNotificationDuration" min="0" placeholder="Use Global Settings (0)">
+                                    <input type="number" class="rc-input__element" name="desktopNotificationDuration" min="0" placeholder="Use Global Settings (0)">
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>Show Desktop Notifications For</td>
                             <td>
-                                <div>
-                                    <select name="desktopNotifications">
+                                <div class="rc-select">
+                                    <select class="input-monitor rc-select__element" name="desktopNotifications">
                                         <option value="default">Default (Mentions)</option>
                                         <option value="all">All messages</option>
                                         <option value="mentions">Mentions</option>
@@ -135,8 +129,8 @@
                         <tr>
                             <td>Push Mobile Notifications For</td>
                             <td>
-                                <div>
-                                    <select name="mobileNotifications">
+                                <div class="rc-select">
+                                    <select class="input-monitor rc-select__element" name="mobileNotifications">
                                         <option value="default">Default (Mentions)</option>
                                         <option value="all">All messages</option>
                                         <option value="mentions">Mentions</option>
@@ -148,8 +142,8 @@
                         <tr>
                             <td>Offline Email Notifications</td>
                             <td>
-                                <div>
-                                    <select name="emailNotificationMode">
+                                <div class="rc-select">
+                                    <select class="input-monitor rc-select__element" name="emailNotificationMode">
                                         <option value="default">Default (Every Mention/DM)</option>
                                         <option value="nothing">Disabled</option>
                                         <option value="mentions">Every Mention/DM</option>
@@ -261,8 +255,8 @@
                     <tr>
                         <td>View Mode</td>
                         <td>
-                            <div>
-                                <select name="messageViewMode">
+                            <div class="rc-select">
+                                <select class="input-monitor rc-select__element" name="messageViewMode">
                                     <option value="0">Normal</option>
                                     <option value="1">Cozy</option>
                                     <option value="2">Compact</option>
@@ -277,8 +271,8 @@
                     <tr>
                         <td>Enter key Behaviour</td>
                         <td>
-                            <div>
-                                <select name="sendOnEnter">
+                            <div class="rc-select">
+                                <select class="input-monitor rc-select__element" name="sendOnEnter">
                                     <option value="normal">Normal mode (send with Enter)</option>
                                     <option value="alternative">Alternative mode (send with Enter + Ctrl/Alt/Shift/CMD)</option>
                                     <option value="desktop">Desktop mode (only sends with enter on desktop)</option>
@@ -323,7 +317,7 @@
                         <td></td>
                         <td>
                             <div>
-                                <textarea name="highlights" id="highlights" cols="80" rows="10"></textarea>
+                                <textarea class="rc-input__element" name="highlights" id="highlights" cols="80" rows="10"></textarea>
                             </div>
                         </td>
                     </tr>
@@ -337,8 +331,8 @@
                     <tr>
                         <td>New Room Notification</td>
                         <td>
-                            <div>
-                                <select name="newRoomNotification">
+                            <div class="rc-select">
+                                <select name="newRoomNotification" class="audio rc-select__element">
                                     <option value="none">None</option>
                                     <option value="door">Door (Default)</option>
                                     <option value="beep">Beep</option>
@@ -354,8 +348,8 @@
                     <tr>
                         <td>New Message Notification</td>
                         <td>
-                            <div>
-                                <select name="newMessageNotification">
+                            <div class="rc-select">
+                                <select name="newMessageNotification" class="audio rc-select__element">
                                     <option value="none">None</option>
                                     <option value="chime">Chime (Default)</option>
                                     <option value="beep">Beep</option>
@@ -395,14 +389,14 @@
             <h1>My Data</h1>
             <div class="borderArea">
                 <div>
-                    <label><button>
-                        <i></i> <span>Download My Data</span>
+                    <label><button class="button download-my-data">
+                        <i class="icon-download secondary-font-color"></i> <span>Download My Data</span>
                     </button></label>
                 </div>
                 <div>
                     <label>
-                        <button>
-                            <i></i> <span>Export My Data</span>
+                        <button class="button export-my-data">
+                            <i class="icon-download secondary-font-color"></i> <span>Export My Data</span>
                         </button>
                     </label>
                 </div>

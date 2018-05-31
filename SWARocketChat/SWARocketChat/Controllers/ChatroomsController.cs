@@ -4,16 +4,23 @@ using SWARocketChat.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SWARocketChat.Data;
 
 namespace SWARocketChat.Controllers
 {
     [Route("Chatrooms")]
-    public class ChatroomsController : BaseController
+    public class ChatroomsController : Controller 
     {
+        private readonly ApplicationDbContext _dbContext;
+
+        public ChatroomsController(ApplicationDbContext context)
+        {
+            _dbContext = context;
+        }
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await DbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
+            return View(await _dbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
         }
 
         [HttpGet("Create")]
@@ -29,8 +36,8 @@ namespace SWARocketChat.Controllers
             if (ModelState.IsValid)
             {
                 chatroom.Id = Guid.NewGuid();
-                DbContext.Add(chatroom);
-                await DbContext.SaveChangesAsync();
+                _dbContext.Add(chatroom);
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(chatroom);
@@ -41,9 +48,9 @@ namespace SWARocketChat.Controllers
             var splittedString = term.Split(",");
             //term = splittedString[splittedString.Length];
             term = splittedString.LastOrDefault();
-          var userlist = from n in DbContext.Users where n.Username.StartsWith(term)
-                         select new { n.Username };
-            var liste = userlist.Select(x => x.Username).ToList();
+          var userlist = from n in _dbContext.Users where n.UserName.StartsWith(term)
+                         select new { n.UserName };
+            var liste = userlist.Select(x => x.UserName).ToList();
             return Json(liste);
         }
         [HttpGet("Edit")]
@@ -54,7 +61,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var chatroom = await DbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
             if (chatroom == null)
             {
                 return NotFound();
@@ -78,8 +85,8 @@ namespace SWARocketChat.Controllers
             {
                 try
                 {
-                    DbContext.Update(chatroom);
-                    await DbContext.SaveChangesAsync();
+                    _dbContext.Update(chatroom);
+                    await _dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,7 +112,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var chatroom = await DbContext.Chatrooms
+            var chatroom = await _dbContext.Chatrooms
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (chatroom == null)
             {
@@ -119,15 +126,15 @@ namespace SWARocketChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var chatroom = await DbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
-            DbContext.Chatrooms.Remove(chatroom);
-            await DbContext.SaveChangesAsync();
+            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            _dbContext.Chatrooms.Remove(chatroom);
+            await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ChatroomExists(Guid id)
         {
-            return DbContext.Chatrooms.Any(e => e.Id == id);
+            return _dbContext.Chatrooms.Any(e => e.Id == id);
         }
     }
 }

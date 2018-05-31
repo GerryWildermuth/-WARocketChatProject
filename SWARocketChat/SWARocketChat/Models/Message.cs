@@ -11,6 +11,6 @@ namespace SWARocketChat.Models
         [Required]
         public DateTime MessageTime { get; set; } = DateTime.Now;
 
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
