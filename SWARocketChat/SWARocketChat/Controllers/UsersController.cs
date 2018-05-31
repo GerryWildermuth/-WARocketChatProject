@@ -62,6 +62,11 @@ namespace SWARocketChat.Controllers
             return View();
         }
 
+        [HttpGet("Security")]
+        public IActionResult Security()
+        {
+            return View();
+        }
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
