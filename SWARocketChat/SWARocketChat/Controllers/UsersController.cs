@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ using SWARocketChat.Services;
 
 namespace SWARocketChat.Controllers
 {
+    [Authorize]
     [Route("Users")]
     public class UsersController : Controller
     {
@@ -103,60 +105,64 @@ namespace SWARocketChat.Controllers
         {
             return View();
         }
+        [HttpGet("Security")]
+        public IActionResult Security()
+        {
+            return View();
+        }
+    //// GET: Users/Edit/5
+    //public async Task<IActionResult> Edit(Guid? id)
+    //{
+    //    if (id == null)
+    //    {
+    //        return NotFound();
+    //    }
 
-        //// GET: Users/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+    //    var user = await DbContext.Users.SingleOrDefaultAsync(m => m.Id == id);
+    //    if (user == null)
+    //    {
+    //        return NotFound();
+    //    }
+    //    return View(user);
+    //}
 
-        //    var user = await DbContext.Users.SingleOrDefaultAsync(m => m.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(user);
-        //}
+    // POST: Users/Edit/5
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> Edit(Guid id, [Bind("Id,Username,Password,Password2,UserImage,Email,Status")] User user)
+    //{
+    //    if (id != user.Id)
+    //    {
+    //        return NotFound();
+    //    }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,Username,Password,Password2,UserImage,Email,Status")] User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return NotFound();
-        //    }
+    //    if (ModelState.IsValid)
+    //    {
+    //        try
+    //        {
+    //            DbContext.Update(user);
+    //            await DbContext.SaveChangesAsync();
+    //        }
+    //        catch (DbUpdateConcurrencyException)
+    //        {
+    //            if (!UserExists(user.Id))
+    //            {
+    //                return NotFound();
+    //            }
+    //            else
+    //            {
+    //                throw;
+    //            }
+    //        }
+    //        return RedirectToAction(nameof(Index));
+    //    }
+    //    return View(user);
+    //}
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            DbContext.Update(user);
-        //            await DbContext.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!UserExists(user.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(user);
-        //}
-
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+    // GET: Users/Delete/5
+    public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {

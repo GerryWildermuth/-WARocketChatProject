@@ -6,7 +6,7 @@
 }
 @section header
 {
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
         <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
             Mein Konto
         </a>
@@ -19,7 +19,7 @@
 }
 @section LeftNav
 {
-    <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -29,9 +29,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a asp-action="Index" asp-controller="Users" class="nav-link" style="color: black">
                         <span data-feather="file"></span>
                         Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Security" asp-controller="Users" style="color: black">
+                    <span data-feather="file"></span>
+                    Security
                     </a>
                 </li>
             </ul>
@@ -60,15 +66,15 @@
         <fieldset>
             <legend style="margin-bottom: 2.5em;">Profildetails</legend>
             <div>
-                <div class="rc-from-group">
-                    <label class="rc-form-label">Profilbild</label>
-                    <div class="rc-select-avatar">
-                        <div  class="rc-select-avatar__preview">
+                <div>
+                    <label >Profilbild</label>
+                    <div>
+                        <div >
                             <div style="float: left; padding-right: 20px;" class="avatar">
-                                <img style="height: 150px; width: 150px;"src="https://open.rocket.chat/avatar/rasalo?_dc=undefined" class="avatar-image"/>
+                                <img style="height: 150px; width: 150px;" src="https://open.rocket.chat/avatar/rasalo?_dc=undefined" class="avatar-image" alt=""/>
                             </div>
                         </div>
-                        <div style="float: left;" class="rc-select-avatar__list">
+                        <div style="float: left;">
                             <nav>
                                 <a style="width: 48px; height: 40px; background-color: #325c99;" target="_blank" type="button" class="btn btn-secondary" href="https://www.facebook.com/RocketChatApp"><i class="fab fa-facebook-f"></i></a>
                                 <a style="width: 48px; height: 40px; background-color: #4c4c4c;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-github"></i></a>
@@ -79,12 +85,10 @@
                                 <a style="width: 48px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
                                 
                             </nav>
-                            <div class="rc-input">
-                                <label class="rc-input__label">
-                                    <div style="margin-top: 25px;"class="rc-input__title">URL für Profilbild verwenden</div>
-                                    <div  class="rc-input__wrapper">
-                                        <input style="width: 25em; height: 40px"name="avatar_url" class="rc-input__element js-avatar-url-input" placeholder="URL für Profilbild verwenden">
-                                    </div>
+                            <div>
+                                <label>
+                                    <span style="margin-top: 25px;">URL für Profilbild verwenden</span>
+                                    <input style="width: 25em; height: 40px" name="avatar_url" class="rc-input__element js-avatar-url-input" placeholder="URL für Profilbild verwenden">
                                 </label>
                             </div>
                         </div>
