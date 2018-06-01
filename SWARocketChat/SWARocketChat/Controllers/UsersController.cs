@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,6 +12,7 @@ using SWARocketChat.Services;
 
 namespace SWARocketChat.Controllers
 {
+    [Authorize]
     [Route("Users")]
     public class UsersController : Controller
     {
@@ -21,7 +24,7 @@ namespace SWARocketChat.Controllers
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
-
+        
         public UsersController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
