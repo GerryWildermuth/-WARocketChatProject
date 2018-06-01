@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using SWARocketChat.Data;
 using SWARocketChat.Models;
-using SWARocketChat.Models.AccountViewModels;
 
 namespace SWARocketChat.Controllers
 {

@@ -1,4 +1,11 @@
 ﻿<!doctype html>
+<style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        height: 60px;
+    }
+</style>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -23,9 +30,11 @@
     <link href="~/js/jquery-ui.structure.min.css" rel="stylesheet" />
     <link href="~/js/jquery-ui.theme.min.css" rel="stylesheet" />
 </head>
-
 <body>
-
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar" asp-action="Index"asp-controller="Home" style="min-width: 280px">
+    Bilder and Stuff
+    </a>
     @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
     @if (IsSectionDefined("header"))
     {
@@ -33,15 +42,11 @@
     }
     @if (!IsSectionDefined("header"))
     {
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
-                Company name
-            </a>
-            <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>
-        </nav>
+            <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08)">
+                ControllerName
+            </span>
     }
-
-
+</nav>
     <div class="container-fluid">
         <div class="row">
             @if (IsSectionDefined("LeftNav"))
@@ -50,7 +55,7 @@
             }
             @if (!IsSectionDefined("LeftNav"))
             {
-                <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+                <nav class="d-none d-md-block bg-dark sidebar"style="min-width: 280px">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
@@ -66,15 +71,22 @@
                                 </a>
                             </li>
                         </ul>
+                        <footer class="footer">
+                            <a href="https://github.com/RocketChat/Rocket.Chat" target="_blank">
+                                <img src="~/images/logo.svg?v=4" alt="" style="height: 46px"/>
+                                <small style="position: absolute; bottom: 5px; right: 24px;color: lightgray">
+                                    <i class="fab fa-github"></i> 
+                                    Fork it on github
+                                </small>
+                            </a>
+                        </footer>
                     </div>
                 </nav>
             }
 
 
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 main" style="padding-left: 40px; padding-right: 40px">
+            <main role="main" class="main" style="padding-left: 40px; padding-right: 40px; margin-left: 280px; overflow-x: hidden;">
                 @RenderBody()
-
-                <footer></footer>
             </main>
         </div>
     </div>

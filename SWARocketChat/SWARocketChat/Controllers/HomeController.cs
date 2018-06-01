@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SWARocketChat.Models;
 
@@ -11,7 +8,9 @@ namespace SWARocketChat.Controllers
     [Route("")]
     public class HomeController : Controller
     {
+       
         [HttpGet("")]
+        
         public IActionResult Index()
         {
             return View();

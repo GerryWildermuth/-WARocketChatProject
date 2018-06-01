@@ -28,7 +28,11 @@ namespace SWARocketChat
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            services.ConfigureApplicationCookie(options =>
+            {
+                //options.AccessDeniedPath = "/Account/Register";
+                //options.LoginPath = "/Account/Register";
+            });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
