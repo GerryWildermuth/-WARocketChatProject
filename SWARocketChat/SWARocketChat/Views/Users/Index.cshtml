@@ -1,4 +1,5 @@
-﻿@model IndexViewModel
+﻿@using SWARocketChat.Data.Migrations
+@model IndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -103,14 +104,14 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input style="width: 20em;" type="text" class="" name="" id="" placeholder="Name">
+                                    <input style="width: 20em;" type="text" class="" name="" id="" value="" placeholder="Name">
                                 </td>
                                 <td>
                                     <input style="width: 20em;" type="text" class="" name="" id="" placeholder="Username">
                                 </td>
 
-                            </tr>
                             <tr>
+                            </tr>
                                 <td>E-mail</td>
                                 <td>Neues Passwort</td>
                             </tr>
@@ -136,16 +137,10 @@
             </div>
         </fieldset> 
         
-        
-        
 
     </form>
     
     
-    
-    
-    
-
 </div>
 
 
