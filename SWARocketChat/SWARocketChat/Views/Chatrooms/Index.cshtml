@@ -26,9 +26,9 @@
             <th style="width: 60%">
                 Name
             </th>
-            @*<th style="width: 10%">
+            <th style="width: 10%">
                 Members
-            </th>*@
+            </th>
             <th style="width: 10%">
                 Creating date
             </th>
@@ -39,8 +39,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            
-            <tr class="gotoroom">
+            <tr class="gotoroom" style="cursor: pointer">
                     <td style="width: 60%">
                         # @item.ChatroomName
                     </td>
@@ -62,8 +61,8 @@
 <script>
     $(function() {
         var gotoroom = document.getElementsByClassName("gotoroom");
-        gotoroom.click(function() {
-            window.location.replace("");
+        $(".gotoroom").click(function() {
+            window.location.replace("chatrooms/create");
         });
     })
 </script>

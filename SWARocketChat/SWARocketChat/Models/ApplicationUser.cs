@@ -9,5 +9,6 @@ namespace SWARocketChat.Models
 
         public string UserImage { get; set; }
         public byte Status { get; set; }
+        public  ChatroomMembers ChatroomMembers { get; set; }
     }
 }

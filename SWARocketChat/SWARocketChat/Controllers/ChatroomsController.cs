@@ -2,19 +2,28 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SWARocketChat.Data;
+using SWARocketChat.Models.ChatroomViewModels;
 
 namespace SWARocketChat.Controllers
 {
     [Route("Chatrooms")]
     public class ChatroomsController : Controller 
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _dbContext;
-
-        public ChatroomsController(ApplicationDbContext context)
+        public ChatroomsController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _dbContext = context;
         }
         [HttpGet("")]
@@ -26,33 +35,61 @@ namespace SWARocketChat.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View(new Chatroom());
+            var users = _userManager.Users;
+            ViewBag.Users = users.Select(x => 
+                new SelectListItem()
+                {
+                    Text = x.UserName,
+                    Value = x.ToString()
+                });
+            return View();
         }
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,ChatroomMembers")] Chatroom chatroom)
+        public async Task<IActionResult> Create(CreateChatroomViewModel model)
         {
             if (ModelState.IsValid)
             {
-                chatroom.Id = Guid.NewGuid();
+                var chatroom = new Chatroom
+                {
+                    ChatroomName = model.ChatroomName,
+                    ChatroomTopic = model.ChatroomTopic,
+                    ChatroomDesription = model.ChatroomDesription,
+                    Password = model.Password,
+                    Private = model.Private
+                };
                 _dbContext.Add(chatroom);
                 await _dbContext.SaveChangesAsync();
+                var chatroomMembers = new ChatroomMembers
+                {
+                    ChatroomId = chatroom.Id
+                };
+                _dbContext.Add(chatroomMembers);
+                await _dbContext.SaveChangesAsync();
+                var currentUser = await _userManager.GetUserAsync(User);
+                chatroomMembers.Users.Add(currentUser);
+
+                foreach (var member in model.ChatroomMembers)
+                {
+                    var user = await _userManager.FindByNameAsync(member);
+                    if(!chatroomMembers.Users.Contains(user))
+                        chatroomMembers.Users.Add(user);
+                }
+                
+                
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(chatroom);
+            return View(model);
         }
-        [HttpGet("AutoComplete")]
-        public JsonResult AutoComplete(string term)
+        [HttpGet("Channel")]
+        public async Task<IActionResult> Channel(string channelname)
         {
-            var splittedString = term.Split(",");
-            //term = splittedString[splittedString.Length];
-            term = splittedString.LastOrDefault();
-          var userlist = from n in _dbContext.Users where n.UserName.StartsWith(term)
-                         select new { n.UserName };
-            var liste = userlist.Select(x => x.UserName).ToList();
-            return Json(liste);
+            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Include(chatroom => chatroom.Messages).ToListAsync());
         }
+
+
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -135,6 +172,18 @@ namespace SWARocketChat.Controllers
         private bool ChatroomExists(Guid id)
         {
             return _dbContext.Chatrooms.Any(e => e.Id == id);
+        }
+    }
+
+    public class JsonData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public JsonData(int id, string name)
+        {
+            Id = id;
+            Name = name;
         }
     }
 }
