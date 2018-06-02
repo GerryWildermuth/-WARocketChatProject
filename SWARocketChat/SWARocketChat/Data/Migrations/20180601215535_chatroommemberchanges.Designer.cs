@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180601215535_chatroommemberchanges")]
+    partial class chatroommemberchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,7 +193,7 @@ namespace SWARocketChat.Data.Migrations
 
                     b.Property<string>("ChatroomDesription");
 
-                    b.Property<Guid>("ChatroomMembesId");
+                    b.Property<Guid?>("ChatroomMembersId");
 
                     b.Property<string>("ChatroomName")
                         .IsRequired();
@@ -209,6 +210,9 @@ namespace SWARocketChat.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChatroomMembersId")
+                        .IsUnique();
+
                     b.HasIndex("ChatroomName")
                         .IsUnique();
 
@@ -220,16 +224,31 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ChatroomId");
-
                     b.Property<bool>("WritingPrivilege");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatroomId")
+                    b.ToTable("ChatroomMembers");
+                });
+
+            modelBuilder.Entity("SWARocketChat.Models.FriendList", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("Username")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("ChatroomMembers");
+                    b.ToTable("FriendList");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.Message", b =>
@@ -307,12 +326,18 @@ namespace SWARocketChat.Data.Migrations
                         .HasForeignKey("ChatroomMembersId");
                 });
 
-            modelBuilder.Entity("SWARocketChat.Models.ChatroomMembers", b =>
+            modelBuilder.Entity("SWARocketChat.Models.Chatroom", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.Chatroom", "Chatroom")
-                        .WithOne("ChatroomMembers")
-                        .HasForeignKey("SWARocketChat.Models.ChatroomMembers", "ChatroomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
+                        .WithOne("Chatroom")
+                        .HasForeignKey("SWARocketChat.Models.Chatroom", "ChatroomMembersId");
+                });
+
+            modelBuilder.Entity("SWARocketChat.Models.FriendList", b =>
+                {
+                    b.HasOne("SWARocketChat.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.Message", b =>
