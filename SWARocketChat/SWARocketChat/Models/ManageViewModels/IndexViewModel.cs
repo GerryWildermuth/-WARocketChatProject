@@ -17,5 +17,7 @@ namespace SWARocketChat.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+        public string Userimage { get; set; }
+        public string Id { get; set; }
     }
 }
