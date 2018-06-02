@@ -11,7 +11,9 @@
         padding-right: 0 !important;
     }
 
-    .gotoroom { }
+    .gotoroom:hover {
+        background-color: lightgray;
+    }
 </style>
 @section header
 {
@@ -41,12 +43,11 @@
         {
             <tr class="gotoroom" style="cursor: pointer">
                     <td style="width: 60%">
-                        # @item.ChatroomName
+                    # @item.ChatroomName
                     </td>
-
-                    @*<td style="width: 10%">
-            @item.ChatroomMembers.Users.Count
-        </td>*@
+                    <td style="width: 10%">
+                    @item.ChatroomMembers.Users.Count
+                    </td>
                     <td style="width: 10%">
                         @item.CreationDate.ToString("dd.MM.yyyy")
                     </td>

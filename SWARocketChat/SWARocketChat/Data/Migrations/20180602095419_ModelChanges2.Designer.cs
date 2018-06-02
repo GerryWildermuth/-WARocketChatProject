@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180602095419_ModelChanges2")]
+    partial class ModelChanges2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,7 +317,7 @@ namespace SWARocketChat.Data.Migrations
 
             modelBuilder.Entity("SWARocketChat.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.ChatroomMembers")
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
                         .WithMany("Users")
                         .HasForeignKey("ChatroomMembersId");
 

@@ -29,7 +29,7 @@ namespace SWARocketChat.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _dbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
+            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Where(a => a.ChatroomMembers.ChatroomId == a.Id).Include(u => u.ChatroomMembers.Users).ToListAsync());
         }
 
         [HttpGet("Create")]
@@ -51,6 +51,19 @@ namespace SWARocketChat.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_dbContext.Chatrooms.Any(c => c.ChatroomName == model.ChatroomName))
+                {
+                ModelState.AddModelError("", "An Chatroom with this Name allready exists");
+                    var users = _userManager.Users;
+                    ViewBag.Users = users.Select(x =>
+                        new SelectListItem()
+                        {
+                            Text = x.UserName,
+                            Value = x.ToString()
+                        });
+                    return View(model);
+                }
+
                 var chatroom = new Chatroom
                 {
                     ChatroomName = model.ChatroomName,
@@ -66,20 +79,18 @@ namespace SWARocketChat.Controllers
                     Users = new Collection<ApplicationUser> { currentUser },
                     ChatroomId = chatroom.Id
                 };
-
-                foreach (var member in model.ChatroomMembers)
-                {
-                    var user = await _userManager.FindByNameAsync(member);
-                    if(!chatroomMembers.Users.Contains(user))
-                        chatroomMembers.Users.Add(user);
-                }
-
-
+                if(model.ChatroomMembers.Count>0)
+                    foreach (var member in model.ChatroomMembers)
+                    {
+                        var user = await _userManager.FindByNameAsync(member);
+                        if(!chatroomMembers.Users.Contains(user))
+                            chatroomMembers.Users.Add(user);
+                    }
                 _dbContext.Add(chatroom);
                 await _dbContext.SaveChangesAsync();
 
-                //_dbContext.Add(chatroomMembers);
-                //await _dbContext.SaveChangesAsync();
+                _dbContext.Add(chatroomMembers);
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -165,6 +176,9 @@ namespace SWARocketChat.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            //var chatroommember = await _dbContext.ChatroomMembers.SingleOrDefaultAsync(c => c.ChatroomId == id);
+
+            //_dbContext.ChatroomMembers.Remove(chatroommember);
             _dbContext.Chatrooms.Remove(chatroom);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

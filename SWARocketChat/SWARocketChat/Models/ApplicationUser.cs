@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace SWARocketChat.Models
@@ -9,6 +9,5 @@ namespace SWARocketChat.Models
 
         public string UserImage { get; set; }
         public byte Status { get; set; }
-        public  ChatroomMembers ChatroomMembers { get; set; }
     }
 }
