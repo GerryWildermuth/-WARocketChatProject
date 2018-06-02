@@ -8,41 +8,41 @@
 
 @section header
     {
-    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
-        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
-            Mein Konto
-        </a>
-        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-            Security
-        </span>
-    </nav>
+<nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
+    <a class="navbar" href="#" style="min-width: 280px">
+        Mein Konto
+    </a>
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        Security
+    </span>
+</nav>
 }
 @section LeftNav
     {
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" asp-action="Settings" asp-controller="Users">
-                        <span data-feather="home"></span>
-                        Settings <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Index" asp-controller="Users" style="color: black">
-                        <span data-feather="file"></span>
-                        Profile
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: black">
-                        <span data-feather="file"></span>
-                        Security
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="Settings" asp-controller="Users">
+                    <span data-feather="home"></span>
+                    Settings <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index" asp-controller="Users" style="color: black">
+                    <span data-feather="file"></span>
+                    Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: black">
+                    <span data-feather="file"></span>
+                    Security
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 }
 <style>
     .center {
