@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -60,13 +61,17 @@ namespace SWARocketChat.Controllers
                 };
                 
                 var currentUser = await _userManager.GetUserAsync(User);
-                chatroom.ChatroomMembers.Users.Add(currentUser);
+                var chatroomMembers = new ChatroomMembers
+                {
+                    Users = new Collection<ApplicationUser> { currentUser },
+                    ChatroomId = chatroom.Id
+                };
 
                 foreach (var member in model.ChatroomMembers)
                 {
                     var user = await _userManager.FindByNameAsync(member);
-                    if(!chatroom.ChatroomMembers.Users.Contains(user))
-                        chatroom.ChatroomMembers.Users.Add(user);
+                    if(!chatroomMembers.Users.Contains(user))
+                        chatroomMembers.Users.Add(user);
                 }
 
 
