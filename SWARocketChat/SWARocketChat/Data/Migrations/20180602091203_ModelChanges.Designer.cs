@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180602091203_ModelChanges")]
+    partial class ModelChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,8 +145,6 @@ namespace SWARocketChat.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<Guid?>("FriendListId");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -176,8 +175,6 @@ namespace SWARocketChat.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChatroomMembersId");
-
-                    b.HasIndex("FriendListId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -232,20 +229,6 @@ namespace SWARocketChat.Data.Migrations
                     b.ToTable("ChatroomMembers");
                 });
 
-            modelBuilder.Entity("SWARocketChat.Models.FriendList", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("UserIdId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserIdId");
-
-                    b.ToTable("FriendLists");
-                });
-
             modelBuilder.Entity("SWARocketChat.Models.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -266,7 +249,7 @@ namespace SWARocketChat.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -316,13 +299,9 @@ namespace SWARocketChat.Data.Migrations
 
             modelBuilder.Entity("SWARocketChat.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.ChatroomMembers")
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
                         .WithMany("Users")
                         .HasForeignKey("ChatroomMembersId");
-
-                    b.HasOne("SWARocketChat.Models.FriendList")
-                        .WithMany("User")
-                        .HasForeignKey("FriendListId");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.ChatroomMembers", b =>
@@ -331,13 +310,6 @@ namespace SWARocketChat.Data.Migrations
                         .WithOne("ChatroomMembers")
                         .HasForeignKey("SWARocketChat.Models.ChatroomMembers", "ChatroomId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SWARocketChat.Models.FriendList", b =>
-                {
-                    b.HasOne("SWARocketChat.Models.ApplicationUser", "UserId")
-                        .WithMany()
-                        .HasForeignKey("UserIdId");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.Message", b =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 
@@ -9,6 +8,9 @@ namespace SWARocketChat.Data
     {
         //public DbSet<User> Users { get; set; }
         public DbSet<Chatroom> Chatrooms { get; set; }
+        public DbSet<ChatroomMembers> ChatroomMembers { get; set; }
+        public DbSet<FriendList> FriendLists { get; set; }
+        public DbSet<Message>  Messages{ get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }

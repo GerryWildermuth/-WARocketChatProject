@@ -12,5 +12,8 @@ namespace SWARocketChat.Models
         public DateTime MessageTime { get; set; } = DateTime.Now;
 
         public ApplicationUser User { get; set; }
+        public Chatroom Chatroom { get; set; }
+        [Required]
+        public Guid ChatroomId { get; set; }
     }
 }

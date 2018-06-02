@@ -8,5 +8,6 @@ namespace SWARocketChat.Models
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public virtual ICollection<ApplicationUser> User { get; set; }
+        public ApplicationUser UserId { get; set; }
     }
 }
