@@ -5,19 +5,19 @@
 }
 @section header
     {
-    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
-        <a class="navbar col-sm-2 col-md-2 mr-0" href="#">
-            Mein Konto
-        </a>
-        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-            Settings
-            <a class="btn btn-primary btn-sm" role="button" style="float: right; color: white;">Save changes</a>
-        </span>
-    </nav>
+<nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
+    <a class="navbar" href="#" style="min-width: 280px">
+        Mein Konto
+    </a>
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        Settings
+        <a class="btn btn-primary btn-sm" role="button" style="float: right; color: white;">Save changes</a>
+    </span>
+</nav>
 }
 @section LeftNav
     {
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  asp-action="Security" asp-controller="Users" style="color: black">
+                    <a class="nav-link" asp-action="Security" asp-controller="Users" style="color: black">
                         <span data-feather="file"></span>
                         Security
                     </a>

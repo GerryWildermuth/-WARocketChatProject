@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -59,26 +58,23 @@ namespace SWARocketChat.Controllers
                     Password = model.Password,
                     Private = model.Private
                 };
-                _dbContext.Add(chatroom);
-                await _dbContext.SaveChangesAsync();
-                var chatroomMembers = new ChatroomMembers
-                {
-                    ChatroomId = chatroom.Id
-                };
-                _dbContext.Add(chatroomMembers);
-                await _dbContext.SaveChangesAsync();
+                
                 var currentUser = await _userManager.GetUserAsync(User);
-                chatroomMembers.Users.Add(currentUser);
+                chatroom.ChatroomMembers.Users.Add(currentUser);
 
                 foreach (var member in model.ChatroomMembers)
                 {
                     var user = await _userManager.FindByNameAsync(member);
-                    if(!chatroomMembers.Users.Contains(user))
-                        chatroomMembers.Users.Add(user);
+                    if(!chatroom.ChatroomMembers.Users.Contains(user))
+                        chatroom.ChatroomMembers.Users.Add(user);
                 }
-                
-                
 
+
+                _dbContext.Add(chatroom);
+                await _dbContext.SaveChangesAsync();
+
+                //_dbContext.Add(chatroomMembers);
+                //await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
