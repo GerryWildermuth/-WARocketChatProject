@@ -1,5 +1,5 @@
 ﻿@using SWARocketChat.Data.Migrations
-@model IndexViewModel
+@model ApplicationUser
 
 @{
     ViewData["Title"] = "Index";
@@ -97,14 +97,13 @@
                 </div>
                 <div style="clear: left; margin-top: 200px;">
                     <table>
-                        <tbody>
                             <tr>
                                 <td>Name</td>
                                 <td>Benutzername</td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input style="width: 20em;" type="text" class="" name="" id="" value="" placeholder="Name">
+                                    <input style="width: 20em;" type="text" class="" name="" id="" value="@Model.UserName" placeholder="Name">
                                 </td>
                                 <td>
                                     <input style="width: 20em;" type="text" class="" name="" id="" placeholder="Username">
@@ -117,8 +116,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input style="width: 20em;" type="text" class="" name="" id="" placeholder="Email">
-                                </td>
+                                    <input style="width: 20em;" type="text" class="" name="" id="" value="@Model.Email" placeholder="Email">
+                                </td> 
                                 <td>
                                     <input style="width: 20em;" type="text" class="" name="" id="" placeholder="Bitte geben Sie ein neues passwort ein">
                                 </td>
@@ -130,7 +129,7 @@
                                 <td><button class="btn">Von anderen Geräten abmelden</button></td>
                                 <td><button class="btn">mein Konto löschen</button></td>
                             </tr>
-                        </tbody>
+                        
                     </table>
                 </div>
                 <div></div>

@@ -58,7 +58,7 @@ namespace SWARocketChat.Controllers
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
-            return View(model);
+            return View(user);
         }
 
         //// GET: Users/Details/5
