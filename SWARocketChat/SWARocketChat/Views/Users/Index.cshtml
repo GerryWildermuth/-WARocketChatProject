@@ -66,7 +66,7 @@
                     <div>
                         <div >
                             <div style="float: left; padding-right: 20px;" class="avatar">
-                                <img alt=""id="languageCreateImagePrev" class="avatar-image" src="@Model.UserImage" style="height: 150px; width: 150px;" />@*WTF https://open.rocket.chat/avatar/rasalo?_dc=undefined ist das?*@
+                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.UserImage" style="height: 150px; width: 150px;" />@*WTF https://open.rocket.chat/avatar/rasalo?_dc=undefined ist das?*@
                             </div>
                         </div>
                         <div style="float: left;">
@@ -127,7 +127,10 @@
                             </tr>
                             <tr>
                                 <td><button class="btn">Von anderen Geräten abmelden</button></td>
-                                <td><button class="btn">mein Konto löschen</button></td>
+                                <td>
+                                    <button class="btn">mein Konto löschen</button>
+                                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                                </td>
                             </tr>
                     </table>
                 </div>
