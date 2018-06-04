@@ -29,7 +29,11 @@ namespace SWARocketChat.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Where(a => a.ChatroomMembers.ChatroomId == a.Id).Include(u => u.ChatroomMembers.Users).ToListAsync());
+            return View(await _dbContext.Chatrooms
+                .Include(a => a.ChatroomMembers)
+                .Where(a => a.ChatroomMembers.ChatroomId == a.Id)
+                .Include(u => u.ChatroomMembers.Users)
+                .ToListAsync());
         }
 
         [HttpGet("Create")]
@@ -72,86 +76,136 @@ namespace SWARocketChat.Controllers
                     Password = model.Password,
                     Private = model.Private
                 };
-                
-                var currentUser = await _userManager.GetUserAsync(User);
-                var chatroomMembers = new ChatroomMembers
+                var message = new Message
                 {
-                    Users = new Collection<ApplicationUser> { currentUser },
                     ChatroomId = chatroom.Id
                 };
-                if(model.ChatroomMembers.Count>0)
-                    foreach (var member in model.ChatroomMembers)
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    var chatroomMembers = new ChatroomMembers
                     {
-                        var user = await _userManager.FindByNameAsync(member);
-                        if(!chatroomMembers.Users.Contains(user))
-                            chatroomMembers.Users.Add(user);
-                    }
-                _dbContext.Add(chatroom);
-                await _dbContext.SaveChangesAsync();
+                        Users = new Collection<ApplicationUser> {currentUser},
+                        ChatroomId = chatroom.Id
+                    };
 
-                _dbContext.Add(chatroomMembers);
-                await _dbContext.SaveChangesAsync();
+
+                    if (model.ChatroomMembers.Count > 0)
+                        foreach (var member in model.ChatroomMembers)
+                        {
+                            var user = await _userManager.FindByNameAsync(member);
+                            if (!chatroomMembers.Users.Contains(user))
+                                chatroomMembers.Users.Add(user);
+                        }
+                    _dbContext.Add(chatroom);
+                    await _dbContext.SaveChangesAsync();
+
+                    _dbContext.Add(chatroomMembers);
+                    await _dbContext.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
+
         [HttpGet("Channel")]
-        public async Task<IActionResult> Channel(string channelname)
+        public async Task<IActionResult> Channel(Guid id)
         {
-            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Include(chatroom => chatroom.Messages).ToListAsync());
-        }
+
+            var customemodel = _dbContext.Chatrooms
+                .Include(a => a.ChatroomMembers.Users)
+                .Include(chatroom => chatroom.Messages)
+                .Where(chatroom => chatroom.Id == id).FirstOrDefault(c => c.ChatroomMembers.ChatroomId == id);
+            //.Where(c=>c.Messages.FirstOrDefault().ChatroomId==id)
 
 
-        [HttpGet("Edit")]
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
+            if (customemodel != null)
             {
-                return NotFound();
+                var model = new ChannelViewModel
+                {
+                    ChatroomId = customemodel.Id,
+                    ChatroomMembers = customemodel.ChatroomMembers,
+                    ChatroomDesription = customemodel.ChatroomDesription,
+                    ChatroomName = customemodel.ChatroomName,
+                    ChatroomTopic = customemodel.ChatroomTopic,
+                    Password = customemodel.Password,
+                    Private = customemodel.Private,
+                    User = await _userManager.GetUserAsync(User),
+                    Chatroom = customemodel
+                };
+                return View(model);
             }
-
-            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
-            if (chatroom == null)
-            {
-                return NotFound();
-            }
-            return View(chatroom);
+            return View();
         }
-
-        // POST: Chatrooms/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edite")]
+        
+        [HttpPost("MessageCreate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
+        public async Task<IActionResult> MessageCreate(ChannelViewModel model)
         {
-            if (id != chatroom.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                model.User = await _userManager.GetUserAsync(User);
+                var message = new Message
                 {
-                    _dbContext.Update(chatroom);
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ChatroomExists(chatroom.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    Id = model.MessageId,
+                    ChatroomId = model.ChatroomId,
+                    User = model.User,
+                    MessageString = model.MessageString,
+                };
+                _dbContext.Add(message);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Channel","Chatrooms",new {model.ChatroomId});
             }
-            return View(chatroom);
+            return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId });
         }
+        
+        //[HttpGet("Edit")]
+        //public async Task<IActionResult> Edit(Guid? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+        //    if (chatroom == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(chatroom);
+        //}
+
+        //[HttpPost("Edite")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
+        //{
+        //    if (id != chatroom.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _dbContext.Update(chatroom);
+        //            await _dbContext.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ChatroomExists(chatroom.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(chatroom);
+        //}
 
         [HttpGet("Delete")]
         public async Task<IActionResult> Delete(Guid? id)
@@ -187,18 +241,6 @@ namespace SWARocketChat.Controllers
         private bool ChatroomExists(Guid id)
         {
             return _dbContext.Chatrooms.Any(e => e.Id == id);
-        }
-    }
-
-    public class JsonData
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public JsonData(int id, string name)
-        {
-            Id = id;
-            Name = name;
         }
     }
 }

@@ -6,6 +6,12 @@ namespace SWARocketChat.Models
 {
     public class Chatroom
     {
+        public Chatroom()
+        {
+            {
+                Messages = new HashSet<Message>();
+            }
+        }
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string ChatroomName { get; set; }
@@ -17,6 +23,6 @@ namespace SWARocketChat.Models
         public bool Private { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Today;
         public ChatroomMembers ChatroomMembers { get; set; }
-        public ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

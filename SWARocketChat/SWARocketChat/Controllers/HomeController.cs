@@ -6,6 +6,7 @@ using SWARocketChat.Models;
 namespace SWARocketChat.Controllers
 {
     [Route("")]
+    [Authorize]
     public class HomeController : Controller
     {
        
