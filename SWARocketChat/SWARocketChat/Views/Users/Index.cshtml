@@ -13,7 +13,7 @@
             <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
                 Profil
 
-                <input class="btn btn-primary btn-sm" type="submit" style="float: right; color: white;" value="Save changes" />
+                <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
 
             </span>
         </nav>
@@ -59,7 +59,7 @@
     }
 </style>
 <div>
-    <form class="center" asp-action="Index">
+    <form class="center" asp-action="Index" id="ProfileForm">
         <fieldset>
             <legend style="margin-bottom: 2.5em;">Profildetails</legend>
             <div>
@@ -129,7 +129,8 @@
                         <tr>
                             <td>
                                 <button class="btn">Bestätigungsmail erneut versenden</button>
-                                <input class="btn btn-primary btn-sm" type="submit" style="float: right; color: white;" value="Save changes" />
+                                @*       ///////////////////////////////////////////  *@
+                                @*<input class="btn btn-primary btn-sm" type="submit" style="float: right; color: white;" value="Save changes" />*@
                             </td>
                         </tr>
                         <tr>

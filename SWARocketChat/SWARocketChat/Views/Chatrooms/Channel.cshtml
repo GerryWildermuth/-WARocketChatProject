@@ -6,34 +6,41 @@
 @section header
 {
     <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-        @Model.ChatroomName
+        @Model.Chatroom.ChatroomName
         <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
     </span>
 }
-<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width:70%; bottom: 0; position: fixed;">
+<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 70%; bottom: 0; position: fixed;">
+    <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id"/>
     <table class="table" style="height: 80%">
         <thead>
-            <tr style="font-size: 15px;color: #9ea2a8"></tr>
+        <tr style="font-size: 15px; color: #9ea2a8"></tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Chatroom.Messages)
+        @if (Model.Chatroom.Messages != null)
             {
-                <tr class="gotoroom" style="cursor: pointer">
-                    <td style="width: 100%">
-                        @item.User @item.User.UserImage @item.MessageTime.ToString("dd.MM.yyyy")
-                        <br />
-                        @item.MessageString
-                    </td>
-                </tr>
-            }
+                foreach (var message in Model.Chatroom.Messages.Reverse())
+                {
+                    <tr style="cursor: pointer">
+                        <td style="width: 100%">
+                            @message.User
+                            @if (@message.User.UserImage != null)
+                            {
+                                <img src="@message.User.UserImage" alt="" style="max-width: 30px;max-height: 20px" />
+                            }
+                            @message.MessageTime.ToString("HH:mm:ss tt")
+                            <br />
+                            @message.MessageString
+                        </td>
+                    </tr>
+                }
+        }
         </tbody>
     </table>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group" style="display: flex;">
-        <input asp-for="MessageString" value="" placeholder="Message" class="form-control"/>
         <span asp-validation-for="MessageString" class="text-danger"></span>
-        <div>
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
+        <input asp-for="MessageString" value="" placeholder="Message" class="form-control" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
