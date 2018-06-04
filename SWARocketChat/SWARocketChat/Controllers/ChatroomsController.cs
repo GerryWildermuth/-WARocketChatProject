@@ -2,50 +2,106 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SWARocketChat.Data;
+using SWARocketChat.Models.ChatroomViewModels;
 
 namespace SWARocketChat.Controllers
 {
     [Route("Chatrooms")]
-    public class ChatroomsController : BaseController
+    public class ChatroomsController : Controller 
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _dbContext;
+        public ChatroomsController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _dbContext = context;
+        }
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await DbContext.Chatrooms.Include(a=>a.ChatroomMembers).ToListAsync());
+            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Where(a => a.ChatroomMembers.ChatroomId == a.Id).Include(u => u.ChatroomMembers.Users).ToListAsync());
         }
 
         [HttpGet("Create")]
         public IActionResult Create()
         {
-            return View(new Chatroom());
+            var users = _userManager.Users;
+            ViewBag.Users = users.Select(x => 
+                new SelectListItem()
+                {
+                    Text = x.UserName,
+                    Value = x.ToString()
+                });
+            return View();
         }
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,ChatroomMembers")] Chatroom chatroom)
+        public async Task<IActionResult> Create(CreateChatroomViewModel model)
         {
             if (ModelState.IsValid)
             {
-                chatroom.Id = Guid.NewGuid();
-                DbContext.Add(chatroom);
-                await DbContext.SaveChangesAsync();
+                if (_dbContext.Chatrooms.Any(c => c.ChatroomName == model.ChatroomName))
+                {
+                ModelState.AddModelError("", "An Chatroom with this Name allready exists");
+                    var users = _userManager.Users;
+                    ViewBag.Users = users.Select(x =>
+                        new SelectListItem()
+                        {
+                            Text = x.UserName,
+                            Value = x.ToString()
+                        });
+                    return View(model);
+                }
+
+                var chatroom = new Chatroom
+                {
+                    ChatroomName = model.ChatroomName,
+                    ChatroomTopic = model.ChatroomTopic,
+                    ChatroomDesription = model.ChatroomDesription,
+                    Password = model.Password,
+                    Private = model.Private
+                };
+                
+                var currentUser = await _userManager.GetUserAsync(User);
+                var chatroomMembers = new ChatroomMembers
+                {
+                    Users = new Collection<ApplicationUser> { currentUser },
+                    ChatroomId = chatroom.Id
+                };
+                if(model.ChatroomMembers.Count>0)
+                    foreach (var member in model.ChatroomMembers)
+                    {
+                        var user = await _userManager.FindByNameAsync(member);
+                        if(!chatroomMembers.Users.Contains(user))
+                            chatroomMembers.Users.Add(user);
+                    }
+                _dbContext.Add(chatroom);
+                await _dbContext.SaveChangesAsync();
+
+                _dbContext.Add(chatroomMembers);
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(chatroom);
+            return View(model);
         }
-        [HttpGet("AutoComplete")]
-        public JsonResult AutoComplete(string term)
+        [HttpGet("Channel")]
+        public async Task<IActionResult> Channel(string channelname)
         {
-            var splittedString = term.Split(",");
-            //term = splittedString[splittedString.Length];
-            term = splittedString.LastOrDefault();
-          var userlist = from n in DbContext.Users where n.Username.StartsWith(term)
-                         select new { n.Username };
-            var liste = userlist.Select(x => x.Username).ToList();
-            return Json(liste);
+            return View(await _dbContext.Chatrooms.Include(a => a.ChatroomMembers).Include(chatroom => chatroom.Messages).ToListAsync());
         }
+
+
         [HttpGet("Edit")]
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -54,7 +110,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var chatroom = await DbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
             if (chatroom == null)
             {
                 return NotFound();
@@ -78,8 +134,8 @@ namespace SWARocketChat.Controllers
             {
                 try
                 {
-                    DbContext.Update(chatroom);
-                    await DbContext.SaveChangesAsync();
+                    _dbContext.Update(chatroom);
+                    await _dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,7 +161,7 @@ namespace SWARocketChat.Controllers
                 return NotFound();
             }
 
-            var chatroom = await DbContext.Chatrooms
+            var chatroom = await _dbContext.Chatrooms
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (chatroom == null)
             {
@@ -119,15 +175,30 @@ namespace SWARocketChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var chatroom = await DbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
-            DbContext.Chatrooms.Remove(chatroom);
-            await DbContext.SaveChangesAsync();
+            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            //var chatroommember = await _dbContext.ChatroomMembers.SingleOrDefaultAsync(c => c.ChatroomId == id);
+
+            //_dbContext.ChatroomMembers.Remove(chatroommember);
+            _dbContext.Chatrooms.Remove(chatroom);
+            await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ChatroomExists(Guid id)
         {
-            return DbContext.Chatrooms.Any(e => e.Id == id);
+            return _dbContext.Chatrooms.Any(e => e.Id == id);
+        }
+    }
+
+    public class JsonData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public JsonData(int id, string name)
+        {
+            Id = id;
+            Name = name;
         }
     }
 }

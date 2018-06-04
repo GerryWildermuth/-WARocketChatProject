@@ -18,6 +18,5 @@ namespace SWARocketChat.Models
         public DateTime CreationDate { get; set; } = DateTime.Today;
         public ChatroomMembers ChatroomMembers { get; set; }
         public ICollection<Message> Messages { get; set; }
-        public Guid MessageId { get; set; }
     }
 }
