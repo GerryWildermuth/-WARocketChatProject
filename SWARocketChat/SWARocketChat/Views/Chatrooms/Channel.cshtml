@@ -10,31 +10,51 @@
         <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
     </span>
 }
-<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 70%; bottom: 0; position: fixed;">
+<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 100%; bottom: 0; position: fixed;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id"/>
-    <table class="table" style="height: 80%">
+    <table class="table" style="height: 100%">
         <thead>
         <tr style="font-size: 15px; color: #9ea2a8"></tr>
         </thead>
-        <tbody>
-        @if (Model.Chatroom.Messages != null)
+        <tbody style="overflow-x: auto">
+            @if (Model.Chatroom.Messages != null)
             {
-                foreach (var message in Model.Chatroom.Messages.Reverse())
+                var item = Model.Chatroom.Messages.Reverse().ToList();
+                var length = item.Count();
+                for (var i = 0; i < length; i++)
                 {
-                    <tr style="cursor: pointer">
+                    
+                    
+                    <tr>
                         <td style="width: 100%">
-                            @message.User
-                            @if (@message.User.UserImage != null)
+                            <div style="margin:-25px 0 15px 0 ; text-align: center;">
+                                @if (i > 0)
+                                {
+                                    if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
+                                    {
+                                        @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                    }
+                                }
+                                <span style="background-color: white; z-index: 2000;padding: 0 30px">
+                                    @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                </span>
+                            </div>
+                            @if (@item[i].User.UserImage != null)
                             {
-                                <img src="@message.User.UserImage" alt="" style="max-width: 30px;max-height: 20px" />
+                                <img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />
                             }
-                            @message.MessageTime.ToString("HH:mm:ss tt")
-                            <br />
-                            @message.MessageString
+                            <span style="font-size: medium">
+                                @item[i].User
+                            </span>
+                                <span style="font-size: small">
+                                    @item[i].MessageTime.ToString("HH:mm")
+                                </span>
+                                <br />
+                                @item[i].MessageString
                         </td>
                     </tr>
                 }
-        }
+            }
         </tbody>
     </table>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
