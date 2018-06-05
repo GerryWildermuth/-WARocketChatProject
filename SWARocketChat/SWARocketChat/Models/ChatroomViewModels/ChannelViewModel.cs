@@ -1,16 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SWARocketChat.Models
+namespace SWARocketChat.Models.ChatroomViewModels
 {
-    public class Message
+    public class ChannelViewModel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
+        [Display(Name = "MessageString")]
         public string MessageString { get; set; }
-        public DateTime MessageTime { get; set; } = DateTime.Now;
-        [Required]
-        public ApplicationUser User { get; set; }
         public Chatroom Chatroom { get; set; }
         [Required]
         public Guid ChatroomId { get; set; }

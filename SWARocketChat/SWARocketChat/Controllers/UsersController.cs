@@ -18,12 +18,6 @@ namespace SWARocketChat.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ILogger _logger;
-        private readonly UrlEncoder _urlEncoder;
-
-        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-        private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
         
         public UsersController(
             UserManager<ApplicationUser> userManager,
@@ -34,9 +28,6 @@ namespace SWARocketChat.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
-            _logger = logger;
-            _urlEncoder = urlEncoder;
         }
         [TempData]
         public string StatusMessage { get; set; }
@@ -70,13 +61,11 @@ namespace SWARocketChat.Controllers
             {
                 return View(model);
             }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
             if (model.Email != user.Email)
             {
                 var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
@@ -84,7 +73,8 @@ namespace SWARocketChat.Controllers
                 {
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
-            }if (model.Username != user.UserName)
+            }
+            if (model.Username != user.UserName)
             {
                 var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
                 if (!setUserNameResult.Succeeded)
@@ -92,8 +82,6 @@ namespace SWARocketChat.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting UserName for user with ID '{user.Id}'.");
                 }
             }
-
-
             if (model.Userimage != user.UserImage)
             {
                 user.UserImage = model.Userimage;
@@ -103,7 +91,6 @@ namespace SWARocketChat.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting UserImage for user with ID '{user.Id}'.");
                 }
             }
-
             StatusMessage = "Your profile has been updated";
             return RedirectToAction("Index","Users");
         }

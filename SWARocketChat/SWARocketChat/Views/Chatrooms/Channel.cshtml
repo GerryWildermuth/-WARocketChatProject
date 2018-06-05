@@ -1,0 +1,66 @@
+﻿@model SWARocketChat.Models.ChatroomViewModels.ChannelViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header
+{
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        @Model.Chatroom.ChatroomName
+        <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
+    </span>
+}
+<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 100%; bottom: 0; position: fixed;">
+    <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id"/>
+    <table class="table" style="height: 100%">
+        <thead>
+        <tr style="font-size: 15px; color: #9ea2a8"></tr>
+        </thead>
+        <tbody style="overflow-x: auto">
+            @if (Model.Chatroom.Messages != null)
+            {
+                var item = Model.Chatroom.Messages.Reverse().ToList();
+                var length = item.Count();
+                for (var i = 0; i < length; i++)
+                {
+                    
+                    
+                    <tr>
+                        <td style="width: 100%">
+                            <div style="margin:-25px 0 15px 0 ; text-align: center;">
+                                @if (i > 0)
+                                {
+                                    if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
+                                    {
+                                        @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                    }
+                                }
+                                <span style="background-color: white; z-index: 2000;padding: 0 30px">
+                                    @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                </span>
+                            </div>
+                            @if (@item[i].User.UserImage != null)
+                            {
+                                <img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />
+                            }
+                            <span style="font-size: medium">
+                                @item[i].User
+                            </span>
+                                <span style="font-size: small">
+                                    @item[i].MessageTime.ToString("HH:mm")
+                                </span>
+                                <br />
+                                @item[i].MessageString
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group" style="display: flex;">
+        <span asp-validation-for="MessageString" class="text-danger"></span>
+        <input asp-for="MessageString" value="" placeholder="Message" class="form-control" />
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>

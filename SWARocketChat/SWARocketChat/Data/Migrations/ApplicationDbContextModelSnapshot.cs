@@ -316,9 +316,10 @@ namespace SWARocketChat.Data.Migrations
 
             modelBuilder.Entity("SWARocketChat.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.ChatroomMembers")
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
                         .WithMany("Users")
-                        .HasForeignKey("ChatroomMembersId");
+                        .HasForeignKey("ChatroomMembersId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SWARocketChat.Models.FriendList")
                         .WithMany("User")

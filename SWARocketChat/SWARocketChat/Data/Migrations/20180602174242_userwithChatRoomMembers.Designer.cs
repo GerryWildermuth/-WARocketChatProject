@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180602102641_revert")]
-    partial class revert
+    [Migration("20180602174242_userwithChatRoomMembers")]
+    partial class userwithChatRoomMembers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -317,9 +317,10 @@ namespace SWARocketChat.Data.Migrations
 
             modelBuilder.Entity("SWARocketChat.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.ChatroomMembers")
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
                         .WithMany("Users")
-                        .HasForeignKey("ChatroomMembersId");
+                        .HasForeignKey("ChatroomMembersId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SWARocketChat.Models.FriendList")
                         .WithMany("User")
