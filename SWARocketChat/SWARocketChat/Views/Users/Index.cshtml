@@ -6,17 +6,46 @@
 }
 @section header
     {
-        <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
-            <a class="navbar" href="#" style="min-width: 280px">
-                Mein Konto
-            </a>
-            <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-                Profil
+<nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
 
-                <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
 
-            </span>
-        </nav>
+
+    <div class="navbar" style="min-width: 280px">
+
+        <ul class="flex-container">
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="fas fa-user-circle"></i>
+            </li>
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="fas fa-search"></i>
+                <span class="tooltiptext">Search</span>
+            </li>
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="fas fa-globe"></i>
+                <span class="tooltiptext">Directory</span>
+            </li>
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="fas fa-bars"></i>
+                <span class="tooltiptext">View Mode</span>
+            </li>
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="fas fa-sort-alpha-down"></i>
+                <span class="tooltiptext">Sort</span>
+            </li>
+            <li class="flex-item tooltips">
+                <i style="font-size:32px;" class="far fa-edit"></i>
+                <span class="tooltiptext">Create a New Channel</span>
+            </li>
+        </ul>
+
+    </div>
+
+    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        Profil
+        <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
+
+    </span>
+</nav>
 }
 @section LeftNav
     {
@@ -24,7 +53,7 @@
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" asp-action="Settings" asp-controller="Users">
+                    <a class="nav-link active" asp-action="Settings" asp-controller="Users" style="color: black">
                         <span data-feather="home"></span>
                         Settings <span class="sr-only">(current)</span>
                     </a>
@@ -47,6 +76,9 @@
 }
 
 <style>
+    .nav-link:hover {
+        background-color: #BBB;
+    }
     .center {
         /*display: flex;
         justify-content: center;
@@ -57,8 +89,63 @@
         left: 50%;
         transform: translate(-50%, 0%);
     }
+    .flex-container {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+  
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+    }
+
+    .flex-item {
+        width: 32px;
+        height: 32px;
+        margin: 3px;
+    }
+    .tooltips {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltips .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+    
+       
+        position: absolute;
+        z-index: 1;
+        top: 150%;
+        left: 50%;
+        margin-left: -60px;
+    }
+
+    .tooltips .tooltiptext::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    }
+
+    .tooltips:hover .tooltiptext {
+        visibility: visible;
+    }
 </style>
 <div>
+    
     <form class="center" asp-action="Index" id="ProfileForm">
         <fieldset>
             <legend style="margin-bottom: 2.5em;">Profildetails</legend>
@@ -67,7 +154,7 @@
                     <label>Profilbild</label>
                     <div>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Id"/>
                         <div>
                             <div style="float: left; padding-right: 20px;" class="avatar">
                                 <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="height: 150px; width: 150px;"/>
@@ -136,11 +223,11 @@
                             <td>
                                 <button class="btn">mein Konto löschen</button>
                                 <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                                
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div></div>
             </div>
         </fieldset>
     </form>
