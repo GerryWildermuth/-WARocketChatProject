@@ -79,7 +79,7 @@ namespace SWARocketChat.Controllers
                     Users = new Collection<ApplicationUser> { currentUser },
                     ChatroomId = chatroom.Id
                 };
-                if(model.ChatroomMembers.Count>0)
+                if(model.ChatroomMembers!=null)
                     foreach (var member in model.ChatroomMembers)
                     {
                         var user = await _userManager.FindByNameAsync(member);
