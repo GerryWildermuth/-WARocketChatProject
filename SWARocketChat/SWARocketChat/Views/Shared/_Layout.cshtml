@@ -16,7 +16,9 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/home.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap-4.1.0/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.1.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.1.1/css/bootstrap-grid.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.1.1/css/bootstrap-reboot.min.css" />
         <link href="~/css/jquery-ui.min.css" rel="stylesheet" />
         <link href="~/css/jquery-ui.structure.min.css" rel="stylesheet" />
         <link href="~/css/jquery-ui.theme.min.css" rel="stylesheet" />
@@ -29,7 +31,8 @@
     </environment>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/popper.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
+    @*<script src="~/lib/bootstrap-4.1.1/js/bootstrap.bundle.js"></script>*@
+    <script src="~/lib/bootstrap-4.1.1/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/jquery-ui.min.js"></script>
     <script src="~/js/select2.min.js"></script>
@@ -38,7 +41,7 @@
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
     <a class="navbar" asp-action="Index"asp-controller="Home" style="min-width: 280px">
-    Bilder and Stuff
+        Bilder and Stuff
     </a>
     @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
     @if (IsSectionDefined("header"))
@@ -47,61 +50,61 @@
     }
     @if (!IsSectionDefined("header"))
     {
-            <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08)">
-                ControllerName
-            </span>
+        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08)">
+            ControllerName
+        </span>
     }
 </nav>
-    <div class="container-fluid">
-        <div class="row">
-            @if (IsSectionDefined("LeftNav"))
-            {
-                @RenderSection("LeftNav")
-            }
-            @if (!IsSectionDefined("LeftNav"))
-            {
-                <nav class="d-none d-md-block bg-dark sidebar"style="min-width: 280px">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-action="Index" asp-controller="Chatrooms">
-                                    <span data-feather="home"></span>
-                                    Chatrooms Index
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file"></span>
-                                    Orders
-                                </a>
-                            </li>
-                        </ul>
-                        
-                        
-                        
-
-                        <footer class="footer">
-                            <a href="https://github.com/RocketChat/Rocket.Chat" target="_blank">
-                                <img src="~/images/logo.svg?v=4" alt="" style="height: 46px; display: flex;margin: 0 auto"/>
-                                <small style="position: absolute; bottom: 5px; right: 24px;color: lightgray">
-                                    <i class="fab fa-github"></i> 
-                                    Fork it on github
-                                </small>
+<div class="container-fluid">
+    <div class="row">
+        @if (IsSectionDefined("LeftNav"))
+        {
+            @RenderSection("LeftNav")
+        }
+        @if (!IsSectionDefined("LeftNav"))
+        {
+            <nav class="d-none d-md-block bg-dark sidebar"style="min-width: 280px">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-action="Index" asp-controller="Chatrooms">
+                                <span data-feather="home"></span>
+                                Chatrooms Index
+                                <span class="sr-only">(current)</span>
                             </a>
-                        </footer>
-                    </div>
-                </nav>
-            }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file"></span>
+                                Orders
+                            </a>
+                        </li>
+                    </ul>
 
 
-            <main role="main" class="main" style="padding-left: 40px; padding-right: 40px; margin-left: 280px; overflow-x: hidden;width: 100%;">
-                @RenderBody()
-            </main>
-        </div>
+
+
+                    <footer class="footer">
+                        <a href="https://github.com/RocketChat/Rocket.Chat" target="_blank">
+                            <img src="~/images/logo.svg?v=4" alt="" style="height: 46px; display: flex; margin: 0 auto"/>
+                            <small style="position: absolute; bottom: 5px; right: 24px; color: lightgray">
+                                <i class="fab fa-github"></i>
+                                Fork it on github
+                            </small>
+                        </a>
+                    </footer>
+                </div>
+            </nav>
+        }
+
+
+        <main role="main" class="main" style="padding-left: 40px; padding-right: 40px; margin-left: 280px; overflow-x: hidden; width: 100%;">
+            @RenderBody()
+        </main>
     </div>
+</div>
 
-    @*<environment include="Development">
+@*<environment include="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/js/popper.min.js" asp-append-version="true"></script>
             <script src="~/lib/bootstrap-4.1.0/js/bootstrap.js" asp-append-version="true"></script>
@@ -123,6 +126,6 @@
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>*@
 
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
 </body>
 </html>

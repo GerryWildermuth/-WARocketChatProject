@@ -15,7 +15,7 @@ namespace SWARocketChat.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string ChatroomName { get; set; }
-        public string ChatroomDesription { get; set; }
+        public string ChatroomDesription { get; set; }//Bitte UMBENNEN Achtung möglicher Datenbank drop nötig
         public string ChatroomTopic { get; set; }
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

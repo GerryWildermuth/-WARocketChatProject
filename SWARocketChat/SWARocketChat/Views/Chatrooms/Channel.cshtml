@@ -3,13 +3,143 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        background-color: white;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 84px;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        right: 25px;
+        font-size: 25px;
+        margin-left: 50px;
+    }
+
+</style>
 @section header
 {
-    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-        @Model.Chatroom.ChatroomName
-        <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
-    </span>
+<div class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+    @Model.Chatroom.ChatroomName
+    <div style="float: right; display: flex;font-size:25px">
+        <div onclick="openInfoNav()" class="btn black-tooltip" data-toggle="tooltip" data-placement="bottom" title="Room informations" >
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div onclick="openSearchNav()" class="btn black-tooltip" data-toggle="tooltip" data-placement="bottom" title="Search in messages">
+            <i class="fas fa-search"></i>
+        </div>
+        <div onclick="openMembersNav()" class="btn black-tooltip" data-toggle="tooltip" data-placement="bottom" title="Members">
+            <i class="fas fa-users"></i>
+        </div>
+        <div onclick="openAddUserNav()" class="btn black-tooltip" data-toggle="tooltip" data-placement="bottom" title="Add a User">
+            <i class="fas fa-user-plus"></i>
+        </div>
+    </div>
+</div>
 }
+<div id="roomInfo" class="sidenav" style="border-left: lightgray solid thin;">
+    <div style="margin: 0 0 0 20px">
+    <div style="display: flex;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeInfoNav()">&times;</a>
+        <div style="display: flex; align-items: center; font-size: 20px">
+            <i class="fas fa-info-circle"></i>
+            <span style="margin-left: 10px">Rauminformation</span>
+        </div>
+    </div>
+    <div style="margin: 120px auto 0 auto; text-align: center">
+        <h4>@Model.Chatroom.ChatroomName</h4>
+    </div>
+    <div style="margin-bottom: 37px">
+        <label>Description</label>
+        <h6>@Model.Chatroom.ChatroomDesription test</h6>
+    </div>
+    <div>
+        <label>Topic</label>
+        <h6>@Model.Chatroom.ChatroomTopic test</h6>
+    </div>
+    <div style="margin: 300px 0 0 0; display: flex;">
+        <button style="width: 35%; margin: 0 10px 0 0;" class="btn btn-">
+            <i class="fas fa-pencil-alt" style="margin: 0 10px 0 0"></i>Edit
+        </button>
+        <button style="width: 30%; margin: 0 10px;" class="btn btn-">
+            <i class="far fa-eye-slash" style="margin: 0 10px 0 0"></i>Hide
+        </button>
+        <button style="width: 35%; margin: 0 20px 0 10px;" class="btn btn-danger">
+            <i class="fas fa-sign-out-alt" style="margin: 0 10px 0 0"></i>Leave
+        </button>
+    </div>
+    <div style="width: 100%; position: absolute; bottom: 30px">
+        <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-danger">
+            <div style="margin: 0 auto">
+                <i class="fas fa-trash-alt" style="margin: 0 10px 0 0"></i>Delete
+            </div>
+        </button>
+    </div>
+    </div>
+</div>
+
+
+<div id="messageSearch" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeSearchNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+
+
+<div id="roomMembers" class="sidenav">
+    <div style="margin: 0 0 0 20px">
+        <div style="display: flex;">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeMembersNav()">&times;</a>
+            <div style="display: flex; align-items: center; font-size: 20px">
+                <i class="fas fa-users"></i>
+                <span style="margin-left: 10px">Rauminformation</span>
+            </div>
+        </div>
+        
+        
+
+        <div style="width: 100%; position: absolute; bottom: 30px" onclick="openAddUserNav()">
+            <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-primary">
+                <div style="margin: 0 auto">
+                    <i class="fas fa-plus" style="margin: 0 10px 0 0"></i>Invite user
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="roomAddUser" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeAddUserNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+
 <form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 100%; bottom: 0; position: fixed;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id"/>
     <table class="table" style="height: 100%">
@@ -67,3 +197,50 @@
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
+<script>
+    function openInfoNav() {
+        document.getElementById("roomInfo").style.width = "400px";
+        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("roomMembers").style.width = "0px";
+        document.getElementById("roomAddUser").style.width = "0px";
+    }
+    function closeInfoNav() {
+        document.getElementById("roomInfo").style.width = "0px";
+    }
+
+
+    function openSearchNav() {
+        document.getElementById("messageSearch").style.width = "400px";
+        document.getElementById("roomMembers").style.width = "0px";
+        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("roomInfo").style.width = "0px";
+    }
+    function closeSearchNav() {
+        document.getElementById("messageSearch").style.width = "0px";
+    }
+
+
+    function openMembersNav() {
+        document.getElementById("roomMembers").style.width = "400px";
+        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("messageSearch").style.width = "0px";
+    }
+
+    function closeMembersNav() {
+        document.getElementById("roomMembers").style.width = "0px";
+    }
+
+
+    function openAddUserNav() {
+        document.getElementById("roomAddUser").style.width = "400px";
+        document.getElementById("roomMembers").style.width = "0px";
+        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("messageSearch").style.width = "0px";
+    }
+
+    function closeAddUserNav() {
+        document.getElementById("roomAddUser").style.width = "0px";
+    }
+
+</script>
