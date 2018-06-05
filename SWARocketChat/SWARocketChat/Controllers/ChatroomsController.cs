@@ -105,10 +105,21 @@ namespace SWARocketChat.Controllers
         }
 
         [HttpGet("Channel")]
-        public IActionResult Channel(Guid id)
+        public async Task<IActionResult> Channel(Guid id)
         {
-
-            var customemodel = _dbContext.Chatrooms
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentChatroom = await _dbContext.Chatrooms
+                .Include(c=>c.ChatroomMembers.Users)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (currentUser != null)
+            {
+                if (currentChatroom.ChatroomMembers.Users.Any(c => c.Id == currentUser.Id) == false)
+                {
+                    currentChatroom.ChatroomMembers.Users.Add(currentUser);
+                    _dbContext.SaveChanges();
+                }
+            }
+            var customemodel = await _dbContext.Chatrooms
                 .Include(a => a.ChatroomMembers.Users)
                 .Include(chatroom => chatroom.Messages)
                 .Where(chatroom => chatroom.Id == id)
@@ -116,8 +127,9 @@ namespace SWARocketChat.Controllers
                 {
                     Chatroom = m,
                     ChatroomId = m.Id
-                }).FirstOrDefault();
-            return View(customemodel);
+                }).FirstOrDefaultAsync();
+            
+                return View(customemodel);
         }
         
         [HttpPost("MessageCreate")]
