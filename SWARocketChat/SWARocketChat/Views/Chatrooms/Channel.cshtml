@@ -36,7 +36,17 @@
         font-size: 25px;
         margin-left: 50px;
     }
-
+    #main {
+        transition: margin-right .5s;
+    }
+    #ChannelForm {
+        transition: margin-right .5s
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        padding-right: 0 !important;
+    }
 </style>
 @section header
 {
@@ -58,189 +68,238 @@
     </div>
 </div>
 }
-<div id="roomInfo" class="sidenav" style="border-left: lightgray solid thin;">
-    <div style="margin: 0 0 0 20px">
-    <div style="display: flex;">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeInfoNav()">&times;</a>
-        <div style="display: flex; align-items: center; font-size: 20px">
-            <i class="fas fa-info-circle"></i>
-            <span style="margin-left: 10px">Rauminformation</span>
-        </div>
-    </div>
-    <div style="margin: 120px auto 0 auto; text-align: center">
-        <h4>@Model.Chatroom.ChatroomName</h4>
-    </div>
-    <div style="margin-bottom: 37px">
-        <label>Description</label>
-        <h6>@Model.Chatroom.ChatroomDesription test</h6>
-    </div>
-    <div>
-        <label>Topic</label>
-        <h6>@Model.Chatroom.ChatroomTopic test</h6>
-    </div>
-    <div style="margin: 300px 0 0 0; display: flex;">
-        <button style="width: 35%; margin: 0 10px 0 0;" class="btn btn-">
-            <i class="fas fa-pencil-alt" style="margin: 0 10px 0 0"></i>Edit
-        </button>
-        <button style="width: 30%; margin: 0 10px;" class="btn btn-">
-            <i class="far fa-eye-slash" style="margin: 0 10px 0 0"></i>Hide
-        </button>
-        <button style="width: 35%; margin: 0 20px 0 10px;" class="btn btn-danger">
-            <i class="fas fa-sign-out-alt" style="margin: 0 10px 0 0"></i>Leave
-        </button>
-    </div>
-    <div style="width: 100%; position: absolute; bottom: 30px">
-        <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-danger">
-            <div style="margin: 0 auto">
-                <i class="fas fa-trash-alt" style="margin: 0 10px 0 0"></i>Delete
-            </div>
-        </button>
-    </div>
-    </div>
-</div>
 
 
-<div id="messageSearch" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeSearchNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-</div>
 
 
-<div id="roomMembers" class="sidenav">
-    <div style="margin: 0 0 0 20px">
-        <div style="display: flex;">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeMembersNav()">&times;</a>
-            <div style="display: flex; align-items: center; font-size: 20px">
-                <i class="fas fa-users"></i>
-                <span style="margin-left: 10px">Rauminformation</span>
-            </div>
-        </div>
-        
-        
-
-        <div style="width: 100%; position: absolute; bottom: 30px" onclick="openAddUserNav()">
-            <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-primary">
-                <div style="margin: 0 auto">
-                    <i class="fas fa-plus" style="margin: 0 10px 0 0"></i>Invite user
-                </div>
-            </button>
-        </div>
-    </div>
-</div>
 
 
-<div id="roomAddUser" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeAddUserNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-</div>
-
-<form asp-action="MessageCreate" asp-controller="Chatrooms" style="width: 100%; bottom: 0; position: fixed;">
-    <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id"/>
-    <table class="table" style="height: 100%">
-        <thead>
-        <tr style="font-size: 15px; color: #9ea2a8"></tr>
-        </thead>
-        <tbody style="overflow-x: auto">
-        @if (Model.Chatroom.Messages != null)
-        {
-            var orderdMessages = Model.Chatroom.Messages.OrderBy(m => m.MessageTime);
-            var item = orderdMessages.ToList();
-            var length = item.Count();
-            for (var i = 0; i < length; i++)
-            {
-                <tr>
-                    <td style="width: 100%">
-                        <div style="margin: -25px 0 15px 0; text-align: center;">
-                            @if (i > 0)
-                            {
-                                if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
+<form asp-action="MessageCreate" asp-controller="Chatrooms" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
+    <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id" />
+    <div style="flex-grow: 1;position: relative">
+        <table class="table"id="DatatableSmall">
+            <thead>
+                <tr style="font-size: 15px; color: #9ea2a8"></tr>
+            </thead>
+            <tbody style="overflow-x: auto">
+                @if (Model.Chatroom.Messages != null)
+                {
+                    var orderdMessages = Model.Chatroom.Messages.OrderBy(m => m.MessageTime);
+                    var item = orderdMessages.ToList();
+                    var length = item.Count();
+                    for (var i = 0; i < length; i++)
+                    {
+                        <tr>
+                            <td style="width: 100%">
+                                <div style="margin: -25px 0 15px 0; text-align: center;">
+                                    @if (i > 0)
+                                    {
+                                        if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
+                                        {
+                                            <span style="background-color: white; z-index: 2000; padding: 0 30px">
+                                                @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                            </span>
+                                        }
+                                    }
+                                    @if (i == 0)
+                                    {
+                                        <span style="background-color: white; z-index: 2000; padding: 0 30px">
+                                            @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                        </span>
+                                    }
+                                    
+                                </div>
+                                @if (item[i].User != null)
                                 {
-                                    @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                    if (@item[i].User.UserImage != null)
+                                    {
+                                        <img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />
+                                    }
+                                    <span style="font-size: medium">
+                                        @item[i].User.UserName
+                                    </span>
                                 }
-                            }
-                            <span style="background-color: white; z-index: 2000; padding: 0 30px">
-                                @item[i].MessageTime.ToString("d.MMMM yyyy")
-                            </span>
-                        </div>
-                        @if (item[i].User != null)
-                        {
-                            if (@item[i].User.UserImage != null)
-                            {
-                                <img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px"/>
-                            }
-                            <span style="font-size: medium">
-                                @item[i].User.UserName
-                            </span>
-                        }
-                        <span style="font-size: small">
-                            @item[i].MessageTime.ToString("HH:mm")
-                        </span>
-                        <br/>
-                        @item[i].MessageString
+                                <span style="font-size: small">
+                                    @item[i].MessageTime.ToString("HH:mm")
+                                </span>
+                                <br />
+                                @item[i].MessageString
 
-                    </td>
-                </tr>
-            }
-        }
-        </tbody>
-    </table>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group" style="display: flex;">
+    <div class="form-group" style="display: flex;margin-right: 20px">
         <span asp-validation-for="MessageString" class="text-danger"></span>
         <input asp-for="MessageString" value="" placeholder="Message" class="form-control" />
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
+
+
+
+    <div id="roomInfo" class="sidenav" style="border-left: lightgray solid thin;">
+        <div style="margin: 0 0 0 20px">
+            <div style="display: flex;">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeInfoNav()">&times;</a>
+                <div style="display: flex; align-items: center; font-size: 20px">
+                    <i class="fas fa-info-circle"></i>
+                    <span style="margin-left: 10px">Rauminformation</span>
+                </div>
+            </div>
+            <div style="margin: 120px auto 0 auto; text-align: center">
+                <h4>@Model.Chatroom.ChatroomName</h4>
+            </div>
+            <div style="margin-bottom: 37px">
+                <label>Description</label>
+                <h6>@Model.Chatroom.ChatroomDesription test</h6>
+            </div>
+            <div>
+                <label>Topic</label>
+                <h6>@Model.Chatroom.ChatroomTopic test</h6>
+            </div>
+            <div style="margin: 300px 0 0 0; display: flex;">
+                <button style="width: 35%; margin: 0 10px 0 0;" class="btn">
+                    <i class="fas fa-pencil-alt" style="margin: 0 10px 0 0"></i>Edit
+                </button>
+                <button style="width: 30%; margin: 0 10px;" class="btn">
+                    <i class="far fa-eye-slash" style="margin: 0 10px 0 0"></i>Hide
+                </button>
+                <button style="width: 35%; margin: 0 20px 0 10px;" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt" style="margin: 0 10px 0 0"></i>Leave
+                </button>
+            </div>
+            <div style="width: 100%; position: absolute; bottom: 30px">
+                <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-danger" asp-action="Delete" asp-controller="Chatrooms" asp-route-id="@Model.ChatroomId">
+                    <div style="margin: 0 auto">
+                        <i class="fas fa-trash-alt" style="margin: 0 10px 0 0"></i>Delete
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="messageSearch" class="sidenav" style="border-left: lightgray solid thin;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSearchNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+    </div>
+
+
+    <div id="roomMembers" class="sidenav" style="border-left: lightgray solid thin;">
+        <div style="margin: 0 0 0 20px">
+            <div style="display: flex;">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeMembersNav()">&times;</a>
+                <div style="display: flex; align-items: center; font-size: 20px">
+                    <i class="fas fa-users"></i>
+                    <span style="margin-left: 10px">Rauminformation</span>
+                </div>
+            </div>
+            <table class="table" id="">
+                <thead>
+
+                </thead>
+                <tbody>
+                <tr>
+                    @foreach (var item in Model.Chatroom.ChatroomMembers.Users)
+                    {
+                        <td style="display: flex;margin: 5px 0">
+                            <img src="@item.UserImage" alt="" style="width: 23px;height: 23px"/>
+                            @item.UserName
+                        </td>
+                    }
+                </tr>
+                </tbody>
+
+            </table>
+
+
+            <div style="width: 100%; position: absolute; bottom: 30px" onclick="openAddUserNav()">
+                <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-primary">
+                    <div style="margin: 0 auto">
+                        <i class="fas fa-plus" style="margin: 0 10px 0 0"></i>Invite user
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="roomAddUser" class="sidenav" style="border-left: lightgray solid thin;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeAddUserNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+    </div>
 </form>
 <script>
+    //var SmallTable = $("#DatatableSmall").DataTable(
+    //    {
+    //        //scrollY: "74vh",
+    //        //scrollCollapse: true,
+    //        hover: true
+    //    });
+    $(document).ready(function() {
+        $('#DatatableSmall').DataTable();
+    } );
     function openInfoNav() {
         document.getElementById("roomInfo").style.width = "400px";
-        document.getElementById("messageSearch").style.width = "0px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("main").style.marginRight = "400px";
+        document.getElementById("messageSearch").style.width = "0";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomAddUser").style.width = "0";
     }
     function closeInfoNav() {
-        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("main").style.marginRight = "0";
+        document.getElementById("roomInfo").style.width = "0";
     }
 
 
     function openSearchNav() {
         document.getElementById("messageSearch").style.width = "400px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomAddUser").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("main").style.marginRight = "400px";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomAddUser").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
     }
     function closeSearchNav() {
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("main").style.marginRight = "0";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
 
     function openMembersNav() {
         document.getElementById("roomMembers").style.width = "400px";
-        document.getElementById("roomAddUser").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("main").style.marginRight = "400px";
+        document.getElementById("roomAddUser").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
     function closeMembersNav() {
-        document.getElementById("roomMembers").style.width = "0px";
+        document.getElementById("main").style.marginRight = "0";
+        document.getElementById("roomMembers").style.width = "0";
     }
 
 
     function openAddUserNav() {
         document.getElementById("roomAddUser").style.width = "400px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("main").style.marginRight = "400px";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
     function closeAddUserNav() {
-        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("main").style.marginRight = "0";
+        document.getElementById("roomAddUser").style.width = "0";
     }
 
 </script>
