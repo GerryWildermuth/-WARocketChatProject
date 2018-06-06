@@ -14,26 +14,26 @@
 
         <ul class="flex-container">
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="fas fa-user-circle"></i>
+                <i style="font-size:24px;" class="fas fa-user-circle" title="User" data-toggle="popover" data-placement="top" data-content="online"></i>
             </li>
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="fas fa-search"></i>
+                <i style="font-size:24px;" class="fas fa-search"></i>
                 <span class="tooltiptext">Search</span>
             </li>
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="fas fa-globe"></i>
+                <a asp-action="Channel" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: black" class="fas fa-globe"></a>
                 <span class="tooltiptext">Directory</span>
             </li>
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="fas fa-bars"></i>
+                <i style="font-size:24px;" class="fas fa-bars"></i>
                 <span class="tooltiptext">View Mode</span>
             </li>
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="fas fa-sort-alpha-down"></i>
+                <i style="font-size:24px;" class="fas fa-sort-alpha-down"></i>
                 <span class="tooltiptext">Sort</span>
             </li>
             <li class="flex-item tooltips">
-                <i style="font-size:32px;" class="far fa-edit"></i>
+                <a asp-action="Create" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: black" class="far fa-edit"></a>
                 <span class="tooltiptext">Create a New Channel</span>
             </li>
         </ul>
@@ -242,6 +242,10 @@
         }
         reader.readAsDataURL(file);
     }
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();   
+    });
 </script>
 
 
