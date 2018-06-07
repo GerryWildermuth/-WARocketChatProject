@@ -72,17 +72,17 @@
     </div>
     <div style="margin-bottom: 37px">
         <label>Description</label>
-        <h6>@Model.Chatroom.ChatroomDesription test</h6>
+        <h6>@Model.Chatroom.ChatroomDesription</h6>
     </div>
     <div>
         <label>Topic</label>
-        <h6>@Model.Chatroom.ChatroomTopic test</h6>
+        <h6>@Model.Chatroom.ChatroomTopic</h6>
     </div>
     <div style="margin: 300px 0 0 0; display: flex;">
-        <button style="width: 35%; margin: 0 10px 0 0;" class="btn btn-">
+        <button style="width: 35%; margin: 0 10px 0 0;" class="btn">
             <i class="fas fa-pencil-alt" style="margin: 0 10px 0 0"></i>Edit
         </button>
-        <button style="width: 30%; margin: 0 10px;" class="btn btn-">
+        <button style="width: 30%; margin: 0 10px;" class="btn">
             <i class="far fa-eye-slash" style="margin: 0 10px 0 0"></i>Hide
         </button>
         <button style="width: 35%; margin: 0 20px 0 10px;" class="btn btn-danger">
@@ -161,12 +161,17 @@
                             {
                                 if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
                                 {
-                                    @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                    <span style="background-color: white; z-index: 2000; padding: 0 30px">
+                                        @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                    </span>
                                 }
                             }
+                            @if (i==0)
+                            {
                             <span style="background-color: white; z-index: 2000; padding: 0 30px">
                                 @item[i].MessageTime.ToString("d.MMMM yyyy")
                             </span>
+                            }
                         </div>
                         @if (item[i].User != null)
                         {
@@ -200,47 +205,47 @@
 <script>
     function openInfoNav() {
         document.getElementById("roomInfo").style.width = "400px";
-        document.getElementById("messageSearch").style.width = "0px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("messageSearch").style.width = "0";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomAddUser").style.width = "0";
     }
     function closeInfoNav() {
-        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("roomInfo").style.width = "0";
     }
 
 
     function openSearchNav() {
         document.getElementById("messageSearch").style.width = "400px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomAddUser").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomAddUser").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
     }
     function closeSearchNav() {
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
 
     function openMembersNav() {
         document.getElementById("roomMembers").style.width = "400px";
-        document.getElementById("roomAddUser").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("roomAddUser").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
     function closeMembersNav() {
-        document.getElementById("roomMembers").style.width = "0px";
+        document.getElementById("roomMembers").style.width = "0";
     }
 
 
     function openAddUserNav() {
         document.getElementById("roomAddUser").style.width = "400px";
-        document.getElementById("roomMembers").style.width = "0px";
-        document.getElementById("roomInfo").style.width = "0px";
-        document.getElementById("messageSearch").style.width = "0px";
+        document.getElementById("roomMembers").style.width = "0";
+        document.getElementById("roomInfo").style.width = "0";
+        document.getElementById("messageSearch").style.width = "0";
     }
 
     function closeAddUserNav() {
-        document.getElementById("roomAddUser").style.width = "0px";
+        document.getElementById("roomAddUser").style.width = "0";
     }
 
 </script>
