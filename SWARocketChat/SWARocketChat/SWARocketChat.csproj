@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-WebApplication1-3EC72FD0-2D67-4E98-93A9-4D229832DEBA</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\_main.css" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />

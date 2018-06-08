@@ -1,6 +1,4 @@
-﻿@import url(../lib/bootstrap-4.1.0/css/bootstrap.css);
-/*@import "_variables.scss";*/
-/*@import url('../lib/bootstrap-material-design/css/bootstrap-material-design.min.css');*/
+﻿/*@import url(../lib/bootstrap-4.0.0/css/bootstrap.css);*/
 body {
   font-size: .875rem; }
 
@@ -99,3 +97,6 @@ body {
 .sidebar .nav-link {
   color: #fff; }
 
+.test {
+    margin: 0;
+}

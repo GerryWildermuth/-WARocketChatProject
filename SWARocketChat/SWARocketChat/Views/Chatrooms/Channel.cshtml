@@ -47,6 +47,10 @@
         flex-direction: column;
         padding-right: 0 !important;
     }
+    #DatatableChannel_wrapper > div > div > div > div.dataTables_scrollHead
+    {
+        display:none;
+    }
 </style>
 @section header
 {
@@ -77,9 +81,13 @@
 <form asp-action="MessageCreate" asp-controller="Chatrooms" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id" />
     <div style="flex-grow: 1;position: relative">
-        <table class="table"id="DatatableSmall" style="margin-top:20px ;">
+        <table class="table"id="DatatableChannel" style="margin-top:20px ;">
             <thead>
-                <tr style="font-size: 15px; color: #9ea2a8"></tr>
+            <tr style="font-size: 15px; color: #9ea2a8">
+                <th>
+                    
+                </th>
+            </tr>
             </thead>
             <tbody style="overflow-x: auto">
                 @if (Model.Chatroom.Messages != null)
@@ -113,7 +121,7 @@
                                 {
                                     if (@item[i].User.UserImage != null)
                                     {
-                                        <img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />
+                                        @*<img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />*@
                                     }
                                     <span style="font-size: medium">
                                         @item[i].User.UserName
