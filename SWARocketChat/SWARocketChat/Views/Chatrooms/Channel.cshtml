@@ -77,7 +77,7 @@
 <form asp-action="MessageCreate" asp-controller="Chatrooms" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id" />
     <div style="flex-grow: 1;position: relative">
-        <table class="table"id="DatatableSmall">
+        <table class="table"id="DatatableSmall" style="margin-top:20px ;">
             <thead>
                 <tr style="font-size: 15px; color: #9ea2a8"></tr>
             </thead>
@@ -103,7 +103,7 @@
                                     }
                                     @if (i == 0)
                                     {
-                                        <span style="background-color: white; z-index: 2000; padding: 0 30px">
+                                        <span style="background-color: white; z-index: 2000; padding: 0 30px; ">
                                             @item[i].MessageTime.ToString("d.MMMM yyyy")
                                         </span>
                                     }
