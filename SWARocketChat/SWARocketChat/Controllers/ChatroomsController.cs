@@ -26,6 +26,7 @@ namespace SWARocketChat.Controllers
             _signInManager = signInManager;
             _dbContext = context;
         }
+
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
@@ -35,12 +36,45 @@ namespace SWARocketChat.Controllers
                 .Include(u => u.ChatroomMembers.Users)
                 .ToListAsync());
         }
-
+        
+        [HttpGet("Channel")]
+        public async Task<IActionResult> Channel(Guid id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentChatroom = await _dbContext.Chatrooms
+                .Include(c => c.ChatroomMembers.Users)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (currentUser != null)
+            {
+                if (currentChatroom.ChatroomMembers.Users.Any(c => c.Id == currentUser.Id) == false)
+                {
+                    currentChatroom.ChatroomMembers.Users.Add(currentUser);
+                    _dbContext.SaveChanges();
+                }
+            }
+            var customemodel = await _dbContext.Chatrooms
+                .Include(a => a.ChatroomMembers.Users)
+                .Include(chatroom => chatroom.Messages)
+                .Where(chatroom => chatroom.Id == id)
+                .Select(m => new ChannelViewModel
+                {
+                    Chatroom = m,
+                    ChatroomId = m.Id
+                }).FirstOrDefaultAsync();
+            var users = _userManager.Users;
+            ViewBag.Users = users.Select(x =>
+                new SelectListItem()
+                {
+                    Text = x.UserName,
+                    Value = x.ToString()
+                });
+            return View(customemodel);
+        }
         [HttpGet("Create")]
         public IActionResult Create()
         {
             var users = _userManager.Users;
-            ViewBag.Users = users.Select(x => 
+            ViewBag.Users = users.Select(x =>
                 new SelectListItem()
                 {
                     Text = x.UserName,
@@ -48,7 +82,6 @@ namespace SWARocketChat.Controllers
                 });
             return View();
         }
-
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateChatroomViewModel model)
@@ -86,7 +119,7 @@ namespace SWARocketChat.Controllers
                     };
 
 
-                    if (model.ChatroomMembers.Count > 0)
+                    if (model.ChatroomMembers != null)
                         foreach (var member in model.ChatroomMembers)
                         {
                             var user = await _userManager.FindByNameAsync(member);
@@ -102,34 +135,6 @@ namespace SWARocketChat.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
-        }
-
-        [HttpGet("Channel")]
-        public async Task<IActionResult> Channel(Guid id)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentChatroom = await _dbContext.Chatrooms
-                .Include(c=>c.ChatroomMembers.Users)
-                .FirstOrDefaultAsync(c => c.Id == id);
-            if (currentUser != null)
-            {
-                if (currentChatroom.ChatroomMembers.Users.Any(c => c.Id == currentUser.Id) == false)
-                {
-                    currentChatroom.ChatroomMembers.Users.Add(currentUser);
-                    _dbContext.SaveChanges();
-                }
-            }
-            var customemodel = await _dbContext.Chatrooms
-                .Include(a => a.ChatroomMembers.Users)
-                .Include(chatroom => chatroom.Messages)
-                .Where(chatroom => chatroom.Id == id)
-                .Select(m => new ChannelViewModel
-                {
-                    Chatroom = m,
-                    ChatroomId = m.Id
-                }).FirstOrDefaultAsync();
-            
-                return View(customemodel);
         }
         
         [HttpPost("MessageCreate")]
@@ -158,7 +163,7 @@ namespace SWARocketChat.Controllers
             }
             return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
         }
-        
+
         //[HttpGet("Edit")]
         //public async Task<IActionResult> Edit(Guid? id)
         //{
@@ -206,7 +211,30 @@ namespace SWARocketChat.Controllers
         //    }
         //    return View(chatroom);
         //}
+        [HttpPost("AddUser")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUser(ChannelViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
+                if (chatroom.ChatroomMembers != null)
+                {
+                    foreach (var member in model.ChatroomMembers)
+                    {
+                        var user = await _userManager.FindByNameAsync(member);
+                        if (!chatroom.ChatroomMembers.Users.Contains(user))
+                            chatroom.ChatroomMembers.Users.Add(user);
+                    }
 
+                    _dbContext.Update(chatroom);
+                    await _dbContext.SaveChangesAsync();
+                }
+                return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
+            }
+            return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId });
+        }
+    
         [HttpGet("Delete")]
         public async Task<IActionResult> Delete(Guid? id)
         {

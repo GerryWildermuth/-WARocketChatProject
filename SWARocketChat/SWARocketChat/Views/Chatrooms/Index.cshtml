@@ -22,39 +22,41 @@
             <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
         </span>
 }
-<table class="table">
-    <thead>
-        <tr style="font-size: 15px;color: #9ea2a8">
-            <th style="width: 60%">
-                Name
-            </th>
-            <th style="width: 10%">
-                Members
-            </th>
-            <th style="width: 10%">
-                Creating date
-            </th>
+<div style="height: 100%;display: flex">
+        <table class="table" id="DatatableSmall" style="flex-grow: 1; position: relative;">
+            <thead>
+                <tr style="font-size: 15px;color: #9ea2a8">
+                    <th style="width: 60%">
+                        Name
+                    </th>
+                    <th style="width: 10%">
+                        Members
+                    </th>
+                    <th style="width: 10%">
+                        Creating date
+                    </th>
 
-            <th style="width: 10%"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="gotoroom" style="cursor: pointer" onclick="location.href = '@(Url.Action("Channel", "Chatrooms",new{id=item.Id}))'">
-                <td style="width: 60%">
-                # @item.ChatroomName
-                </td>
-                <td style="width: 10%">
-                @item.ChatroomMembers.Users.Count
-                </td>
-                <td style="width: 10%">
-                    @item.CreationDate.ToString("dd.MM.yyyy")
-                </td>
-                <td style="width: 10%">
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <th style="width: 10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="gotoroom" style="cursor: pointer" onclick="location.href = '@(Url.Action("Channel", "Chatrooms",new{id=item.Id}))'">
+                        <td style="width: 60%">
+                            # @item.ChatroomName
+                        </td>
+                        <td style="width: 10%">
+                            @item.ChatroomMembers.Users.Count
+                        </td>
+                        <td style="width: 10%">
+                            @item.CreationDate.ToString("dd.MM.yyyy")
+                        </td>
+                        <td style="width: 10%">
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>

@@ -143,13 +143,6 @@
                 <div>
                     <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
                     <select class="js-basic-multiple js-data-ajax" multiple="multiple" asp-for="ChatroomMembers" asp-items="@ViewBag.Users" style="min-width: 558px">
-                        @*<option value="AL">Alabama</option>
-                        <option value="WY">Wyoming</option>*@
-                        @*@foreach (var item in UserManager.Users)
-                        {
-                            <option value="@item">@item.UserName</option>
-                        }*@
-                        @*@UserManager.FindByNameAsync(item.UserName)*@
                     </select>
                 </div>
                 <div class="form-group">
@@ -162,22 +155,7 @@
 
 </div>
 <script type="text/javascript">
-
-    $(function () {
-        $('#autocomp').autocomplete({
-            source: '/Chatrooms/AutoComplete',
-            minLength: 2,
-            select: function (event, ui) {
-               //Tags for display
-                this.value = ui.item.value;
-                return false;
-            },
-            open: function(event, ui) {
-                $(".ui-autocomplete").css("z-index", 1000);
-            }
-        });
-    });
-    $(document).ready(function() {
-        $('.js-basic-multiple').select2();
-    });
+$(document).ready(function() {
+    $('.js-basic-multiple').select2();
+});
 </script>  

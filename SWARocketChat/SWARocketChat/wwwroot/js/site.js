@@ -9,6 +9,12 @@ var SmallTable = $("#DatatableSmall").DataTable(
         //scrollCollapse: true,
         hover: true
     });
+var SmallTable = $("#DatatableLarge").DataTable(
+    {
+        //scrollY: "74vh",
+        //scrollCollapse: true,
+        hover: true
+    });
 //$("#DatatableVerticalScroll_filter").hide();
 //$(function () {
 //    $("#SearchInput").on("keyup", function () {
