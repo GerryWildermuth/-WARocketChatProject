@@ -7,47 +7,11 @@
 @section header
 {
     <link href="css/miniMenu.css" rel="stylesheet">
+    <link href="css/tooltips.css" rel="stylesheet">
 <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
     <div class="navbar" style="min-width: 280px">
-
-        <ul class="flex-container">
-            <li class="flex-item tooltips">
-                <div class="user">
-                    <i style="font-size: 24px;" class="fas fa-user-circle"></i>
-                    <ul>
-                        <li><b>User</b></li>
-                        <li><a href="#">Online</a></li>
-                        <li><a href="#">away</a></li>
-                        <li><a href="#">busy</a></li>
-                        <li><a href="#">invisible</a></li>
-                        <li><a asp-action="Index" asp-controller="Users">My Account</a></li>
-                        <li><a asp-action="Lockout" asp-controller="Account">Logout</a></li>
-                    </ul>
-                </div>
-
-
-            </li>
-            <li class="flex-item tooltips">
-                <i style="font-size:24px;" class="fas fa-search"></i>
-                <span class="tooltiptext">Search</span>
-            </li>
-            <li class="flex-item tooltips">
-                <a asp-action="Index" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: black" class="fas fa-globe"></a>
-                <span class="tooltiptext">Directory</span>
-            </li>
-            <li class="flex-item tooltips">
-                <i style="font-size:24px;" class="fas fa-bars"></i>
-                <span class="tooltiptext">View Mode</span>
-            </li>
-            <li class="flex-item tooltips">
-                <i style="font-size:24px;" class="fas fa-sort-alpha-down"></i>
-                <span class="tooltiptext">Sort</span>
-            </li>
-            <li class="flex-item tooltips">
-                <a asp-action="Create" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: black" class="far fa-edit"></a>
-                <span class="tooltiptext">Create a New Channel</span>
-            </li>
-        </ul>
+        <span>My Account</span>
+        <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
 
     </div>
 
@@ -100,66 +64,13 @@
         left: 50%;
         transform: translate(-50%, 0%);
     }
-    .flex-container {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-  
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-flow: row wrap;
-    }
-
-    .flex-item {
-        width: 32px;
-        height: 32px;
-        margin: 3px;
-    }
-    .tooltips {
-        position: relative;
-        display: inline-block;
-    }
-
-    .tooltips .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
     
-       
-        position: absolute;
-        z-index: 1;
-        top: 150%;
-        left: 50%;
-        margin-left: -60px;
-    }
-
-    .tooltips .tooltiptext::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent transparent black transparent;
-    }
-
-    .tooltips:hover .tooltiptext {
-        visibility: visible;
-    }
 </style>
 <div>
     
     <form class="center" asp-action="Index" id="ProfileForm">
         <fieldset>
-            <legend style="margin-bottom: 2.5em;">Profildetails</legend>
+            <legend style="margin-bottom: 2.5em;">Profile Details</legend>
             <div>
                 <div>
                     <label>Profilbild</label>
@@ -168,34 +79,35 @@
                         <input type="hidden" asp-for="Id"/>
                         <div>
                             <div style="float: left; padding-right: 20px;" class="avatar">
-                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="width: 150px;height: 150px; "/>
+                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="width: 150px;height: 150px; " />
                             </div>
-                        </div>
-                        <div style="float: left;">
-                            <nav>
-                                <a style="width: 48px; height: 40px; background-color: #325c99;" target="_blank" type="button" class="btn btn-secondary" href="https://www.facebook.com/RocketChatApp"><i class="fab fa-facebook-f"></i></a>
-                                <a style="width: 48px; height: 40px; background-color: #4c4c4c;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-github"></i></a>
-                                <a style="width: 48px; height: 40px; background-color: #373d47;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-gitlab"></i></a>
-                                <a style="width: 48px; height: 40px; background-color: #dd4b39;" target="_blank" type="button" class="btn btn-secondary" href="https://plus.google.com/+RocketChatApp"><i class="fab fa-google-plus-g"></i></a>
-                                <a style="width: 48px; height: 40px; background-color: #1b86bc;" target="_blank" type="button" class="btn btn-secondary" href="https://www.linkedin.com/company/rocket-chat"><i class="fab fa-linkedin-in"></i></a>
-                                @*<a style="width: 48px; height: 48px; background-color: de4f4f#;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-meteor-developer"></i></a>*@
-                                <a style="width: 48px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
 
-                            </nav>
-                            <div>
-                                <label>
-                                    <span style="margin-top: 25px;">URL für Profilbild verwenden</span>
-                                    <input style="width: 25em; height: 40px" name="avatar_url" class="rc-input__element js-avatar-url-input" placeholder="URL für Profilbild verwenden">
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Userimage" class="control-label"></label>
-                                <input id="languageCreateinputeImage" type="hidden" asp-for="Userimage"/>
-                                <input type="file" class="form-control" onchange="ImageToBase64(this)"/>
-                                @*<img id="languageCreateImagePrev" style="width: 45px; margin: 15px 0 0 0" alt="" />*@
-                                <span asp-validation-for="Userimage" class="text-danger"></span>
+                            <div style="float: left;">
+                                <nav>
+                                    <a style="width: 48px; height: 40px; background-color: #325c99;" target="_blank" type="button" class="btn btn-secondary" href="https://www.facebook.com/RocketChatApp"><i class="fab fa-facebook-f"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #4c4c4c;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-github"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #373d47;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-gitlab"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #dd4b39;" target="_blank" type="button" class="btn btn-secondary" href="https://plus.google.com/+RocketChatApp"><i class="fab fa-google-plus-g"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #1b86bc;" target="_blank" type="button" class="btn btn-secondary" href="https://www.linkedin.com/company/rocket-chat"><i class="fab fa-linkedin-in"></i></a>
+                                    @*<a style="width: 48px; height: 48px; background-color: de4f4f#;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-meteor-developer"></i></a>*@
+                                    <a style="width: 48px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
+                                </nav>
+                                @*<div style="clear:left;">
+                                    <label>
+                                        <span style="margin-top: 25px;">URL für Profilbild verwenden</span><br/>
+                                        <input style="width: 25em; height: 40px" name="avatar_url" class="rc-input__element js-avatar-url-input" placeholder="URL für Profilbild verwenden">
+                                    </label>
+                                </div>*@
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <label asp-for="Userimage" class="control-label"></label>
+                                    <input id="languageCreateinputeImage" type="hidden" asp-for="Userimage" />
+                                    <input type="file" class="form-control" onchange="ImageToBase64(this)" />
+                                    @*<img id="languageCreateImagePrev" style="width: 45px; margin: 15px 0 0 0" alt="" />*@
+                                    <span asp-validation-for="Userimage" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div style="clear: left; margin-top: 200px;">
