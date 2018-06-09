@@ -1,4 +1,4 @@
-﻿@model SWARocketChat.Models.User
+﻿@model ApplicationUser
 
 @{
     ViewData["Title"] = "Delete";
@@ -12,41 +12,12 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Username)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Username)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Password2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Password2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserImage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserImage)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+        
     </dl>
     
     <form asp-action="Delete">

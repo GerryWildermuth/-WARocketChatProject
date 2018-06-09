@@ -76,8 +76,8 @@
 <form asp-action="MessageCreate" asp-controller="Chatrooms" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id" />
     <div style="flex-grow: 1;position: relative">
+
         <table class="table"id="DatatableChannel" style="margin-top:20px ;">
-        <table class="table"id="DatatableLarge">
             <thead>
             <tr style="font-size: 15px; color: #9ea2a8">
                 <th>
@@ -100,15 +100,23 @@
                                 {
                                     if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
                                     {
-                                        <span style="background-color: white; z-index: 2000; padding: 0 30px">
+                                        <span style="background-color: white; z-index: 2000; padding: 0 30px; ">
                                             @item[i].MessageTime.ToString("d.MMMM yyyy")
                                         </span>
                                     }
                                 }
                                 @if (i == 0)
                                 {
+
                                     <span style="background-color: white; z-index: 2000; padding: 0 30px">
                                         @item[i].MessageTime.ToString("d.MMMM yyyy")
+                                            </span>
+                                    if (@item[i].User.UserImage != null)
+                                    {
+                                        @*<img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />*@
+                                    }
+                                    <span style="font-size: medium">
+                                        @item[i].User.UserName
                                     </span>
                                 }
                                     
@@ -194,8 +202,7 @@
         <a href="#">Clients</a>
         <a href="#">Contact</a>
     </div>
-
-
+    
     <div id="roomMembers" class="sidenav" style="border-left: lightgray solid thin;">
         <div style="margin: 0 0 0 20px">
             <div style="display: flex;">
