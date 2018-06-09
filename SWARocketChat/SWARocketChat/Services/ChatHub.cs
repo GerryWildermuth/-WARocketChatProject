@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
 
 namespace SWARocketChat.Services
 {
-    public class ChatHub :Hub
+    public class ChatHub
     {
         public async Task SendMessage(string user, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+
         }
     }
 }
