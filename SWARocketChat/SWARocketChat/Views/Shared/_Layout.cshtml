@@ -15,7 +15,7 @@
     <title>@ViewData["Title"] - SWARocketChat</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/home.css" />
+        <link rel="stylesheet" href="~/css/home.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-grid.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-reboot.min.css" />
@@ -83,10 +83,6 @@
                             </a>
                         </li>
                     </ul>
-
-
-
-
                     <footer class="footer">
                         <a href="https://github.com/RocketChat/Rocket.Chat" target="_blank">
                             <img src="~/images/logo.svg?v=4" alt="" style="height: 46px; display: flex; margin: 0 auto"/>
@@ -108,9 +104,10 @@
 <environment include="Development">
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="~/js/popper.min.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap-4.0.0/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
+    @*<script src="~/js/jquery-ui.min.js"></script>*@
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>

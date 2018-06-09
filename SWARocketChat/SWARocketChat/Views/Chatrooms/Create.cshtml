@@ -135,11 +135,11 @@
                     <input asp-for="Password" class="form-control" placeholder="Insert a password if you want to further secure your room"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                @*<div class="form-group ui-widget" style="margin: 0 0 40px 0">
-                    <label asp-for="ChatroomMembers" for="autocomp" class="col-form-label">Invite Users</label>
-                    <input asp-for="ChatroomMembers" type="text" id="autocomp" name="autocomp" class="form-control" placeholder="Please insert usernames" />
-                    <span asp-validation-for="ChatroomMembers" class="text-danger"></span>
-                </div>*@
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="col-form-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm your password"/>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
                 <div>
                     <label asp-for="ChatroomMembers" class="col-form-label">Invite Users</label>
                     <select class="js-basic-multiple js-data-ajax" multiple="multiple" asp-for="ChatroomMembers" asp-items="@ViewBag.Users" style="min-width: 558px">
@@ -151,8 +151,6 @@
             </form>
         </div>
     </div>
-
-
 </div>
 <script type="text/javascript">
 $(document).ready(function() {

@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SWARocketChat.Data;
@@ -13,6 +14,7 @@ using SWARocketChat.Models.ChatroomViewModels;
 namespace SWARocketChat.Controllers
 {
     [Route("Chatrooms")]
+    [Authorize]
     public class ChatroomsController : Controller 
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -107,7 +109,8 @@ namespace SWARocketChat.Controllers
                     ChatroomTopic = model.ChatroomTopic,
                     ChatroomDesription = model.ChatroomDesription,
                     Password = model.Password,
-                    Private = model.Private
+                    Private = model.Private,
+                    ChatroomMembers = new ChatroomMembers()
                 };
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
@@ -134,6 +137,14 @@ namespace SWARocketChat.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            var currentuser = _userManager.Users;
+            ViewBag.Users = currentuser.Select(x =>
+                new SelectListItem()
+                {
+                    Text = x.UserName,
+                    Value = x.ToString()
+                });
+            ModelState.AddModelError("", "Something went wrong try again");
             return View(model);
         }
         
