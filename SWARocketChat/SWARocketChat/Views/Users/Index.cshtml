@@ -5,13 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section header
-    {
+{
+    <link href="css/miniMenu.css" rel="stylesheet">
 <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
     <div class="navbar" style="min-width: 280px">
 
         <ul class="flex-container">
             <li class="flex-item tooltips">
-                <i style="font-size:24px;" class="fas fa-user-circle" title="User" data-toggle="popover" data-placement="top" data-content="online"></i>
+                <div class="user">
+                    <i style="font-size: 24px;" class="fas fa-user-circle"></i>
+                    <ul>
+                        <li><b>User</b></li>
+                        <li><a href="#">Online</a></li>
+                        <li><a href="#">away</a></li>
+                        <li><a href="#">busy</a></li>
+                        <li><a href="#">invisible</a></li>
+                        <li><a asp-action="Index" asp-controller="Users">My Account</a></li>
+                        <li><a asp-action="Lockout" asp-controller="Account">Logout</a></li>
+                    </ul>
+                </div>
+
+
             </li>
             <li class="flex-item tooltips">
                 <i style="font-size:24px;" class="fas fa-search"></i>
