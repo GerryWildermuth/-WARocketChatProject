@@ -14,8 +14,8 @@ using SWARocketChat.Services;
 
 namespace SWARocketChat.Controllers
 {
-    [Route("Chatrooms")]
     [Authorize]
+    [Route("Chatrooms")]
     public class ChatroomsController : Controller 
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -228,11 +228,28 @@ namespace SWARocketChat.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ChatroomExists(Guid id)
+        [HttpPost("AddToUserRoomList")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToUserRoomList(Guid id)
         {
-            return _dbContext.Chatrooms.Any(e => e.Id == id);
+            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var userRoomList = new UserRoomList
+            {
+                status = 0,
+            };
+            //_dbContext.UserRoomLists
+            currentUser.UserRoomList.Chatrooms.Add(chatroom);
+            _dbContext.Users.Update(currentUser);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
         //[HttpPost("Edite")]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)

@@ -11,6 +11,21 @@ var SmallTable = $("#DatatableSmall").DataTable(
         "ordering": false,
         "sort":false
     });
+var IndexTable = $("#DatatableIndex").DataTable(
+    {
+        scrollY: "95vh",
+        scrollCollapse: true,
+        "paging": false,
+        "ordering": true,
+        "sort": true,
+        "fnInitComplete": function () {
+            this.fnAdjustColumnSizing(true);
+        } 
+    });
+$(window).resize(function () {
+    if (IndexTable.exists)
+        IndexTable.fnAdjustColumnSizing();
+});
 var ChannelTable = $("#DatatableChannel").DataTable(
     {
         scrollY: "85vh",

@@ -12,6 +12,7 @@ namespace SWARocketChat.Data
         public DbSet<ChatroomMembers> ChatroomMembers { get; set; }
         public DbSet<FriendList> FriendLists { get; set; }
         public DbSet<Message>  Messages{ get; set; }
+        public DbSet<UserRoomList>  UserRoomLists{ get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }

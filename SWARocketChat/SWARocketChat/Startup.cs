@@ -37,10 +37,11 @@ namespace SWARocketChat
             });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
             services.AddWebSocketManager();
+            services.AddTransient<ChatHandler>();
             services.AddMvc();
-
-
+            
             
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
