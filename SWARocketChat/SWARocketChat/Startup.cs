@@ -39,7 +39,8 @@ namespace SWARocketChat
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddWebSocketManager();
-            services.AddTransient<ChatHandler>();
+            //services.AddTransient<ChatHandler>();
+            services.AddSingleton<ChatHandler>();
             services.AddMvc();
             
             

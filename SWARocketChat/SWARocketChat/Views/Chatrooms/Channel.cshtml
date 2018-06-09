@@ -286,7 +286,7 @@
 
 
     connection.clientMethods["receiveMessage"] = (userName,userImage,messageTime, message) => {
-        //console.log(message);
+        console.log("empfung:"+message);
         $('#DatatableChannel_Body').append('<tr> <td> ' +
             '<img src=' + userImage + ' alt="" style="width: 36px; height: 36px" />'+
             '<span style="font-size: medium;margin:0 5px 0 5px">' + userName + '</span>'+
@@ -301,21 +301,7 @@
     var userid='@Model.UserId';
     var $messagecontent = $('#message-content');
 
-    function sendmessage(e) {
-            if (e.keyCode === 13) {
-            var message = $messagecontent.val().trim();
-            if (message.length === 0) {
-                return false;
-            }
-            $.ajax({
-                url: "https://" + window.location.host + myurl,
-                data: {chatroomId:chatroomid,userid:userid,message:message},
-                method: 'GET'
-            });
-            $messagecontent.val('');
-        }
-        return false;
-    }
+
     $messagecontent.keyup(function (e) {
         if (e.keyCode === 13) {
             event.preventDefault();
@@ -323,6 +309,7 @@
             if (message.length === 0) {
                 return false;
             }
+            console.log("ajax gesendet2");
             $.ajax({
                 url: "https://" + window.location.host + myurl,
                 data: {chatroomId:chatroomid,userid:userid,message:message},
