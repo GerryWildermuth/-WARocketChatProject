@@ -10,6 +10,8 @@
 <html lang="en">
 @inject SignInManager<ApplicationUser> SignInManager
 <head>
+    <link href="~/css/miniMenu.css" rel="stylesheet">
+    <link href="~/css/tooltips.css" rel="stylesheet">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"] - SWARocketChat</title>
@@ -40,12 +42,48 @@
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar" asp-action="Index"asp-controller="Home" style="min-width: 280px">
-        Bilder and Stuff
-    </a>
+    <ul class="flex-container" style="min-width: 280px;padding-left: 20px;">
+        <li class="flex-item tooltips">
+            <div class="user">
+                <i style="font-size: 24px;color: lightgray;" class="fas fa-user-circle"></i>
+                <ul>
+                    <li><b>User</b></li>
+                    <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: #25FD06;"></i> online</a></li>
+                    <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: #F8EC0C;"></i> away</a></li>
+                    <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: red;"></i> busy</a></li>
+                    <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: lightgray;"></i> invisible</a></li>
+                    <li><a class="far fa-user" asp-action="Index" asp-controller="Users" style="font-size: 14px;"> My Account</a></li>
+                    <li><a class="fas fa-sign-out-alt" asp-action="Lockout" asp-controller="Account" style="font-size: 14px;"> sign out</a></li>
+                </ul>
+            </div>
+
+
+        </li>
+        <li class="flex-item tooltips">
+            <i style="font-size:24px; color: lightgray;" class="fas fa-search"></i>
+            <span class="tooltiptext">Search</span>
+        </li>
+        <li class="flex-item tooltips">
+            <a asp-action="Index" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: lightgray" class="fas fa-globe"></a>
+            <span class="tooltiptext">Directory</span>
+        </li>
+        <li class="flex-item tooltips">
+            <i style="font-size:24px;color: lightgray;" class="fas fa-bars"></i>
+            <span class="tooltiptext">View Mode</span>
+        </li>
+        <li class="flex-item tooltips">
+            <i style="font-size:24px;color: lightgray;" class="fas fa-sort-alpha-down"></i>
+            <span class="tooltiptext">Sort</span>
+        </li>
+        <li class="flex-item tooltips">
+            <a asp-action="Create" asp-controller="Chatrooms" style="font-size:24px; text-decoration: none; color: lightgray" class="far fa-edit"></a>
+            <span class="tooltiptext">Create a New Channel</span>
+        </li>
+    </ul>
     @*<span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">ControllerName</span>*@
     @if (IsSectionDefined("header"))
     {
