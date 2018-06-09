@@ -23,7 +23,7 @@
         </span>
 }
 <div style="height: 100%;display: flex">
-        <table class="table" id="DatatableSmall" style="flex-grow: 1; position: relative;">
+        <table class="table" id="DatatableIndex" style="flex-grow: 1; position: relative;">
             <thead>
                 <tr style="font-size: 15px;color: #9ea2a8">
                     <th style="width: 60%">
@@ -42,20 +42,23 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr class="gotoroom" style="cursor: pointer" onclick="location.href = '@(Url.Action("Channel", "Chatrooms",new{id=item.Id}))'">
-                        <td style="width: 60%">
-                            # @item.ChatroomName
-                        </td>
-                        <td style="width: 10%">
-                            @item.ChatroomMembers.Users.Count
-                        </td>
-                        <td style="width: 10%">
-                            @item.CreationDate.ToString("dd.MM.yyyy")
-                        </td>
-                        <td style="width: 10%">
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                    if (!item.Private)
+                    {
+                        <tr class="gotoroom" style="cursor: pointer" onclick="location.href = '@(Url.Action("Channel", "Chatrooms", new {id = item.Id}))'">
+                            <td style="width: 60%">
+                                # @item.ChatroomName
+                            </td>
+                            <td style="width: 10%">
+                                @item.ChatroomMembers.Users.Count
+                            </td>
+                            <td style="width: 10%">
+                                @item.CreationDate.ToString("dd.MM.yyyy")
+                            </td>
+                            <td style="width: 10%">
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

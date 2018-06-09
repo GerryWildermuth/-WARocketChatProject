@@ -3,15 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using SWARocketChat.Data;
 using System;
 
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180609184224_UserRoomList")]
+    partial class UserRoomList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,8 +174,6 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<Guid?>("UserRoomListId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChatroomMembersId");
@@ -185,8 +186,6 @@ namespace SWARocketChat.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("UserRoomListId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -281,8 +280,7 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<Guid>("ChatroomId");
 
                     b.Property<int>("status");
 
@@ -346,10 +344,6 @@ namespace SWARocketChat.Data.Migrations
                     b.HasOne("SWARocketChat.Models.FriendList")
                         .WithMany("User")
                         .HasForeignKey("FriendListId");
-
-                    b.HasOne("SWARocketChat.Models.UserRoomList", "UserRoomList")
-                        .WithMany()
-                        .HasForeignKey("UserRoomListId");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.Chatroom", b =>

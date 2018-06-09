@@ -206,6 +206,8 @@ namespace SWARocketChat.Controllers
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(Delete), id);
             }
+
+            await _signInManager.SignOutAsync();
             await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));
         }
