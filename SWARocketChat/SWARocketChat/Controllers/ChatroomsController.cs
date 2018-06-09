@@ -147,10 +147,37 @@ namespace SWARocketChat.Controllers
             ModelState.AddModelError("", "Something went wrong try again");
             return View(model);
         }
-        
+        //////////////////////////////////OLD
+        //[HttpPost("MessageCreate")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> MessageCreate(ChannelViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var currentUser= await _userManager.GetUserAsync(User);
+        //        var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
+        //        var message = new Message
+        //        {
+        //            ChatroomId = model.ChatroomId,
+        //            User = currentUser,
+        //            MessageString = model.MessageString
+        //        };
+        //        if (chatroom != null)
+        //        {
+        //            _dbContext.Add(message);
+        //            chatroom.Messages.Add(message);
+        //            _dbContext.Update(chatroom);
+        //            _dbContext.SaveChanges();
+
+        //            return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
+        //        }
+        //    }
+        //    return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
+        //}
+        /// ////////////////////////////
         [HttpPost("MessageCreate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MessageCreate(ChannelViewModel model)
+        public async void MessageCreate(ChannelViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -169,10 +196,10 @@ namespace SWARocketChat.Controllers
                     _dbContext.Update(chatroom);
                     _dbContext.SaveChanges();
 
-                    return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
+                    return ;
                 }
             }
-            return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
+            return ;
         }
         //[HttpPost("Edite")]
         //[ValidateAntiForgeryToken]

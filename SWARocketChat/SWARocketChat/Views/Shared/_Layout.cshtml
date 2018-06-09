@@ -110,6 +110,8 @@
     @*<script src="~/js/jquery-ui.min.js"></script>*@
     <script src="~/js/select2.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script src="~/js/WebSocketManager.js"></script>*@
+    <script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
 </environment>
 <environment exclude="Development">
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
@@ -117,6 +119,8 @@
     <script src="~/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap-4.0.0/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
+    @*<script src="~/js/WebSocketManager.js"></script>*@
+    <script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
 </environment>
 
 @RenderSection("Scripts", required: false)

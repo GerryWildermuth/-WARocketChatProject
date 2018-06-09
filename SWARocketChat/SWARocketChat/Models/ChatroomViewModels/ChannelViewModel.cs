@@ -14,5 +14,6 @@ namespace SWARocketChat.Models.ChatroomViewModels
         public Guid ChatroomId { get; set; }
         [Display(Name = "ChatroomMembers")]
         public List<string> ChatroomMembers { get; set; }
+        public string UserId { get; set; }
     }
 }
