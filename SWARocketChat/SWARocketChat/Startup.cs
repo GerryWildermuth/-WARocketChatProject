@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SWARocketChat.Data;
 using SWARocketChat.Models;
 using SWARocketChat.Services;
+using WebSocketManager;
 
 namespace SWARocketChat
 {
@@ -35,12 +38,14 @@ namespace SWARocketChat
             });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddWebSocketManager();
+            //services.AddScoped<ChatManager>();
+            services.AddSingleton<ChatManager>();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -52,11 +57,14 @@ namespace SWARocketChat
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseWebSockets();
+            app.MapWebSocketManager("/chat", serviceProvider.GetService<ChatHandler>());
             app.UseStaticFiles();
 
             app.UseAuthentication();
 
+           
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
