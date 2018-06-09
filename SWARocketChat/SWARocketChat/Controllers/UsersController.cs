@@ -207,7 +207,8 @@ namespace SWARocketChat.Controllers
                 return RedirectToAction(nameof(Delete), id);
             }
             await _userManager.DeleteAsync(user);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Login", "Account");
+            //return RedirectToAction(nameof(Index));
         }
         private void AddErrors(IdentityResult result)
         {
