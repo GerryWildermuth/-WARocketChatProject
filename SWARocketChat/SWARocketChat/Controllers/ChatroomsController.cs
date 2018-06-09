@@ -174,23 +174,6 @@ namespace SWARocketChat.Controllers
             }
             return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
         }
-
-        //[HttpGet("Edit")]
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
-        //    if (chatroom == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(chatroom);
-        //}
-
         //[HttpPost("Edite")]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
