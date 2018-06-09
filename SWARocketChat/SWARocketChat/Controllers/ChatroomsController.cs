@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SWARocketChat.Data;
 using SWARocketChat.Models.ChatroomViewModels;
+using SWARocketChat.Services;
 
 namespace SWARocketChat.Controllers
 {
@@ -18,15 +19,14 @@ namespace SWARocketChat.Controllers
     public class ChatroomsController : Controller 
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _dbContext;
+        private ChatHandler _chatHandler;
         public ChatroomsController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context,ChatHandler chatHandler)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _dbContext = context;
+            _chatHandler = chatHandler;
         }
 
         [HttpGet("")]
@@ -61,7 +61,8 @@ namespace SWARocketChat.Controllers
                 .Select(m => new ChannelViewModel
                 {
                     Chatroom = m,
-                    ChatroomId = m.Id
+                    ChatroomId = m.Id,
+                    UserId = currentUser.Id
                 }).FirstOrDefaultAsync();
             var users = _userManager.Users;
             ViewBag.Users = users.Select(x =>
@@ -147,91 +148,32 @@ namespace SWARocketChat.Controllers
             ModelState.AddModelError("", "Something went wrong try again");
             return View(model);
         }
-        //////////////////////////////////OLD
-        //[HttpPost("MessageCreate")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> MessageCreate(ChannelViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var currentUser= await _userManager.GetUserAsync(User);
-        //        var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
-        //        var message = new Message
-        //        {
-        //            ChatroomId = model.ChatroomId,
-        //            User = currentUser,
-        //            MessageString = model.MessageString
-        //        };
-        //        if (chatroom != null)
-        //        {
-        //            _dbContext.Add(message);
-        //            chatroom.Messages.Add(message);
-        //            _dbContext.Update(chatroom);
-        //            _dbContext.SaveChanges();
-
-        //            return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
-        //        }
-        //    }
-        //    return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
-        //}
-        /// ////////////////////////////
-        [HttpPost("MessageCreate")]
-        [ValidateAntiForgeryToken]
-        public async void MessageCreate(ChannelViewModel model)
+        
+        [HttpGet("SendMessage")]
+        public async Task SendMessage([FromQuery]Guid chatroomId, string userid, string message)
         {
-            if (ModelState.IsValid)
+            if (userid != null)
             {
-                var currentUser= await _userManager.GetUserAsync(User);
-                var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
-                var message = new Message
+                var currentUser = await _userManager.FindByIdAsync(userid);
+                var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == chatroomId);
+                var mymessage = new Message
                 {
-                    ChatroomId = model.ChatroomId,
+                    ChatroomId = chatroomId,
                     User = currentUser,
-                    MessageString = model.MessageString
+                    MessageString = message
                 };
+                await _chatHandler.InvokeClientMethodToAllAsync("receiveMessage", currentUser.UserName,
+                    currentUser.UserImage, mymessage.MessageTime.ToString("HH:mm"), message);
                 if (chatroom != null)
                 {
-                    _dbContext.Add(message);
-                    chatroom.Messages.Add(message);
+                    _dbContext.Add(mymessage);
+                    chatroom.Messages.Add(mymessage);
                     _dbContext.Update(chatroom);
                     _dbContext.SaveChanges();
-
-                    return ;
                 }
             }
-            return ;
         }
-        //[HttpPost("Edite")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
-        //{
-        //    if (id != chatroom.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _dbContext.Update(chatroom);
-        //            await _dbContext.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ChatroomExists(chatroom.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(chatroom);
-        //}
+        
         [HttpPost("AddUser")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser(ChannelViewModel model)
@@ -291,5 +233,64 @@ namespace SWARocketChat.Controllers
         {
             return _dbContext.Chatrooms.Any(e => e.Id == id);
         }
+        //[HttpPost("Edite")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,ChatroomName,ChatroomDesription,ChatroomTopic,Password,LogedIn,MessageId")] Chatroom chatroom)
+        //{
+        //    if (id != chatroom.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _dbContext.Update(chatroom);
+        //            await _dbContext.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ChatroomExists(chatroom.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(chatroom);
+        //}
+        //////////////////////////////////OLD
+        //[HttpPost("MessageCreate")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> MessageCreate(ChannelViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var currentUser= await _userManager.GetUserAsync(User);
+        //        var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
+        //        var message = new Message
+        //        {
+        //            ChatroomId = model.ChatroomId,
+        //            User = currentUser,
+        //            MessageString = model.MessageString
+        //        };
+        //        if (chatroom != null)
+        //        {
+        //            _dbContext.Add(message);
+        //            chatroom.Messages.Add(message);
+        //            _dbContext.Update(chatroom);
+        //            _dbContext.SaveChanges();
+
+        //            return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
+        //        }
+        //    }
+        //    return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId});
+        //}
+        /// ////////////////////////////
     }
 }

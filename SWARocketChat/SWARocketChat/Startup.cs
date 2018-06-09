@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using SWARocketChat.Data;
 using SWARocketChat.Models;
 using SWARocketChat.Services;
@@ -39,8 +38,6 @@ namespace SWARocketChat
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddWebSocketManager();
-            //services.AddScoped<ChatManager>();
-            services.AddSingleton<ChatManager>();
             services.AddMvc();
         }
 

@@ -5,20 +5,22 @@ $(function() {
 
 var SmallTable = $("#DatatableSmall").DataTable(
     {
-        //scrollY: "74vh",
-        //scrollCollapse: true,
-        hover: true,
-        sort:false
+        scrollY: "85vh",
+        scrollCollapse: true,
+        "paging": false,
+        "ordering": false,
+        "sort":false
     });
 var ChannelTable = $("#DatatableChannel").DataTable(
     {
-        scrollY: "100vh",
+        scrollY: "85vh",
         scrollCollapse: true,
         "paging": false,
         "ordering": false,
         "info": false
     });
 $("#DatatableChannel_filter").hide();
+$("#DatatableSmall_filter").hide();
 $(function () {
     $("#SearchInput").on("keyup", function () {
         var filter = $(this).val();

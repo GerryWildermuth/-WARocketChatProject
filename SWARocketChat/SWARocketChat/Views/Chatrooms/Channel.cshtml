@@ -73,19 +73,19 @@
     </div>
 </div>
 }
-<form asp-action="MessageCreate" asp-controller="Chatrooms" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
+<div style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
     <input type="hidden" asp-for="ChatroomId" value="@Model.Chatroom.Id" />
+    <input type="hidden" asp-for="UserId" value="@Model.UserId"/>
     <div style="flex-grow: 1;position: relative">
 
         <table class="table"id="DatatableChannel" style="margin-top:20px ;">
             <thead>
             <tr style="font-size: 15px; color: #9ea2a8">
                 <th>
-                    
                 </th>
             </tr>
             </thead>
-            <tbody style="overflow-x: auto">
+            <tbody style="" id="DatatableChannel_Body">
             @if (Model.Chatroom.Messages != null)
             {
                 var orderdMessages = Model.Chatroom.Messages.OrderBy(m => m.MessageTime);
@@ -95,32 +95,27 @@
                 {
                     <tr>
                         <td style="width: 100%">
-                            <div style="margin: -25px 0 15px 0; text-align: center;">
-                                @if (i > 0)
+                            
+                            @if (i > 0)
+                            {
+                                if ((item[i].MessageTime.Date - item[i - 1].MessageTime).TotalHours >= 24)
                                 {
-                                    if (item[i].MessageTime - item[i - 1].MessageTime > TimeSpan.FromDays(1.0))
-                                    {
+                                    <div style="margin: -25px 0 15px 0; text-align: center;">
                                         <span style="background-color: white; z-index: 2000; padding: 0 30px; ">
                                             @item[i].MessageTime.ToString("d.MMMM yyyy")
                                         </span>
-                                    }
+                                    </div>
                                 }
-                                @if (i == 0)
-                                {
-
+                            }
+                            @if (i == 0)
+                            {
+                                <div style="margin: -25px 0 0 0; text-align: center;padding-top: 15px">
                                     <span style="background-color: white; z-index: 2000; padding: 0 30px">
                                         @item[i].MessageTime.ToString("d.MMMM yyyy")
-                                            </span>
-                                    if (@item[i].User.UserImage != null)
-                                    {
-                                        @*<img src="@item[i].User.UserImage" alt="" style="width: 36px; height: 36px" />*@
-                                    }
-                                    <span style="font-size: medium">
-                                        @item[i].User.UserName
                                     </span>
-                                }
-                                    
-                            </div>
+                                </div>   
+                            }
+                            
                             @if (item[i].User != null)
                             {
                                 if (@item[i].User.UserImage != null)
@@ -145,17 +140,17 @@
         </table>
     </div>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group" style="display: flex;margin: 0 20px 30px 20px">
+    <div class="form-group" style="display: flex; margin: 0 20px 30px 20px;min-height: 35px">
         <span asp-validation-for="MessageString" class="text-danger"></span>
-        <input asp-for="MessageString" value="" placeholder="Message" class="form-control" />
-        <input type="submit" value="Send" class="btn btn-primary" />
+        <input value="" placeholder="Message" id="message-content" class="form-control"/>
+        <input class="btn btn-primary" style="max-width: 120px;" value="Send" id="messageButton"/>
     </div>
 
 
 
     <div id="roomInfo" class="sidenav" style="border-left: lightgray solid thin;">
         <div style="margin: 0 0 0 20px">
-            <div style="display: flex;">
+            <div style="display: flex;align-items: center;">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeInfoNav()">&times;</a>
                 <div style="display: flex; align-items: center; font-size: 20px">
                     <i class="fas fa-info-circle"></i>
@@ -184,8 +179,8 @@
                     <i class="fas fa-sign-out-alt" style="margin: 0 10px 0 0"></i>Leave
                 </button>
             </div>
-            <div style="width: 100%; position: absolute; bottom: 30px">
-                <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-danger" asp-action="Delete" asp-controller="Chatrooms" asp-route-id="@Model.ChatroomId">
+            <div style="width: 90%; position: absolute; bottom: 30px">
+                <button style="display: flex; margin: 0 auto; width: 100%" class="btn btn-danger" asp-action="Delete" asp-controller="Chatrooms" asp-route-id="@Model.ChatroomId">
                     <div style="margin: 0 auto">
                         <i class="fas fa-trash-alt" style="margin: 0 10px 0 0"></i>Delete
                     </div>
@@ -205,7 +200,7 @@
     
     <div id="roomMembers" class="sidenav" style="border-left: lightgray solid thin;">
         <div style="margin: 0 0 0 20px">
-            <div style="display: flex;">
+            <div style="display: flex;align-items: center;">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeMembersNav()">&times;</a>
                 <div style="display: flex; align-items: center; font-size: 20px">
                     <i class="fas fa-users"></i>
@@ -219,21 +214,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach (var item in Model.Chatroom.ChatroomMembers.Users)
+                {
                     <tr>
-                        @foreach (var item in Model.Chatroom.ChatroomMembers.Users)
-                        {
-                            <td style="display: flex;margin: 5px 0">
-                                <img src="@item.UserImage" alt="" style="width: 23px;height: 23px"/>
-                                @item.UserName
-                            </td>
-                        }
+                        <td style="display: flex; margin: 5px 0">
+                            <img src="@item.UserImage" alt="" style="width: 23px; height: 23px"/>
+                            @item.UserName
+                        </td>
+
                     </tr>
+                }
                 </tbody>
             </table>
 
 
-            <div style="width: 100%; position: absolute; bottom: 30px" onclick="openAddUserNav()">
-                <button style="display: flex; margin: 0 auto; width: 80%" class="btn btn-primary">
+            <div style="width: 90%; position: absolute; bottom: 30px" onclick="openAddUserNav()">
+                <button style="display: flex; margin: 0 auto; width: 100%" class="btn btn-primary">
                     <div style="margin: 0 auto">
                         <i class="fas fa-plus" style="margin: 0 10px 0 0"></i>Invite user
                     </div>
@@ -241,13 +237,13 @@
             </div>
         </div>
     </div>   
-</form>
+</div>
 <div id="roomAddUser" class="sidenav" style="border-left: lightgray solid thin;">
     <form asp-action="AddUser" asp-controller="Chatrooms" style="margin: 0 20px 0 20px">
         <input type="hidden" asp-for="ChatroomId" value="@Model.ChatroomId"/>
         <input type="hidden" asp-for="Chatroom" value="@Model.Chatroom"/>
         <input type="hidden" asp-for="MessageString" value="test"/>
-        <div style="display: flex;">
+        <div style="display: flex;align-items: center;">
             <a href="javascript:void(0)" class="closebtn" onclick="closeAddUserNav()">&times;</a>
             <div style="display: flex; align-items: center; font-size: 20px">
                 <i class="fas fa-user-plus"></i>
@@ -272,15 +268,74 @@
         </div>
     </form>
 </div>
-
+<script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
 <script>
-    
+
+    var host = "wss://" + window.location.hostname + location.port + "/chat";
+    //var connection = new WebSocketManager.Connection(host);
+    var connection = new WebSocketManager.Connection("wss://localhost:44338/chat");
+    connection.enableLogging = true;
+
+    connection.connectionMethods.onConnected = () => {
+        console.log("connected");
+    }
+
+    connection.connectionMethods.onDisconnected = () => {
+        console.log("disconnected");
+    }
+
+
+    connection.clientMethods["receiveMessage"] = (userName,userImage,messageTime, message) => {
+        //console.log(message);
+        $('#DatatableChannel_Body').append('<tr> <td> ' +
+            '<img src=' + userImage + ' alt="" style="width: 36px; height: 36px" />'+
+            '<span style="font-size: medium;margin:0 5px 0 5px">' + userName + '</span>'+
+            '<span style="font-size: small">' + messageTime +'</span> <br />'+
+            message + '</td> </tr>');
+        //$('#message-content').scrollTop($('#message-content').prop('scrollHeight'));
+        window.scrollTo(0, document.querySelector(".dataTables_scrollBody").scrollHeight);
+    };
+    connection.start();
+    var myurl = '@(Url.Action("SendMessage", "Chatrooms"))';
+    var chatroomid='@Model.ChatroomId';
+    var userid='@Model.UserId';
+    var $messagecontent = $('#message-content');
+
+    function sendmessage(e) {
+            if (e.keyCode === 13) {
+            var message = $messagecontent.val().trim();
+            if (message.length === 0) {
+                return false;
+            }
+            $.ajax({
+                url: "https://" + window.location.host + myurl,
+                data: {chatroomId:chatroomid,userid:userid,message:message},
+                method: 'GET'
+            });
+            $messagecontent.val('');
+        }
+        return false;
+    }
+    $messagecontent.keyup(function (e) {
+        if (e.keyCode === 13) {
+            event.preventDefault();
+            var message = $messagecontent.val().trim();
+            if (message.length === 0) {
+                return false;
+            }
+            $.ajax({
+                url: "https://" + window.location.host + myurl,
+                data: {chatroomId:chatroomid,userid:userid,message:message},
+                method: 'GET'
+            });
+            $messagecontent.val('');
+        }
+        return false;
+    });
+
     $(document).ready(function () {
         $('.js-basic-multiple').select2();
     });
-    $(document).ready(function() {
-        $('#DatatableSmall').DataTable();
-    } );
     function openInfoNav() {
         document.getElementById("roomInfo").style.width = "400px";
         document.getElementById("main").style.marginRight = "400px";
