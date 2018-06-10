@@ -9,6 +9,7 @@
 </style>
 <html lang="en">
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <head>
     <link href="~/css/miniMenu.css" rel="stylesheet">
     <link href="~/css/tooltips.css" rel="stylesheet">
@@ -107,7 +108,7 @@
             <nav class="d-none d-md-block bg-dark sidebar"style="min-width: 280px">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link active" asp-action="Index" asp-controller="Chatrooms">
                                 <span data-feather="home"></span>
                                 Chatrooms Index
@@ -119,6 +120,37 @@
                                 <span data-feather="file"></span>
                                 Orders
                             </a>
+                        </li>*@
+                        <li class="nav-item">
+                        @{
+                            var currentUser = await UserManager.GetUserAsync(User);
+                            if (currentUser.UserRoomList != null)
+                             {
+                                 foreach (var item in currentUser.UserRoomList)
+                                 {
+                                     var lastMessage = item.Chatroom.Messages.LastOrDefault();
+                                     if (item.ChatroomStatus == 0)
+                                     {
+                                         <a class="nav-link" style="cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
+                                             <div style="color: gray;">
+                                                 Rooms
+                                                 <div style="color: white;">
+                                                     @item.Chatroom.ChatroomName;
+                                                     @if (lastMessage != null)
+                                                     {
+                                                         <div style="float: right">
+                                                             @lastMessage.MessageTime.ToString("dd/mm/yyyy");
+                                                         </div>
+                                                         <br/>
+                                                         @lastMessage.MessageString
+                                                     }
+                                                 </div>
+                                             </div>
+                                         </a>
+                                     }
+                                 }
+                             }
+                        }
                         </li>
                     </ul>
                     <footer class="footer">

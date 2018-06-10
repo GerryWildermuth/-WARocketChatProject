@@ -8,10 +8,10 @@ namespace SWARocketChat.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid ChatroomId { get; set; }
-        public ICollection<Chatroom> Chatrooms { get; set; }
+        public Chatroom Chatroom { get; set; }
         [Required]
         public string UserId { get; set; }
 
-        public int status { get; set; }
+        public int ChatroomStatus { get; set; }
     }
 }

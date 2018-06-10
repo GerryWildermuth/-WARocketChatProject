@@ -46,13 +46,28 @@ namespace SWARocketChat.Controllers
             var currentChatroom = await _dbContext.Chatrooms
                 .Include(c => c.ChatroomMembers.Users)
                 .FirstOrDefaultAsync(c => c.Id == id);
-            if (currentUser != null)
-            {
+            if (currentChatroom.ChatroomMembers.Users != null)
                 if (currentChatroom.ChatroomMembers.Users.Any(c => c.Id == currentUser.Id) == false)
                 {
                     currentChatroom.ChatroomMembers.Users.Add(currentUser);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
+
+
+            var userRoomList = new UserRoomList
+            {
+                Chatroom = currentChatroom,
+                ChatroomId = id,
+                ChatroomStatus = 0,
+                UserId = currentUser.Id
+            };
+            if(currentUser.UserRoomList!=null)
+            if (currentUser.UserRoomList.Any(c => c.ChatroomId == currentChatroom.Id) == false)
+            {
+                await _dbContext.AddAsync(userRoomList);
+                currentUser.UserRoomList.Add(userRoomList);
+                _dbContext.Update(currentUser);
+                await _dbContext.SaveChangesAsync();
             }
             var customemodel = await _dbContext.Chatrooms
                 .Include(a => a.ChatroomMembers.Users)
@@ -166,10 +181,10 @@ namespace SWARocketChat.Controllers
                     currentUser.UserImage, mymessage.MessageTime.ToString("HH:mm"), message);
                 if (chatroom != null)
                 {
-                    _dbContext.Add(mymessage);
+                    await _dbContext.AddAsync(mymessage);
                     chatroom.Messages.Add(mymessage);
                     _dbContext.Update(chatroom);
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
             }
         }
@@ -228,23 +243,23 @@ namespace SWARocketChat.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost("AddToUserRoomList")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToUserRoomList(Guid id)
-        {
-            var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
-            var currentUser = await _userManager.GetUserAsync(User);
+        //[HttpPost("AddToUserRoomList")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddToUserRoomList(Guid id)
+        //{
+        //    var chatroom = await _dbContext.Chatrooms.SingleOrDefaultAsync(m => m.Id == id);
+        //    var currentUser = await _userManager.GetUserAsync(User);
 
-            var userRoomList = new UserRoomList
-            {
-                status = 0,
-            };
-            //_dbContext.UserRoomLists
-            currentUser.UserRoomList.Chatrooms.Add(chatroom);
-            _dbContext.Users.Update(currentUser);
-            await _dbContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    var userRoomList = new UserRoomList
+        //    {
+        //        Status = 0,
+        //    };
+        //    //_dbContext.UserRoomLists
+        //    currentUser.UserRoomList.Chatrooms.Add(chatroom);
+        //    _dbContext.Users.Update(currentUser);
+        //    await _dbContext.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
 
 
