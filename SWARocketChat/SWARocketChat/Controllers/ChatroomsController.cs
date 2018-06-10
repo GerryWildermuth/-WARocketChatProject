@@ -20,7 +20,7 @@ namespace SWARocketChat.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
-        private ChatHandler _chatHandler;
+        private readonly ChatHandler _chatHandler;
         public ChatroomsController(
             UserManager<ApplicationUser> userManager, ApplicationDbContext context,ChatHandler chatHandler)
         {
@@ -32,6 +32,9 @@ namespace SWARocketChat.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            ViewBag.UserRoomList = _dbContext.Users.Include(u => u.UserRoomList).Where(u => u.Id == currentUser.Id);
+
             return View(await _dbContext.Chatrooms
                 .Include(a => a.ChatroomMembers)
                 .Where(a => a.ChatroomMembers.ChatroomId == a.Id)
@@ -86,6 +89,7 @@ namespace SWARocketChat.Controllers
                     Text = x.UserName,
                     Value = x.ToString()
                 });
+            ViewBag.UserRoomList = _dbContext.Users.Include(u => u.UserRoomList).Where(u => u.Id == currentUser.Id);
             return View(customemodel);
         }
         [HttpGet("Create")]
