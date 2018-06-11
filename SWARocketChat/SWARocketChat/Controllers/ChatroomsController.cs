@@ -147,6 +147,7 @@ namespace SWARocketChat.Controllers
                         });
                     return View(model);
                 }
+                var currentUser = await _userManager.GetUserAsync(User);
 
                 var chatroom = new Chatroom
                 {
@@ -157,7 +158,6 @@ namespace SWARocketChat.Controllers
                     Private = model.Private,
                     ChatroomMembers = new ChatroomMembers()
                 };
-                var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
                     var chatroomMembers = new ChatroomMembers
@@ -165,8 +165,15 @@ namespace SWARocketChat.Controllers
                         ChatroomId = chatroom.Id,
                         UserChatroomMembers = new List<UserChatroomMember>()
                     };
-                    
+                    var currentuserChatroomMember = new UserChatroomMember
+                    {
+                        ChatroomMembers = chatroomMembers,
+                        User = currentUser
+                    };
+                    chatroomMembers.UserChatroomMembers.Add(currentuserChatroomMember);
+
                     if (model.ChatroomMembers != null)
+                    {
                         foreach (var member in model.ChatroomMembers)
                         {
                             var user = await _userManager.FindByNameAsync(member);
@@ -180,11 +187,36 @@ namespace SWARocketChat.Controllers
                                 chatroomMembers.UserChatroomMembers.Add(userChatroomMember);
                             }
                         }
+                    }
                     _dbContext.Add(chatroom);
                     await _dbContext.SaveChangesAsync();
 
                     _dbContext.Add(chatroomMembers);
                     await _dbContext.SaveChangesAsync();
+
+
+                    var userwithUserRoomList = await _dbContext.Users
+                        .Include(u => u.UserRoomList)
+                        .ThenInclude(c => c.Chatroom.Messages)
+                        .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
+                    var userRoomList = new UserRoomList
+                    {
+                        Chatroom = chatroom,
+                        ChatroomId = chatroom.Id,
+                        ChatroomStatus = 0,
+                        ApplicationUserId = currentUser.Id
+                    };
+                    if (currentUser.UserRoomList != null)
+                    {
+                        if (!((userwithUserRoomList.UserRoomList.Any(c => c.ChatroomId == chatroom.Id))
+                              && (userwithUserRoomList.UserRoomList.Any(c => c.ApplicationUserId == currentUser.Id))))
+                        {
+                            await _dbContext.AddAsync(userRoomList);
+                            currentUser.UserRoomList.Add(userRoomList);
+                            _dbContext.Update(currentUser);
+                            await _dbContext.SaveChangesAsync();
+                        }
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }

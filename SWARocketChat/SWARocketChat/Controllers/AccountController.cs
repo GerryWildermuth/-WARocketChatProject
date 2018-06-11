@@ -61,12 +61,15 @@ namespace SWARocketChat.Controllers
                 if (model.UserName.Contains("@"))
                 {
                     var user = await _userManager.FindByEmailAsync(model.UserName);
+                    if(user!=null)
                     result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,lockoutOnFailure: false);
+                    else
+                        result = SignInResult.Failed;
                 }
                 else
                 {
                     result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,
-                        model.RememberMe, lockoutOnFailure: false);
+                    model.RememberMe, lockoutOnFailure: false);
                 }
                 if (result.Succeeded)
                 {
