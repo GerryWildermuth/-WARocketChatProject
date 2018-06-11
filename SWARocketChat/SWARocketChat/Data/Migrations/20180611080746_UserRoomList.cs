@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SWARocketChat.Data.Migrations
 {
-    public partial class UserRoomList1 : Migration
+    public partial class UserRoomList : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,9 +40,10 @@ namespace SWARocketChat.Data.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoomLists_ChatroomId",
+                name: "IX_UserRoomLists_ChatroomId_ApplicationUserId",
                 table: "UserRoomLists",
-                column: "ChatroomId");
+                columns: new[] { "ChatroomId", "ApplicationUserId" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

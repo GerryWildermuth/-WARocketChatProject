@@ -286,7 +286,8 @@ namespace SWARocketChat.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("ChatroomId");
+                    b.HasIndex("ChatroomId", "ApplicationUserId")
+                        .IsUnique();
 
                     b.ToTable("UserRoomLists");
                 });

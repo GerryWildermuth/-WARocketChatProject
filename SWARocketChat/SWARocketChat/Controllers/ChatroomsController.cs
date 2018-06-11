@@ -33,7 +33,12 @@ namespace SWARocketChat.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            ViewBag.UserRoomList = _dbContext.Users.Include(u => u.UserRoomList).Where(u => u.Id == currentUser.Id);
+            ViewBag.UserRoomList = await _dbContext.Users
+                .Include(u => u.UserRoomList)
+                .ThenInclude(c=>c.Chatroom.Messages)
+                .Where(c=>c.UserRoomList
+                    .Any(u=>u.ApplicationUserId==currentUser.Id))
+                .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
 
             return View(await _dbContext.Chatrooms
                 .Include(a => a.ChatroomMembers)
@@ -46,6 +51,12 @@ namespace SWARocketChat.Controllers
         public async Task<IActionResult> Channel(Guid id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
+            var userwithUserRoomList = await _dbContext.Users
+                .Include(u => u.UserRoomList)
+                .ThenInclude(c => c.Chatroom.Messages)
+                .Where(c => c.UserRoomList
+                    .Any(u => u.ApplicationUserId == currentUser.Id))
+                .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
             var currentChatroom = await _dbContext.Chatrooms
                 .Include(c => c.ChatroomMembers.Users)
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -65,7 +76,8 @@ namespace SWARocketChat.Controllers
                 ApplicationUserId = currentUser.Id
             };
             if(currentUser.UserRoomList!=null)
-            if (currentUser.UserRoomList.Any(c => c.ChatroomId == currentChatroom.Id) == false)
+            if (!((userwithUserRoomList.UserRoomList.Any(c => c.ChatroomId == currentChatroom.Id))
+                &&(userwithUserRoomList.UserRoomList.Any(c => c.ApplicationUserId == currentUser.Id))))
             {
                 await _dbContext.AddAsync(userRoomList);
                 currentUser.UserRoomList.Add(userRoomList);
@@ -90,7 +102,12 @@ namespace SWARocketChat.Controllers
                     Text = x.UserName,
                     Value = x.ToString()
                 });
-            ViewBag.UserRoomList = _dbContext.Users.Include(u => u.UserRoomList).Where(u => u.Id == currentUser.Id);
+            ViewBag.UserRoomList = await _dbContext.Users
+                .Include(u => u.UserRoomList)
+                .ThenInclude(c => c.Chatroom.Messages)
+                .Where(c => c.UserRoomList
+                    .Any(u => u.ApplicationUserId == currentUser.Id))
+                .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
             return View(customemodel);
         }
         [HttpGet("Create")]

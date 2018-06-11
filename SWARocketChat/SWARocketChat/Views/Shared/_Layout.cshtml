@@ -123,29 +123,33 @@
                                 </li>*@
                             <li class="nav-item">
                                 @{
-                                    var currentUser = await UserManager.GetUserAsync(User);
-                                    //var currentUser = ViewBag.UserRoomList;
-                                    if (currentUser.UserRoomList != null)
+                                    //var currentUser = await UserManager.GetUserAsync(User);
+                                    if (ViewBag.UserRoomList != null)
                                     {
-                                        foreach (var item in currentUser.UserRoomList)
+                                        ApplicationUser currentUser = ViewBag.UserRoomList;
+                                        if (currentUser.UserRoomList != null)
                                         {
-                                            var lastMessage = item.Chatroom.Messages.LastOrDefault();
-                                            if (item.ChatroomStatus == 0)
+                                            if (currentUser.UserRoomList.Any(c => c.ChatroomStatus == 0))
                                             {
-                                                <a class="nav-link" style="cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
+                                                <a class="nav-link">
                                                     <div style="color: gray;">
                                                         Rooms
-                                                        <div style="color: white;">
-                                                            @item.Chatroom.ChatroomName
-                                                            @if (lastMessage != null)
-                                                            {
-                                                                <div style="float: right">
-                                                                    @lastMessage.MessageTime.ToString("dd/MM/yyyy")
-                                                                </div>
-                                                                <br />
-                                                                @lastMessage.MessageString
-                                                            }
-                                                        </div>
+                                                        @foreach (var item in currentUser.UserRoomList)
+                                                        {
+                                                            var lastMessage = item.Chatroom.Messages.LastOrDefault();
+
+                                                            <div style="color: white; cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
+                                                                @item.Chatroom.ChatroomName
+                                                                @if (lastMessage != null)
+                                                                {
+                                                                    <div style="float: right">
+                                                                        @lastMessage.MessageTime.ToString("dd/MM/yyyy")
+                                                                    </div>
+                                                                    <br/>
+                                                                    @lastMessage.MessageString
+                                                                }
+                                                            </div>
+                                                        }
                                                     </div>
                                                 </a>
                                             }

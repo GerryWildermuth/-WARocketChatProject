@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180611063141_UserRoomList1")]
-    partial class UserRoomList1
+    [Migration("20180611080746_UserRoomList")]
+    partial class UserRoomList
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,7 +287,8 @@ namespace SWARocketChat.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("ChatroomId");
+                    b.HasIndex("ChatroomId", "ApplicationUserId")
+                        .IsUnique();
 
                     b.ToTable("UserRoomLists");
                 });
