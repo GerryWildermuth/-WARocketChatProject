@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWARocketChat.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +44,8 @@ namespace SWARocketChat.Controllers
             return View(await _dbContext.Chatrooms
                 .Include(a => a.ChatroomMembers)
                 .Where(a => a.ChatroomMembers.ChatroomId == a.Id)
-                .Include(u => u.ChatroomMembers.Users)
+                .Include(u => u.ChatroomMembers.UserChatroomMembers)
+                .ThenInclude(u=>u.User)
                 .ToListAsync());
         }
         
@@ -54,19 +56,24 @@ namespace SWARocketChat.Controllers
             var userwithUserRoomList = await _dbContext.Users
                 .Include(u => u.UserRoomList)
                 .ThenInclude(c => c.Chatroom.Messages)
-                .Where(c => c.UserRoomList
-                    .Any(u => u.ApplicationUserId == currentUser.Id))
                 .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
             var currentChatroom = await _dbContext.Chatrooms
-                .Include(c => c.ChatroomMembers.Users)
+                .Include(u => u.ChatroomMembers.UserChatroomMembers)
+                .ThenInclude(u => u.User)
                 .FirstOrDefaultAsync(c => c.Id == id);
-            if (currentChatroom.ChatroomMembers.Users != null)
-                if (currentChatroom.ChatroomMembers.Users.Any(c => c.Id == currentUser.Id) == false)
+            var currentChatroomWithMembers = currentChatroom.ChatroomMembers.UserChatroomMembers.Select(u => u.User);
+
+            if (currentChatroomWithMembers != null)
+                if (currentChatroomWithMembers.Any(c => c.Id == currentUser.Id) == false)
                 {
-                    currentChatroom.ChatroomMembers.Users.Add(currentUser);
+                    var userChatroomMember = new UserChatroomMember
+                    {
+                        ChatroomMembers = currentChatroom.ChatroomMembers,
+                        User = currentUser
+                    };
+                    await _dbContext.AddAsync(userChatroomMember);
                     await _dbContext.SaveChangesAsync();
                 }
-
 
             var userRoomList = new UserRoomList
             {
@@ -81,12 +88,12 @@ namespace SWARocketChat.Controllers
             {
                 await _dbContext.AddAsync(userRoomList);
                 currentUser.UserRoomList.Add(userRoomList);
-                //_dbContext.Update(currentUser.UserRoomList);//Hashset Error
-                    _dbContext.Update(currentUser);
+                _dbContext.Update(currentUser);
                 await _dbContext.SaveChangesAsync();
             }
             var customemodel = await _dbContext.Chatrooms
-                .Include(a => a.ChatroomMembers.Users)
+                .Include(a => a.ChatroomMembers.UserChatroomMembers)
+                .ThenInclude(a=>a.User)
                 .Include(chatroom => chatroom.Messages)
                 .Where(chatroom => chatroom.Id == id)
                 .Select(m => new ChannelViewModel
@@ -155,17 +162,23 @@ namespace SWARocketChat.Controllers
                 {
                     var chatroomMembers = new ChatroomMembers
                     {
-                        Users = new Collection<ApplicationUser> {currentUser},
-                        ChatroomId = chatroom.Id
+                        ChatroomId = chatroom.Id,
+                        UserChatroomMembers = new List<UserChatroomMember>()
                     };
-
-
+                    
                     if (model.ChatroomMembers != null)
                         foreach (var member in model.ChatroomMembers)
                         {
                             var user = await _userManager.FindByNameAsync(member);
-                            if (!chatroomMembers.Users.Contains(user))
-                                chatroomMembers.Users.Add(user);
+                            if (!chatroomMembers.UserChatroomMembers.Select(c => c.User).Contains(user))
+                            {
+                                var userChatroomMember = new UserChatroomMember
+                                {
+                                    ChatroomMembers = chatroomMembers,
+                                    User = user
+                                };
+                                chatroomMembers.UserChatroomMembers.Add(userChatroomMember);
+                            }
                         }
                     _dbContext.Add(chatroom);
                     await _dbContext.SaveChangesAsync();
@@ -223,8 +236,15 @@ namespace SWARocketChat.Controllers
                     foreach (var member in model.ChatroomMembers)
                     {
                         var user = await _userManager.FindByNameAsync(member);
-                        if (!chatroom.ChatroomMembers.Users.Contains(user))
-                            chatroom.ChatroomMembers.Users.Add(user);
+                        if (!chatroom.ChatroomMembers.UserChatroomMembers.Select(c => c.User).Contains(user))
+                        {
+                            var userChatroomMember = new UserChatroomMember
+                            {
+                                ChatroomMembers = chatroom.ChatroomMembers,
+                                User = user
+                            };
+                            chatroom.ChatroomMembers.UserChatroomMembers.Add(userChatroomMember);
+                        }
                     }
 
                     _dbContext.Update(chatroom);

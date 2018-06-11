@@ -49,7 +49,7 @@
                                 # @item.ChatroomName
                             </td>
                             <td style="width: 10%">
-                                @item.ChatroomMembers.Users.Count
+                                @item.ChatroomMembers.UserChatroomMembers.Select(u=>u.User).Count()
                             </td>
                             <td style="width: 10%">
                                 @item.CreationDate.ToString("dd.MM.yyyy")

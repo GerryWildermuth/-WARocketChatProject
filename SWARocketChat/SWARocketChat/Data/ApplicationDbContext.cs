@@ -13,6 +13,8 @@ namespace SWARocketChat.Data
         public DbSet<FriendList> FriendLists { get; set; }
         public DbSet<Message>  Messages{ get; set; }
         public DbSet<UserRoomList>  UserRoomLists{ get; set; }
+        //public DbSet<UserChatroomMember> UserChatroomMembers { get; set; }
+        //https://blog.oneunicorn.com/2017/09/25/many-to-many-relationships-in-ef-core-2-0-part-1-the-basics/
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -35,10 +37,8 @@ namespace SWARocketChat.Data
                 .HasIndex(x => x.ChatroomName).IsUnique();
             builder.Entity<UserRoomList>()
                 .HasIndex(x => new{x.ChatroomId,x.ApplicationUserId}).IsUnique();
-            builder.Entity<ApplicationUser>()
-                .HasOne(u => u.ChatroomMembers)
-                .WithMany(u => u.Users)
-                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<UserChatroomMember>()
+                .HasKey(k => new {k.ChatroomMembersId, k.ApplicationUserId});
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

@@ -11,9 +11,10 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180611110429_ManyToManyMappingOfChatroomMembersWithUsers")]
+    partial class ManyToManyMappingOfChatroomMembersWithUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
