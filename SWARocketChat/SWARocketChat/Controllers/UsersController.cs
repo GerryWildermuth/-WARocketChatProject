@@ -114,7 +114,7 @@ namespace SWARocketChat.Controllers
             {
                 if (user != null)
                 {
-                    user.UserImage= Base64ImageConverter.ResizeBase64ImageString(user.UserImage, 150, 150); 
+                    user.UserImage= Base64ImageConverter.ResizeBase64ImageString(user.UserImage, 150, 150);
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                         return RedirectToAction(nameof(Index));

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using SWARocketChat.Models;
 using SWARocketChat.Models.AccountViewModels;
 using SWARocketChat.Services;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace SWARocketChat.Controllers
 {
@@ -54,18 +55,30 @@ namespace SWARocketChat.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                SignInResult result;
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (model.UserName.Contains("@"))
+                {
+                    var user = await _userManager.FindByEmailAsync(model.UserName);
+                    result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,lockoutOnFailure: false);
+                }
+                else
+                {
+                    result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,
+                        model.RememberMe, lockoutOnFailure: false);
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                    return RedirectToAction(nameof(LoginWith2fa), new {returnUrl, model.RememberMe});
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
@@ -217,7 +230,7 @@ namespace SWARocketChat.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
+                    UserName = model.Name,
                     Email = model.Email,
                     //Address = model.Address//RegisterViewModel ändern
                 };
@@ -241,8 +254,8 @@ namespace SWARocketChat.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

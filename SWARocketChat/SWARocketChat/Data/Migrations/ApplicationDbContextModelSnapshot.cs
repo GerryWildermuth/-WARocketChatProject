@@ -275,14 +275,12 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUserId");
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired();
 
                     b.Property<Guid>("ChatroomId");
 
                     b.Property<int>("ChatroomStatus");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -382,7 +380,8 @@ namespace SWARocketChat.Data.Migrations
                 {
                     b.HasOne("SWARocketChat.Models.ApplicationUser")
                         .WithMany("UserRoomList")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SWARocketChat.Models.Chatroom", "Chatroom")
                         .WithMany()

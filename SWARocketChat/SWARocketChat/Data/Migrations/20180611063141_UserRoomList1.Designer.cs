@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180609185447_UserRoomList2")]
-    partial class UserRoomList2
+    [Migration("20180611063141_UserRoomList1")]
+    partial class UserRoomList1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,8 +174,6 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<Guid?>("UserRoomListId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChatroomMembersId");
@@ -188,8 +186,6 @@ namespace SWARocketChat.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("UserRoomListId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -212,14 +208,10 @@ namespace SWARocketChat.Data.Migrations
 
                     b.Property<bool>("Private");
 
-                    b.Property<Guid?>("UserRoomListId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChatroomName")
                         .IsUnique();
-
-                    b.HasIndex("UserRoomListId");
 
                     b.ToTable("Chatrooms");
                 });
@@ -284,12 +276,18 @@ namespace SWARocketChat.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ApplicationUserId")
                         .IsRequired();
 
-                    b.Property<int>("status");
+                    b.Property<Guid>("ChatroomId");
+
+                    b.Property<int>("ChatroomStatus");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ChatroomId");
 
                     b.ToTable("UserRoomLists");
                 });
@@ -349,17 +347,6 @@ namespace SWARocketChat.Data.Migrations
                     b.HasOne("SWARocketChat.Models.FriendList")
                         .WithMany("User")
                         .HasForeignKey("FriendListId");
-
-                    b.HasOne("SWARocketChat.Models.UserRoomList", "UserRoomList")
-                        .WithMany()
-                        .HasForeignKey("UserRoomListId");
-                });
-
-            modelBuilder.Entity("SWARocketChat.Models.Chatroom", b =>
-                {
-                    b.HasOne("SWARocketChat.Models.UserRoomList")
-                        .WithMany("Chatrooms")
-                        .HasForeignKey("UserRoomListId");
                 });
 
             modelBuilder.Entity("SWARocketChat.Models.ChatroomMembers", b =>
@@ -387,6 +374,19 @@ namespace SWARocketChat.Data.Migrations
                     b.HasOne("SWARocketChat.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SWARocketChat.Models.UserRoomList", b =>
+                {
+                    b.HasOne("SWARocketChat.Models.ApplicationUser")
+                        .WithMany("UserRoomList")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SWARocketChat.Models.Chatroom", "Chatroom")
+                        .WithMany()
+                        .HasForeignKey("ChatroomId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

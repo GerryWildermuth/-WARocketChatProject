@@ -62,14 +62,15 @@ namespace SWARocketChat.Controllers
                 Chatroom = currentChatroom,
                 ChatroomId = id,
                 ChatroomStatus = 0,
-                UserId = currentUser.Id
+                ApplicationUserId = currentUser.Id
             };
             if(currentUser.UserRoomList!=null)
             if (currentUser.UserRoomList.Any(c => c.ChatroomId == currentChatroom.Id) == false)
             {
                 await _dbContext.AddAsync(userRoomList);
                 currentUser.UserRoomList.Add(userRoomList);
-                _dbContext.Update(currentUser);
+                //_dbContext.Update(currentUser.UserRoomList);//Hashset Error
+                    _dbContext.Update(currentUser);
                 await _dbContext.SaveChangesAsync();
             }
             var customemodel = await _dbContext.Chatrooms

@@ -10,7 +10,7 @@ namespace SWARocketChat.Models
         public Guid ChatroomId { get; set; }
         public Chatroom Chatroom { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public int ChatroomStatus { get; set; }
     }

@@ -58,7 +58,7 @@
                         <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: red;"></i> busy</a></li>
                         <li><a style="font-size: 14px;" href="#"> <i class="fas fa-circle" style="color: lightgray;"></i> invisible</a></li>
                         <li><a class="far fa-user" asp-action="Index" asp-controller="Users" style="font-size: 14px;"> My Account</a></li>
-                        <li><a class="fas fa-sign-out-alt" asp-action="Lockout" asp-controller="Account" style="font-size: 14px;"> sign out</a></li>
+                        <li><a class="fas fa-sign-out-alt" asp-action="Logout" asp-controller="Account" style="font-size: 14px;"> sign out</a></li>
                     </ul>
                 </div>
 
@@ -136,11 +136,11 @@
                                                     <div style="color: gray;">
                                                         Rooms
                                                         <div style="color: white;">
-                                                            @item.Chatroom.ChatroomName;
+                                                            @item.Chatroom.ChatroomName
                                                             @if (lastMessage != null)
                                                             {
                                                                 <div style="float: right">
-                                                                    @lastMessage.MessageTime.ToString("dd/mm/yyyy");
+                                                                    @lastMessage.MessageTime.ToString("dd/MM/yyyy")
                                                                 </div>
                                                                 <br />
                                                                 @lastMessage.MessageString

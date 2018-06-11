@@ -286,7 +286,7 @@
 
 
     connection.clientMethods["receiveMessage"] = (userName,userImage,messageTime, message) => {
-        console.log("empfung:"+message);
+        console.log("Empfing:"+message);
         $('#DatatableChannel_Body').append('<tr> <td> ' +
             '<img src=' + userImage + ' alt="" style="width: 36px; height: 36px" />'+
             '<span style="font-size: medium;margin:0 5px 0 5px">' + userName + '</span>'+
@@ -304,12 +304,12 @@
 
     $messagecontent.keyup(function (e) {
         if (e.keyCode === 13) {
-            event.preventDefault();
+            //event.preventDefault();
             var message = $messagecontent.val().trim();
             if (message.length === 0) {
                 return false;
             }
-            console.log("ajax gesendet2");
+            console.log("ajax gesendet1");
             $.ajax({
                 url: "https://" + window.location.host + myurl,
                 data: {chatroomId:chatroomid,userid:userid,message:message},
@@ -318,6 +318,19 @@
             $messagecontent.val('');
         }
         return false;
+    });
+    $("#messageButton").click(function() {
+        var message = $messagecontent.val().trim();
+        if (message.length === 0) {
+            return false;
+        }
+        console.log("ajax gesendet2");
+        $.ajax({
+            url: "https://" + window.location.host + myurl,
+            data: {chatroomId:chatroomid,userid:userid,message:message},
+            method: 'GET'
+        });
+        $messagecontent.val('');
     });
 
     $(document).ready(function () {
