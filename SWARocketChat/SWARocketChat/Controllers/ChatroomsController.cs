@@ -63,17 +63,16 @@ namespace SWARocketChat.Controllers
                 .FirstOrDefaultAsync(c => c.Id == id);
             var currentChatroomWithMembers = currentChatroom.ChatroomMembers.UserChatroomMembers.Select(u => u.User);
 
-            if (currentChatroomWithMembers != null)
-                if (currentChatroomWithMembers.Any(c => c.Id == currentUser.Id) == false)
+            if (currentChatroomWithMembers.Any(c => c.Id == currentUser.Id) == false)
+            {
+                var userChatroomMember = new UserChatroomMember
                 {
-                    var userChatroomMember = new UserChatroomMember
-                    {
-                        ChatroomMembers = currentChatroom.ChatroomMembers,
-                        User = currentUser
-                    };
-                    await _dbContext.AddAsync(userChatroomMember);
-                    await _dbContext.SaveChangesAsync();
-                }
+                    ChatroomMembers = currentChatroom.ChatroomMembers,
+                    User = currentUser
+                };
+                await _dbContext.AddAsync(userChatroomMember);
+                await _dbContext.SaveChangesAsync();
+            }
 
             var userRoomList = new UserRoomList
             {
@@ -286,7 +285,47 @@ namespace SWARocketChat.Controllers
             }
             return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId });
         }
-    
+        [HttpGet("LeaveRoom")]
+        public async Task<IActionResult> LeaveRoom(Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var userwithUserRoomList = await _dbContext.Users
+                    .Include(u => u.UserRoomList)
+                    .ThenInclude(c => c.Chatroom.Messages)
+                    .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
+                var currentChatroom = await _dbContext.Chatrooms
+                    .Include(u => u.ChatroomMembers.UserChatroomMembers)
+                    .ThenInclude(u => u.User)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+                var currentChatroomWithMembers = currentChatroom.ChatroomMembers.UserChatroomMembers.FirstOrDefault(c=>c.ApplicationUserId==currentUser.Id);
+                if (currentChatroomWithMembers!=null)
+                {
+                    _dbContext.Remove(currentChatroomWithMembers);
+                    _dbContext.Update(currentChatroom);
+                    _dbContext.Update(currentUser);
+                    //currentChatroomWithMembers.Remove(currentUser);
+                    await _dbContext.SaveChangesAsync();
+                }
+                
+
+                if (currentUser.UserRoomList != null)
+                    if (((userwithUserRoomList.UserRoomList.Any(c => c.ChatroomId == currentChatroom.Id))
+                          && (userwithUserRoomList.UserRoomList.Any(c => c.ApplicationUserId == currentUser.Id))))
+                    {
+                        var currentUserRoomList = currentUser.UserRoomList.FirstOrDefault(c => c.ChatroomId == id);
+                        if (currentUserRoomList != null)
+                        {
+                            _dbContext.Remove(currentUserRoomList);
+                            currentUser.UserRoomList.Remove(currentUserRoomList);
+                        }
+                        _dbContext.Update(currentUser);
+                        await _dbContext.SaveChangesAsync();
+                    }
+            }
+            return RedirectToAction("Index", "Home");
+        }
         [HttpGet("Delete")]
         public async Task<IActionResult> Delete(Guid? id)
         {

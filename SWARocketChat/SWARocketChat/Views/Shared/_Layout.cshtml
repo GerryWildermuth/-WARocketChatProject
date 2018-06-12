@@ -6,6 +6,10 @@
         height: 60px;
         width: 280px;
     }
+    body > div > div > nav > div > ul > li > a > div > div:hover {
+        transition: background-color 0.3s;
+        background-color: #282c30;
+    }
 </style>
 <html lang="en">
 @inject SignInManager<ApplicationUser> SignInManager
@@ -131,23 +135,29 @@
                                         {
                                             if (currentUser.UserRoomList.Any(c => c.ChatroomStatus == 0))
                                             {
-                                                <a class="nav-link">
+                                                <a class="nav-link" style="padding: 0;">
                                                     <div style="color: gray;">
-                                                        Rooms
+                                                        <div style="padding-left:15px;">
+                                                            Rooms
+                                                        </div>
                                                         @foreach (var item in currentUser.UserRoomList)
                                                         {
                                                             var lastMessage = item.Chatroom.Messages.LastOrDefault();
 
-                                                            <div style="color: white; cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
-                                                                @item.Chatroom.ChatroomName
+                                                            <div style="color: white; font-family: -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif; cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
+                                                                <div style="padding:7px 20px; font-size: medium">
+                                                                # @item.Chatroom.ChatroomName
                                                                 @if (lastMessage != null)
                                                                 {
-                                                                    <div style="float: right">
+                                                                    <div style="float: right; font-size: x-small">
                                                                         @lastMessage.MessageTime.ToString("dd/MM/yyyy")
                                                                     </div>
                                                                     <br/>
-                                                                    @lastMessage.MessageString
+                                                                    <div style="font-size: small">
+                                                                        @lastMessage.User.UserName: @lastMessage.MessageString
+                                                                    </div>
                                                                 }
+                                                                </div>
                                                             </div>
                                                         }
                                                     </div>

@@ -34,9 +34,6 @@
                     </th>
                     <th style="width: 10%">
                         Creating date
-                    </th>
-
-                    <th style="width: 10%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,9 +50,6 @@
                             </td>
                             <td style="width: 10%">
                                 @item.CreationDate.ToString("dd.MM.yyyy")
-                            </td>
-                            <td style="width: 10%">
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>
                     }

@@ -48,7 +48,8 @@ namespace SWARocketChat.Controllers
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
                 Id = user.Id,
-                Userimage = user.UserImage
+                Userimage = user.UserImage,
+                Password = user.PasswordHash
             };
             return View(model);
         }
