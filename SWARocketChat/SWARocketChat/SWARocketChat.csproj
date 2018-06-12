@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-WebApplication1-3EC72FD0-2D67-4E98-93A9-4D229832DEBA</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Migrations\**" />
     <Content Remove="Migrations\**" />
