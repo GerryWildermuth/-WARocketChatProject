@@ -55,7 +55,7 @@
 </style>
 @section header
 {
-<div class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+<div class="form-control form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
     @Model.Chatroom.ChatroomName
     <div style="float: right; display: flex;font-size:25px">
         <div onclick="openInfoNav()" class="btn black-tooltip" data-toggle="tooltip" data-placement="bottom" title="Room informations" >
@@ -273,9 +273,10 @@
 <script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
 <script>
 
-    var host = "wss://" + window.location.hostname + location.port + "/chat";
+    var host = "wss://" + window.location.hostname+":" + location.port + "/chat";
     //var connection = new WebSocketManager.Connection(host);
-    var connection = new WebSocketManager.Connection("wss://localhost:44338/chat");
+    var connection = new WebSocketManager.Connection(host);
+    //var connection = new WebSocketManager.Connection("wss://localhost:44338/chat");
     connection.enableLogging = true;
 
     connection.connectionMethods.onConnected = () => {
