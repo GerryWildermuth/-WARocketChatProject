@@ -55,11 +55,6 @@
         background-color: #BBB;
     }
     .center {
-        /*display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 25%;
-        margin-bottom: 25%;*/
         position: absolute;
         left: 50%;
         transform: translate(-50%, 0%);
@@ -114,14 +109,14 @@
                     <table>
                         <tr>
                             <td>Name</td>
-                            <td>Benutzername</td>
+                            <td>Altes Passwort</td>
                         </tr>
                         <tr>
                             <td>
                                 <input asp-for="Username" placeholder="Name" style="width: 20em;" type="text" value="@Model.Username">
                             </td>
                             <td>
-                                <input style="width: 20em;" type="text" placeholder="Username">
+                                <input style="width: 20em;" type="password" placeholder="Altes Passwort">
                             </td>
                         </tr>
                         <tr>
