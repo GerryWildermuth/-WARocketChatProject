@@ -83,6 +83,12 @@ namespace SWARocketChat.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting UserName for user with ID '{user.Id}'.");
                 }
             }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, user.PasswordHash, model.Password);
+                if (!changePasswordResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting Password for user with ID '{user.Id}'.");
+                }
             if (model.Userimage != user.UserImage)
             {
                 user.UserImage = Base64ImageConverter.ResizeBase64ImageString(model.Userimage,150,150);
