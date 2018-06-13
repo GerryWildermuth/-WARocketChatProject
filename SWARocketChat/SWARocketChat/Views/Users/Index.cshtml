@@ -106,6 +106,11 @@
                     </div>
                 </div>
                 <div style="clear: left; margin-top: 200px;">
+                    @await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
+                    <span asp-validation-for="OldPassword" class="text-danger"><br /></span>
+                    
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
                     <table>
                         <tr>
                             <td>Name</td>
@@ -116,7 +121,8 @@
                                 <input asp-for="Username" placeholder="Name" style="width: 20em;" type="text" value="@Model.Username">
                             </td>
                             <td>
-                                <input style="width: 20em;" type="password" placeholder="Altes Passwort">
+
+                                <input asp-for="OldPassword" value="" style="width: 20em;" type="password" placeholder="Altes Passwort">
                             </td>
                         </tr>
                         <tr>
@@ -128,7 +134,7 @@
                                 <input asp-for="Email" placeholder="Email" style="width: 20em;" type="text" value="@Model.Email">
                             </td>
                             <td>
-                                <input asp-for="Password" value="" style="width: 20em;" type="text" placeholder="Bitte geben Sie ein neues passwort ein">
+                                <input asp-for="Password" value="" style="width: 20em;" type="password" placeholder="Bitte geben Sie ein neues passwort ein">
                             </td>
                         </tr>
                         <tr>
