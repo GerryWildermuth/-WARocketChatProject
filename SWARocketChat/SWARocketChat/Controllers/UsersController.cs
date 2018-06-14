@@ -21,10 +21,7 @@ namespace SWARocketChat.Controllers
         
         public UsersController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ILogger<ManageController> logger,
-            UrlEncoder urlEncoder)
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

@@ -36,7 +36,6 @@ namespace SWARocketChat
                 //options.LoginPath = "/Account/Register";
             });
             // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddWebSocketManager();
             //services.AddTransient<ChatHandler>();
