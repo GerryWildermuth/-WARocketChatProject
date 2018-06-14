@@ -161,7 +161,16 @@
                                                                     </div>
                                                                     <br/>
                                                                     <div style="font-size: small">
-                                                                        @lastMessage.User.UserName: @lastMessage.MessageString
+                                                                        @if (lastMessage.User != null)
+                                                                        {
+                                                                            @lastMessage.User.UserName<span>:</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>SomeUser:</span>
+                                                                        }
+                                                                        
+                                                                        @lastMessage.MessageString
                                                                     </div>
                                                                 }
                                                             </div>

@@ -258,28 +258,57 @@ namespace SWARocketChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser(ChannelViewModel model)
         {
+            model.MessageString = "test";
             if (ModelState.IsValid)
             {
-                var chatroom = await _dbContext.Chatrooms.FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
-                if (chatroom.ChatroomMembers != null)
+                var chatroom = await _dbContext.Chatrooms
+                    .Include(u => u.ChatroomMembers.UserChatroomMembers)
+                    .ThenInclude(u => u.User)
+                    .FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
+                var currentChatroomMembers = chatroom.ChatroomMembers;
+
+                if (currentChatroomMembers != null)
                 {
                     foreach (var member in model.ChatroomMembers)
                     {
                         var user = await _userManager.FindByNameAsync(member);
-                        if (!chatroom.ChatroomMembers.UserChatroomMembers.Select(c => c.User).Contains(user))
+                        if (!currentChatroomMembers.UserChatroomMembers.Select(c => c.User).Contains(user))
                         {
                             var userChatroomMember = new UserChatroomMember
                             {
-                                ChatroomMembers = chatroom.ChatroomMembers,
+                                ChatroomMembers = currentChatroomMembers,
                                 User = user
                             };
-                            chatroom.ChatroomMembers.UserChatroomMembers.Add(userChatroomMember);
+                            currentChatroomMembers.UserChatroomMembers.Add(userChatroomMember);
+
+                            var userwithUserRoomList = await _dbContext.Users
+                                .Include(u => u.UserRoomList)
+                                .ThenInclude(c => c.Chatroom.Messages)
+                                .FirstOrDefaultAsync(u => u.Id == user.Id);
+                            var userRoomList = new UserRoomList
+                            {
+                                Chatroom = chatroom,
+                                ChatroomId = chatroom.Id,
+                                ChatroomStatus = 0,
+                                ApplicationUserId = user.Id
+                            };
+                            if (user.UserRoomList != null)
+                            {
+                                if (!((userwithUserRoomList.UserRoomList.Any(c => c.ChatroomId == chatroom.Id))
+                                      && (userwithUserRoomList.UserRoomList.Any(c => c.ApplicationUserId == user.Id))))
+                                {
+                                    await _dbContext.AddAsync(userRoomList);
+                                    user.UserRoomList.Add(userRoomList);
+                                    _dbContext.Update(user);
+                                }
+                            }
                         }
                     }
 
-                    _dbContext.Update(chatroom);
+                    _dbContext.Update(currentChatroomMembers);
                     await _dbContext.SaveChangesAsync();
                 }
+                
                 return RedirectToAction("Channel", "Chatrooms", new {chatroom.Id});
             }
             return RedirectToAction("Channel", "Chatrooms", new { model.ChatroomId });
@@ -355,18 +384,29 @@ namespace SWARocketChat.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost("Edite")]
+        [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ChannelViewModel model)
         {
-            model.MessageString = "";//test so see if initialiation works here as well and counts as valid
+            //model.MessageString = "test";//test so see if initialiation works here as well and counts as valid
             if (ModelState.IsValid)
             {
-                _dbContext.Update(model.Chatroom);
+                var currentChatroom = await _dbContext.Chatrooms
+                    .Include(u => u.ChatroomMembers.UserChatroomMembers)
+                    .ThenInclude(u => u.User)
+                    .Include(c=>c.Messages)
+                    .FirstOrDefaultAsync(c => c.Id == model.ChatroomId);
+                currentChatroom.Password = model.Chatroom.Password;
+                currentChatroom.ChatroomDesription = model.Chatroom.ChatroomDesription;
+                currentChatroom.ChatroomTopic = model.Chatroom.ChatroomTopic;
+                currentChatroom.ChatroomName = model.Chatroom.ChatroomName;
+                currentChatroom.Private = model.Chatroom.Private;
+
+                _dbContext.Update(currentChatroom);
                 await _dbContext.SaveChangesAsync();    
-                return RedirectToAction("Channel", "Chatrooms", model);
+                return RedirectToAction("Channel", "Chatrooms", new {id= model.ChatroomId });
             }
-            return RedirectToAction("Channel","Chatrooms", model);
+            return RedirectToAction("Channel","Chatrooms", new { id = model.ChatroomId });
         }
     }
 }
