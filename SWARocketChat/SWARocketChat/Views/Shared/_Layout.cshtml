@@ -149,7 +149,7 @@
                                                     </div>
                                                     @foreach (var item in currentUser.UserRoomList)
                                                     {
-                                                        var lastMessage = item.Chatroom.Messages.LastOrDefault();
+                                                        var lastMessage = item.Chatroom.Messages.OrderBy(m => m.MessageTime).LastOrDefault();
 
                                                         <div style="color: white; font-family: -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif; cursor: pointer" onclick="location.href = '@Url.Action("Channel", "Chatrooms", new {id = item.ChatroomId})'">
                                                             <div style="padding:7px 20px; font-size: medium">
@@ -159,7 +159,7 @@
                                                                     <div style="float: right; font-size: x-small">
                                                                         @lastMessage.MessageTime.ToString("dd/MM/yyyy")
                                                                     </div>
-                                                                    <br/>
+                                                                    <br />
                                                                     <div style="font-size: small">
                                                                         @if (lastMessage.User != null)
                                                                         {
@@ -169,7 +169,7 @@
                                                                         {
                                                                             <span>SomeUser:</span>
                                                                         }
-                                                                        
+
                                                                         @lastMessage.MessageString
                                                                     </div>
                                                                 }
