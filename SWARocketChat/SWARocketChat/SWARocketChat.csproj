@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20180615063046_test.cs" />
+    <Compile Remove="Data\Migrations\20180615063046_test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\_main.css" />
   </ItemGroup>
 

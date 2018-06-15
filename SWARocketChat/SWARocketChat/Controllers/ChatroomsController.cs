@@ -388,7 +388,6 @@ namespace SWARocketChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ChannelViewModel model)
         {
-            //model.MessageString = "test";//test so see if initialiation works here as well and counts as valid
             if (ModelState.IsValid)
             {
                 var currentChatroom = await _dbContext.Chatrooms

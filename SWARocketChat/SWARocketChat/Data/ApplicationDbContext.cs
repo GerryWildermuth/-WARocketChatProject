@@ -34,6 +34,9 @@ namespace SWARocketChat.Data
             //.HasIndex(x => x.Email).IsUnique();
             builder.Entity<Chatroom>()
                 .HasIndex(x => x.ChatroomName).IsUnique();
+            //builder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.UserChatroomMembers).WithOne(u => u.User).OnDelete(DeleteBehavior.SetNull);
+            //builder.Entity<Message>().HasOne(u => u.User).WithOne().OnDelete(DeleteBehavior.SetNull);
             builder.Entity<UserRoomList>()
                 .HasIndex(x => new{x.ChatroomId,x.ApplicationUserId}).IsUnique();
             builder.Entity<UserChatroomMember>()
