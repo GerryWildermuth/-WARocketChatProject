@@ -55,11 +55,6 @@
         background-color: #BBB;
     }
     .center {
-        /*display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 25%;
-        margin-bottom: 25%;*/
         position: absolute;
         left: 50%;
         transform: translate(-50%, 0%);
@@ -68,7 +63,7 @@
 </style>
 <div>
     
-    <form asp-action="Index" id="ProfileForm" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
+    <form asp-action="Index" id="ProfileForm" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative; flex-grow: 1;">
         <fieldset class="center">
             <legend style="margin-bottom: 2.5em;">Profile Details</legend>
             <div>
@@ -79,7 +74,7 @@
                         <input type="hidden" asp-for="Id"/>
                         <div>
                             <div style="float: left; padding-right: 20px;" class="avatar">
-                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="width: 150px;height: 150px; " />
+                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="width: 150px; height: 150px;"/>
                             </div>
 
                             <div style="float: left;">
@@ -92,16 +87,10 @@
                                     @*<a style="width: 48px; height: 48px; background-color: de4f4f#;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-meteor-developer"></i></a>*@
                                     <a style="width: 48px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
                                 </nav>
-                                @*<div style="clear:left;">
-                                    <label>
-                                        <span style="margin-top: 25px;">URL für Profilbild verwenden</span><br/>
-                                        <input style="width: 25em; height: 40px" name="avatar_url" class="rc-input__element js-avatar-url-input" placeholder="URL für Profilbild verwenden">
-                                    </label>
-                                </div>*@
                                 <div class="form-group" style="margin-top: 30px;">
                                     <label asp-for="Userimage" class="control-label"></label>
-                                    <input id="languageCreateinputeImage" type="hidden" asp-for="Userimage" />
-                                    <input type="file" class="form-control" onchange="ImageToBase64(this)" />
+                                    <input id="languageCreateinputeImage" type="hidden" asp-for="Userimage"/>
+                                    <input type="file" class="form-control" onchange="ImageToBase64(this)"/>
                                     @*<img id="languageCreateImagePrev" style="width: 45px; margin: 15px 0 0 0" alt="" />*@
                                     <span asp-validation-for="Userimage" class="text-danger"></span>
                                 </div>
@@ -111,17 +100,23 @@
                     </div>
                 </div>
                 <div style="clear: left; margin-top: 200px;">
+                    @await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
+                    <span asp-validation-for="OldPassword" class="text-danger"><br /></span>
+                    
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
                     <table>
                         <tr>
                             <td>Name</td>
-                            <td>Benutzername</td>
+                            <td>Altes Passwort</td>
                         </tr>
                         <tr>
                             <td>
                                 <input asp-for="Username" placeholder="Name" style="width: 20em;" type="text" value="@Model.Username">
                             </td>
                             <td>
-                                <input style="width: 20em;" type="text" placeholder="Username">
+
+                                <input asp-for="OldPassword" value="" style="width: 20em;" type="password" placeholder="Altes Passwort">
                             </td>
                         </tr>
                         <tr>
@@ -133,7 +128,7 @@
                                 <input asp-for="Email" placeholder="Email" style="width: 20em;" type="text" value="@Model.Email">
                             </td>
                             <td>
-                                <input style="width: 20em;" type="text" placeholder="Bitte geben Sie ein neues passwort ein">
+                                <input asp-for="Password" value="" style="width: 20em;" type="password" placeholder="Bitte geben Sie ein neues passwort ein">
                             </td>
                         </tr>
                         <tr>
@@ -145,7 +140,7 @@
                             <td><button class="btn">Von anderen Geräten abmelden</button></td>
                             <td>
                                 <a class="btn btn-primary" style="text-decoration: none;" asp-action="Delete" asp-route-id="@Model.Id"> Mein Konto Löschen </a>
-                                
+
                             </td>
                         </tr>
                     </table>
@@ -169,76 +164,3 @@
         $('[data-toggle="popover"]').popover();   
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<h2>Index</h2>
-
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
-@*<table class="table">
-        <thead>
-            <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Username)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Password)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Password2)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Userimage)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Status)
-                    </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Userimage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@

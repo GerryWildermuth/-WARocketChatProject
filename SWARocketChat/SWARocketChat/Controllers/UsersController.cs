@@ -21,10 +21,7 @@ namespace SWARocketChat.Controllers
         
         public UsersController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ILogger<ManageController> logger,
-            UrlEncoder urlEncoder)
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -48,7 +45,8 @@ namespace SWARocketChat.Controllers
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
                 Id = user.Id,
-                Userimage = user.UserImage
+                Userimage = user.UserImage,
+                Password = user.PasswordHash
             };
             return View(model);
         }
@@ -82,16 +80,33 @@ namespace SWARocketChat.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting UserName for user with ID '{user.Id}'.");
                 }
             }
+
+            if (model.Password != null && model.OldPassword != null)
+            {
+                var changePasswordResult =
+                    await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+                if (!changePasswordResult.Succeeded)
+                {
+                    StatusMessage = "Error wrong Password ";
+                    return RedirectToAction("Index", "Users");
+                    //throw new ApplicationException(
+                    //    $"Unexpected error occurred setting Password for user with ID '{user.Id}'.");
+                }
+            }
+
             if (model.Userimage != user.UserImage)
             {
-                user.UserImage = Base64ImageConverter.ResizeBase64ImageString(model.Userimage,150,150);
+                user.UserImage = Base64ImageConverter.ResizeBase64ImageString(model.Userimage, 150, 150);
                 var userImage = await _userManager.UpdateAsync(user);
                 if (!userImage.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting UserImage for user with ID '{user.Id}'.");
+                    throw new ApplicationException(
+                        $"Unexpected error occurred setting UserImage for user with ID '{user.Id}'.");
                 }
             }
+
             StatusMessage = "Your profile has been updated";
+
             return RedirectToAction("Index","Users");
         }
         
@@ -166,60 +181,5 @@ namespace SWARocketChat.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-        //// GET: Users/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await DbContext.Users.SingleOrDefaultAsync(m => m.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(user);
-        //}
-        //// GET: Users/Details/5
-        //public async Task<IActionResult> Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await DbContext.Users
-        //        .SingleOrDefaultAsync(m => m.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-        //}
-
-        // GET: Users/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Username,Password,Password2,UserImage,Email,Status")] User user)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        user.Id = Guid.NewGuid();
-        //        DbContext.Add(user);
-        //        await DbContext.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(user);
-        //}
     }
 }

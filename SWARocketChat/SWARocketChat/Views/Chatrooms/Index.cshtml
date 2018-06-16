@@ -17,7 +17,7 @@
 </style>
 @section header
 {
-        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+        <span class="form-control form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
             Directory
             <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
         </span>
@@ -34,9 +34,6 @@
                     </th>
                     <th style="width: 10%">
                         Creating date
-                    </th>
-
-                    <th style="width: 10%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,9 +50,6 @@
                             </td>
                             <td style="width: 10%">
                                 @item.CreationDate.ToString("dd.MM.yyyy")
-                            </td>
-                            <td style="width: 10%">
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>
                     }

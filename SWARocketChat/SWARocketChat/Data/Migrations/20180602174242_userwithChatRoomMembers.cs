@@ -33,7 +33,7 @@ namespace SWARocketChat.Data.Migrations
                 column: "ChatroomMembersId",
                 principalTable: "ChatroomMembers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.SetNull);
         }
     }
 }

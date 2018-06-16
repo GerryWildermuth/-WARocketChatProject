@@ -11,8 +11,8 @@ using System;
 namespace SWARocketChat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180602103545_migrate")]
-    partial class migrate
+    [Migration("20180605131455_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -259,7 +259,8 @@ namespace SWARocketChat.Data.Migrations
 
                     b.Property<DateTime>("MessageTime");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -317,9 +318,10 @@ namespace SWARocketChat.Data.Migrations
 
             modelBuilder.Entity("SWARocketChat.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SWARocketChat.Models.ChatroomMembers")
+                    b.HasOne("SWARocketChat.Models.ChatroomMembers", "ChatroomMembers")
                         .WithMany("Users")
-                        .HasForeignKey("ChatroomMembersId");
+                        .HasForeignKey("ChatroomMembersId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SWARocketChat.Models.FriendList")
                         .WithMany("User")
@@ -350,7 +352,8 @@ namespace SWARocketChat.Data.Migrations
 
                     b.HasOne("SWARocketChat.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
