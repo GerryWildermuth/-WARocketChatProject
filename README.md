@@ -2,7 +2,7 @@
 Our SWA Project
 
 1. Github Projekt Klonen
-2. MySQL Installieren und in der Workbench Entweder durch EER Model Importieren oder durch scripte.(Pfad: )
+2. MySQL Installieren und in der Workbench durch Data Import mit dem DBCreateInSingle.sql script die DB erstellen.(Github root Verzeichnis)
 3. Projekt in Visual Studio Öffnen
 4. Connection String in appsettings.json anpassen (Default: server=10.0.2.2;port=3306;Database=ProjectRocketChat;user=root;password=root)
 5. Rechtsklick auf das Projekt in Visual Studio -> Publish -> (Reiter)Publish -> Configure -> Settings:
