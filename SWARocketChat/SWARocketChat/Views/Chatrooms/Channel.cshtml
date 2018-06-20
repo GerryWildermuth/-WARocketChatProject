@@ -410,7 +410,7 @@
 <script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
 <script>
 
-    var host = "wss://" + window.location.hostname+":" + location.port + "/chat";
+    var host = "ws://" + window.location.hostname+":" + location.port + "/chat";
     //var connection = new WebSocketManager.Connection(host);
     var connection = new WebSocketManager.Connection(host);
     //var connection = new WebSocketManager.Connection("wss://localhost:44338/chat");
@@ -451,7 +451,7 @@
             }
             console.log("ajax gesendet1");
             $.ajax({
-                url: "https://" + window.location.host + myurl,
+                url: "http://" + window.location.host + myurl,
                 data: {chatroomId:chatroomid,userid:userid,message:message},
                 method: 'GET'
             });
@@ -466,7 +466,7 @@
         }
         console.log("ajax gesendet2");
         $.ajax({
-            url: "https://" + window.location.host + myurl,
+            url: "http://" + window.location.host + myurl,
             data: {chatroomId:chatroomid,userid:userid,message:message},
             method: 'GET'
         });
