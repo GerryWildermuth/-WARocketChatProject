@@ -8,22 +8,19 @@
 {
     <link href="css/miniMenu.css" rel="stylesheet">
     <link href="css/tooltips.css" rel="stylesheet">
-<nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
-    <div class="navbar" style="min-width: 280px">
-        <span>My Account</span>
-        <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
-
-    </div>
-
-    <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
-        Profil
-        <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
-
-    </span>
-</nav>
+    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
+        <div class="navbar" style="min-width: 280px">
+            <span>My Account</span>
+            <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
+        </div>
+        <span class="form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Profil
+            <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
+        </span>
+    </nav>
 }
 @section LeftNav
-    {
+{
     <nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
         <div class="sidebar-sticky">
             <ul class="nav flex-column">

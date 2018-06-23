@@ -72,8 +72,6 @@
                     <li><a class="fas fa-sign-out-alt" asp-action="Logout" asp-controller="Account" style="font-size: 14px;"> sign out</a></li>
                 </ul>
             </div>
-
-
         </li>
         <li class="flex-item tooltips">
             <i style="font-size:24px; color: lightgray;" class="fas fa-search"></i>
@@ -103,7 +101,7 @@
     }
     @if (!IsSectionDefined("header"))
     {
-        <span class="form-control form-control-dark w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08)">
+        <span class="form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08)">
             ControllerName
         </span>
     }
