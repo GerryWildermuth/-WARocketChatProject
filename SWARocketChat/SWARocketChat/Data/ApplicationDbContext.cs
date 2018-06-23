@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using SWARocketChat.Models;
 
 namespace SWARocketChat.Data
@@ -16,6 +17,7 @@ namespace SWARocketChat.Data
         //https://blog.oneunicorn.com/2017/09/25/many-to-many-relationships-in-ef-core-2-0-part-1-the-basics/
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

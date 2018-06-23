@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/SWARocketChat",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:52320/",
       "sslPort": 44338
@@ -21,6 +25,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:52321/"
+    },
+    "LocalIISHost": {
+      "commandName": "IIS",
+      "workingDirectory": "C:\\inetpub\\wwwroot\\SWARocketChat"
     }
   }
 }

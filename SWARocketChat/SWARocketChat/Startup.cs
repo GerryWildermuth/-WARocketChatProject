@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SWARocketChat.Data;
@@ -81,10 +80,10 @@ namespace SWARocketChat
             app.UseAuthentication();
 
             //Für Linux 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            //app.UseForwardedHeaders(new ForwardedHeadersOptions
+            //{
+            //    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            //});
            
             
             app.UseMvc(routes =>
