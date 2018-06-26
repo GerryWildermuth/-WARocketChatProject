@@ -1,0 +1,67 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Security";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header
+    {
+    <link href="css/miniMenu.css" rel="stylesheet">
+    <link href="css/tooltips.css" rel="stylesheet">
+    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0" >
+        <div class="navbar" style="min-width: 280px; color: black; text-decoration: none;">
+            <span>My Account</span>
+            <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
+        </div>
+        <span class="form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31, 35, 41, .08); min-height: 55px">
+            Security
+        </span>
+    </nav>
+}
+@section LeftNav
+    {
+    <nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" asp-action="Settings" asp-controller="Users" style="color: black">
+                        <span class="fas fa-sliders-h" data-feather="home"></span>
+                        Settings <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Users" style="color: black">
+                        <span class="far fa-user" data-feather="file"></span>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: black">
+                        <span class="fas fa-lock" data-feather="file"></span>
+                        Security
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+}
+<style>
+    .center {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        margin-top: 20px;
+    }
+</style>
+
+<div style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative;flex-grow: 1;">
+    <div class="center">
+        <h2>Two-factor authentication</h2>
+        <strong>
+            Text here by rocket chat is a warning message
+        </strong>
+        <div style="margin-top: 25px;">
+            <p>Two-factor authentication is currently disabled</p>
+            <button>Enable two-factor authentication</button>
+        </div>
+    </div>
+</div>

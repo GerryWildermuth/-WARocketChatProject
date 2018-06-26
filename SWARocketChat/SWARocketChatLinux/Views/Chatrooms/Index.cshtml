@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Chatroom>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .main {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .gotoroom:hover {
+        background-color: lightgray;
+    }
+</style>
+@section header
+{
+        <span class="form-control form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Directory
+            <a asp-action="Create" class="btn btn-primary btn-sm" role="button" style="float: right"> <i class="fas fa-plus"></i></a>
+        </span>
+}
+<div style="height: 100%;display: flex">
+        <table class="table" id="DatatableIndex" style="flex-grow: 1; position: relative;">
+            <thead>
+                <tr style="font-size: 15px;color: #9ea2a8">
+                    <th style="width: 60%">
+                        Name
+                    </th>
+                    <th style="width: 10%">
+                        Members
+                    </th>
+                    <th style="width: 10%">
+                        Creating date
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (!item.Private)
+                    {
+                        <tr class="gotoroom" style="cursor: pointer" onclick="location.href = '@(Url.Action("Channel", "Chatrooms", new {id = item.Id}))'">
+                            <td style="width: 60%">
+                                # @item.ChatroomName
+                            </td>
+                            <td style="width: 10%">
+                                @item.ChatroomMembers.UserChatroomMembers.Select(u=>u.User).Count()
+                            </td>
+                            <td style="width: 10%">
+                                @item.CreationDate.ToString("dd.MM.yyyy")
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+</div>
