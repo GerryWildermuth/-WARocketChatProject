@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/SWARocketChat",
+      "applicationUrl": "http://localhost/RocketChat",
       "sslPort": 0
     },
     "iisExpress": {
@@ -26,9 +26,9 @@
       },
       "applicationUrl": "http://localhost:52321/"
     },
-    "LocalIISHost": {
+    "IISLocalHost": {
       "commandName": "IIS",
-      "workingDirectory": "C:\\inetpub\\wwwroot\\SWARocketChat"
+      "workingDirectory": "C:\\inetpub\\wwwroot\\RocketChat"
     }
   }
 }
