@@ -1,0 +1,417 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header
+{
+    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
+        <div class="navbar" href="#" style="min-width: 280px; color: black; text-decoration: none;">
+            <span>My Account</span>
+            <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
+        </div>
+        <span class="form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Settings
+            <a class="btn btn-primary btn-sm" role="button" style="float: right; color: white;">Save changes</a>
+        </span>
+</nav>
+}
+@section LeftNav
+    {
+    <nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" style="color: black">
+                        <span class="fas fa-sliders-h" data-feather="home"></span>
+                        Settings <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Users" style="color: black">
+                        <span class="far fa-user" data-feather="file"></span>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Security" asp-controller="Users" style="color: black">
+                        <span class="fas fa-lock" data-feather="file"></span>
+                        Security
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+}
+<style>
+    .borderArea {
+        border: 2px solid lightgray;
+        margin: 5px;
+        border-radius: 5px;
+        padding: 25px;
+    }
+</style>
+
+<div class="content">
+    <form>
+        <fieldset>
+            <div>
+                <h1>Localization</h1>
+                <div class="borderArea">
+                    <table>
+                        <tr>
+                            <td>Language</td>
+                            <td>
+                                <select style="width: 25em;" id="language">
+                                    <option value="de" dir="auto">Deutsch</option>
+                                    <option value="en" dir="auto">English</option>
+                                    <option value="es" dir="auto">Español</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="clear: left">
+                <h1>User Presence</h1>
+                <div class="borderArea">
+                   
+                    <table>
+                        <tr>
+                            <td>Enable Auto Away</td>
+                            <td>
+                                <label><input type="radio" name="enableAutoAway" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="enableAutoAway" value="false"> False</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Idle Time Limit</td>
+                            <td>
+                                <input type="number" name="idleTimeLimit" min="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Period of time until status changes to away. Value needs to be in seconds.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <div >
+                <h1>Notifications</h1>
+                <div class="borderArea">
+                    <table >
+                        <tr>
+                            <td>Desktop Notifications</td>
+                            <td>Desktop Notifications are Disabled. Change your browser preferences if you need </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Notifications enabled.</td>
+                        </tr>
+                        <tr>
+                            <td>Notification Duration</td>
+                            <td>
+                                <div>
+                                    <input type="number"  name="desktopNotificationDuration" min="0" placeholder="Use Global Settings (0)">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Show Desktop Notifications For</td>
+                            <td>
+                                <div>
+                                    <select  name="desktopNotifications">
+                                        <option value="default">Default (Mentions)</option>
+                                        <option value="all">All messages</option>
+                                        <option value="mentions">Mentions</option>
+                                        <option value="nothing">Nothing</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Push Mobile Notifications For</td>
+                            <td>
+                                <div >
+                                    <select name="mobileNotifications">
+                                        <option value="default">Default (Mentions)</option>
+                                        <option value="all">All messages</option>
+                                        <option value="mentions">Mentions</option>
+                                        <option value="nothing">Nothing</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Offline Email Notifications</td>
+                            <td>
+                                <div>
+                                    <select name="emailNotificationMode">
+                                        <option value="default">Default (Every Mention/DM)</option>
+                                        <option value="nothing">Disabled</option>
+                                        <option value="mentions">Every Mention/DM</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>You need to verify your email address to get notifications</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <h1>Messages</h1>
+                <div class="borderArea">
+                <table>
+                    <tr>
+                        <td>Unread Tray Icon Alert</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="unreadAlert" value="true" checked="checked"> On</label>
+                                <label><input type="radio" name="unreadAlert" value="false"> Off</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Use Emojis</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="useEmojis" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="useEmojis" value="false"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Convert ASCII to Emoji</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="convertAsciiEmoji" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="convertAsciiEmoji" value="false"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Auto Load Images</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="autoImageLoad" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="autoImageLoad" value="false"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Save Mobile Bandwidth</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="saveMobileBandwidth" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="saveMobileBandwidth" value="false"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Collapse Embedded Media by Default</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="collapseMediaByDefault" value="true"> True</label>
+                                <label><input type="radio" name="collapseMediaByDefault" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hide Usernames</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="hideUsernames" value="true"> True</label>
+                                <label><input type="radio" name="hideUsernames" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hide Roles</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="hideRoles" value="true"> True</label>
+                                <label><input type="radio" name="hideRoles" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hide Right Sidebar with Click</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="hideFlexTab" value="true"> True</label>
+                                <label><input type="radio" name="hideFlexTab" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hide Avatars</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="hideAvatars" value="true"> True</label>
+                                <label><input type="radio" name="hideAvatars" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>View Mode</td>
+                        <td>
+                            <div>
+                                <select name="messageViewMode">
+                                    <option value="0">Normal</option>
+                                    <option value="1">Cozy</option>
+                                    <option value="2">Compact</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>This changes the amount of space messages take up on screen.</td>
+                    </tr>
+                    <tr>
+                        <td>Enter key Behaviour</td>
+                        <td>
+                            <div>
+                                <select  name="sendOnEnter">
+                                    <option value="normal">Normal mode (send with Enter)</option>
+                                    <option value="alternative">Alternative mode (send with Enter + Ctrl/Alt/Shift/CMD)</option>
+                                    <option value="desktop">Desktop mode (only sends with enter on desktop)</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>This changes if the enter key will send a message or do a line break</td>
+                    </tr>
+                </table>
+                </div>
+            </div>
+        <div>
+            <h1>SideBar</h1>
+            <div class="borderArea">
+                <table>
+                    <tr>
+                        <td>Show room counter on sidebar</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="roomCounterSidebar" value="true"> True</label>
+                                <label><input type="radio" name="roomCounterSidebar" value="false" checked="checked"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+        </div>
+        <div>
+            <h1>Highlights</h1>
+            <div class="borderArea"> 
+                <table>
+                    <tr>
+                        <td>Highlight words</td>
+                        <td>
+                            To be notified when someone mentions a word or phrase, add it here. You can separate words or phrases with commas. Highlight Words are not case sensitive.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div>
+                                <textarea  name="highlights" id="highlights" cols="80" rows="10"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h1>Sound</h1>
+            <div class="borderArea">
+                <table>
+                    <tr>
+                        <td>New Room Notification</td>
+                        <td>
+                            <div>
+                                <select name="newRoomNotification">
+                                    <option value="none">None</option>
+                                    <option value="door">Door (Default)</option>
+                                    <option value="beep">Beep</option>
+                                    <option value="chelle">Chelle</option>
+                                    <option value="ding">Ding</option>
+                                    <option value="droplet">Droplet</option>
+                                    <option value="highbell">Highbell</option>
+                                    <option value="seasons">Seasons</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>New Message Notification</td>
+                        <td>
+                            <div>
+                                <select name="newMessageNotification">
+                                    <option value="none">None</option>
+                                    <option value="chime">Chime (Default)</option>
+                                    <option value="beep">Beep</option>
+                                    <option value="chelle">Chelle</option>
+                                    <option value="ding">Ding</option>
+                                    <option value="droplet">Droplet</option>
+                                    <option value="highbell">Highbell</option>
+                                    <option value="seasons">Seasons</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mute Focused Conversations</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="muteFocusedConversations" value="true" checked="checked"> True</label>
+                                <label><input type="radio" name="muteFocusedConversations" value="false"> False</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Notifications sound volume</td>
+                        <td>
+                            <div>
+                                <div>
+                                    <input type="range" id="notificationsSoundVolume" min="0" max="100" value="100">
+                                    <span id="notificationsSoundVolume_value">100</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+        </div>
+        <div>
+            <h1>My Data</h1>
+            <div class="borderArea">
+                <div>
+                    <label><button>
+                        <i class="icon-download secondary-font-color"></i> <span>Download My Data</span>
+                    </button></label>
+                </div>
+                <div>
+                    <label>
+                        <button>
+                            <i class="icon-download secondary-font-color"></i> <span>Export My Data</span>
+                        </button>
+                    </label>
+                </div>
+            </div>
+        </div>
+        </fieldset>
+    </form>
+
+</div>
+
+

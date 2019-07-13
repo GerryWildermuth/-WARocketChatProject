@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - SWARocketChat</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/home.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-grid.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-reboot.min.css" />
+        <link href="~/css/jquery-ui.min.css" rel="stylesheet" />
+        <link href="~/css/jquery-ui.structure.min.css" rel="stylesheet" />
+        <link href="~/css/jquery-ui.theme.min.css" rel="stylesheet" />
+        <link href="~/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/home.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-grid.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-4.0.0/css/bootstrap-reboot.min.css" />
+        <link href="~/css/jquery-ui.min.css" rel="stylesheet" />
+        <link href="~/css/jquery-ui.structure.min.css" rel="stylesheet" />
+        <link href="~/css/jquery-ui.theme.min.css" rel="stylesheet" />
+        <link href="~/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+    </environment>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body style="background-color: #2f343d;height:100vh">
+
+    <div class="container-fluid" style="height: 90%;display:block">
+        @RenderBody()
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

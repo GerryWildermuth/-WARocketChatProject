@@ -1,0 +1,163 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header
+{
+    <link href="css/miniMenu.css" rel="stylesheet">
+    <link href="css/tooltips.css" rel="stylesheet">
+    <nav class="navbar navbar-dark fixed-top bg-light flex-md-nowrap p-0">
+        <div class="navbar" style="min-width: 280px">
+            <span>My Account</span>
+            <a style="text-decoration: none; color: black; padding-right: 5px;" asp-action="Index" asp-controller="Home" class="fas fa-times"></a>
+        </div>
+        <span class="form-control w-100" style="box-shadow: 0 1px 2px 0 rgba(31,35,41,.08)">
+            Profil
+            <input class="btn btn-primary btn-sm" type="submit" form="ProfileForm" style="float: right; color: white;" value="Save changes" />
+        </span>
+    </nav>
+}
+@section LeftNav
+{
+    <nav class="d-none d-md-block bg-light sidebar" style="min-width: 280px">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" asp-action="Settings" asp-controller="Users" style="color: black">
+                        <span class="fas fa-sliders-h" data-feather="home"></span>
+                        Settings <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="Index" asp-controller="Users" class="nav-link" style="color: black">
+                        <span class="far fa-user" data-feather="file"></span>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Security" asp-controller="Users" style="color: black">
+                        <span class="fas fa-lock" data-feather="file"></span>
+                        Security
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+}
+
+<style>
+    .nav-link:hover {
+        background-color: #BBB;
+    }
+    .center {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+    
+</style>
+<div>
+    
+    <form asp-action="Index" id="ProfileForm" style="flex-direction: column; flex: 1 1 auto; display: flex; position: relative; flex-grow: 1;">
+        <fieldset class="center">
+            <legend style="margin-bottom: 2.5em;">Profile Details</legend>
+            <div>
+                <div>
+                    <label>Profilbild</label>
+                    <div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id"/>
+                        <div>
+                            <div style="float: left; padding-right: 20px;" class="avatar">
+                                <img alt="" id="languageCreateImagePrev" class="avatar-image" src="@Model.Userimage" style="width: 150px; height: 150px;"/>
+                            </div>
+
+                            <div style="float: left;">
+                                <nav>
+                                    <a style="width: 48px; height: 40px; background-color: #325c99;" target="_blank" type="button" class="btn btn-secondary" href="https://www.facebook.com/RocketChatApp"><i class="fab fa-facebook-f"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #4c4c4c;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-github"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #373d47;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-gitlab"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #dd4b39;" target="_blank" type="button" class="btn btn-secondary" href="https://plus.google.com/+RocketChatApp"><i class="fab fa-google-plus-g"></i></a>
+                                    <a style="width: 48px; height: 40px; background-color: #1b86bc;" target="_blank" type="button" class="btn btn-secondary" href="https://www.linkedin.com/company/rocket-chat"><i class="fab fa-linkedin-in"></i></a>
+                                    @*<a style="width: 48px; height: 48px; background-color: de4f4f#;" target="_blank" type="button" class="btn btn-secondary" href="https://github.com/RocketChat/Rocket.Chat"><i class="fab fa-meteor-developer"></i></a>*@
+                                    <a style="width: 48px; height: 40px; background-color: #02acec;" target="_blank" type="button" class="btn btn-secondary" href="https://twitter.com/RocketChat"><i class="fab fa-twitter"></i></a>
+                                </nav>
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <label asp-for="Userimage" class="control-label"></label>
+                                    <input id="languageCreateinputeImage" type="hidden" asp-for="Userimage"/>
+                                    <input type="file" class="form-control" onchange="ImageToBase64(this)"/>
+                                    @*<img id="languageCreateImagePrev" style="width: 45px; margin: 15px 0 0 0" alt="" />*@
+                                    <span asp-validation-for="Userimage" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="clear: left; margin-top: 200px;">
+                    @await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
+                    <span asp-validation-for="OldPassword" class="text-danger"><br /></span>
+                    
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
+                    <table>
+                        <tr>
+                            <td>Name</td>
+                            <td>Altes Passwort</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input asp-for="Username" placeholder="Name" style="width: 20em;" type="text" value="@Model.Username">
+                            </td>
+                            <td>
+
+                                <input asp-for="OldPassword" value="" style="width: 20em;" type="password" placeholder="Altes Passwort">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>E-mail</td>
+                            <td>Neues Passwort</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input asp-for="Email" placeholder="Email" style="width: 20em;" type="text" value="@Model.Email">
+                            </td>
+                            <td>
+                                <input asp-for="Password" value="" style="width: 20em;" type="password" placeholder="Bitte geben Sie ein neues passwort ein">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn">Bestätigungsmail erneut versenden</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn">Von anderen Geräten abmelden</button></td>
+                            <td>
+                                <a class="btn btn-primary" style="text-decoration: none;" asp-action="Delete" asp-route-id="@Model.Id"> Mein Konto Löschen </a>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script>
+    function ImageToBase64(element) {
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function (evt) {
+            $("#languageCreateinputeImage").attr("value", evt.target.result);
+            $("#languageCreateImagePrev").attr("src", evt.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();   
+    });
+</script>

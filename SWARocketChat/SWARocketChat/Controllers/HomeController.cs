@@ -36,6 +36,16 @@ namespace SWARocketChat.Controllers
                 .Where(c => c.UserRoomList
                     .Any(u => u.ApplicationUserId == currentUser.Id))
                 .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
+
+            //ViewBag.UserRoomList = await _dbContext.Users
+            //    .Include(u => u.UserRoomList)
+            //    .ThenInclude(c => c.Chatroom.Messages)
+            //    .ThenInclude(c=>c.Chatroom.ChatroomMembers.UserChatroomMembers)
+            //    .ThenInclude(c=>c.ChatroomMembers)
+            //    .Where(c => c.UserRoomList
+            //        .Any(u => u.ApplicationUserId == currentUser.Id))
+            //    .FirstOrDefaultAsync(u => u.Id == currentUser.Id);
+
             return View();
         }
         public IActionResult Error()

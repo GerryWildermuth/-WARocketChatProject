@@ -31,17 +31,12 @@ namespace SWARocketChat
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
-            {
-                //options.AccessDeniedPath = "/Account/Register";
-                //options.LoginPath = "/Account/Register";
-            });
+            {});
             // Add application services.
 
             services.AddWebSocketManager();
-            //services.AddTransient<ChatHandler>();
             services.AddSingleton<ChatHandler>();
             services.AddMvc();
-            
             
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -53,11 +48,7 @@ namespace SWARocketChat
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
-
-
-
-
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
