@@ -71,3 +71,8 @@ Folgende Schritte zum veröffentlichen des Projekts (um lokal darauf zuzugreifen
     * 18 systemctl status kestrel-SWARocketchat.service
 
     ### Server sollte nun immer auf http://localhost:5000 laufen
+    
+    https://github.com/GerryWildermuth/SWARocketChatProject/blob/master/Images/Sample0.png
+    https://github.com/GerryWildermuth/SWARocketChatProject/blob/master/Images/Sample1.png
+    https://github.com/GerryWildermuth/SWARocketChatProject/blob/master/Images/Sample2.png
+    https://github.com/GerryWildermuth/SWARocketChatProject/blob/master/Images/Sample3.png
